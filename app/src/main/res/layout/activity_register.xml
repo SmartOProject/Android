@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white"
+    tools:context="com.android.smarto.architecture.registration.RegisterActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@color/loginButton">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="14dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/unknown_user"
+            app:civ_border_color="#FF000000"
+            app:civ_border_width="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/profile_image"
+            android:layout_below="@+id/profile_image"
+            android:layout_marginEnd="14dp"
+            android:layout_marginTop="11dp"
+            android:text="Username"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/button_login"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignTop="@+id/profile_image"
+            android:layout_gravity="center"
+            android:layout_marginStart="11dp"
+            android:layout_toEndOf="@+id/profile_image"
+            android:background="@drawable/download_button"
+            android:drawableStart="@drawable/ic_file_download_black_24dp" />
+
+    </RelativeLayout>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:inputType="text"
+        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:hint="@string/registration_username"
+        app:met_floatingLabel="highlight"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        app:met_floatingLabel="highlight"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:drawableStart="@drawable/ic_https_black_24dp"
+        android:hint="Confirm password"
+        android:inputType="textPassword"
+        app:met_floatingLabel="highlight"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:drawableStart="@drawable/ic_email_black_24dp"
+        android:hint="@string/registration_email"
+        android:inputType="textEmailAddress"
+        app:met_floatingLabel="highlight"/>
+
+    <Button
+        android:id="@+id/button_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/register_button"
+        android:text="@string/button_sign_up_text"
+        android:layout_gravity="center"
+        android:layout_marginTop="50dp"/>
+
+</LinearLayout>
