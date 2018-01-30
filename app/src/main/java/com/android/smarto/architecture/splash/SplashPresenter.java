@@ -1,30 +1,31 @@
 package com.android.smarto.architecture.splash;
 
-import android.content.Context;
+import com.android.smarto.app.App;
+import com.android.smarto.architecture.base.Presenter;
+import com.android.smarto.prefs.ISharedPreferencesRepository;
 
-import com.android.smarto.prefs.SharedPreferencesRepository;
+import javax.inject.Inject;
 
 /**
  * Created by Anatoly Chernyshev on 26.01.18.
  */
 
-public class SplashPresenter implements ISplashContract.ISplashPresenter {
+public class SplashPresenter<V extends ISplashContract.ISplashActivity> extends Presenter<V> implements ISplashContract.ISplashPresenter<V> {
 
-    private SharedPreferencesRepository sharedPreferencesRepository;
-
-    private ISplashContract.ISplashActivity splashActivity;
-
-    public SplashPresenter(ISplashContract.ISplashActivity splashActivity, Context context) {
-        this.splashActivity = splashActivity;
-        sharedPreferencesRepository = new SharedPreferencesRepository(context);
-    }
+    @Inject
+    ISharedPreferencesRepository mSharedPreferencesRepository;
 
     @Override
     public void isLoggedIn() {
 
-        if (sharedPreferencesRepository.isLoggedIn())
-            splashActivity.openHomeActivity();
+        if (mSharedPreferencesRepository.isLoggedIn())
+            getView().openHomeActivity();
         else
-            splashActivity.openAuthActivity();
+            getView().openAuthActivity();
+    }
+
+    @Override
+    public void onStart() {
+        App.get().getApplicationComponent().inject(this);
     }
 }

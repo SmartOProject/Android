@@ -21,7 +21,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
     @BindView(R.id.edit_text_login)     EditText mLoginEditText;
     @BindView(R.id.edit_text_password)  EditText mPasswordEditText;
 
-    private AuthPresenter authPresenter;
+    private IAuthContract.IAuthPresenter authPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,6 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
                 break;
             case R.id.button_sign_up:
                 startActivity(new Intent(this, RegisterActivity.class));
-                finish();
                 break;
             case R.id.button_google:
                 /**

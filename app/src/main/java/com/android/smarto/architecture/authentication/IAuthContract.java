@@ -1,6 +1,8 @@
 package com.android.smarto.architecture.authentication;
 
 import com.android.smarto.architecture.IProgressBar;
+import com.android.smarto.architecture.base.BasePresenter;
+import com.android.smarto.architecture.base.BaseView;
 import com.android.smarto.data.UserData;
 
 /**
@@ -9,7 +11,7 @@ import com.android.smarto.data.UserData;
 
 public interface IAuthContract extends IProgressBar {
 
-    interface IAuthActivity {
+    interface IAuthActivity extends BaseView {
 
         void openHomeActivity();
         void showEmptyLoginDataError();
@@ -18,7 +20,7 @@ public interface IAuthContract extends IProgressBar {
 
     }
 
-    interface IAuthPresenter {
+    interface IAuthPresenter <V extends BaseView> extends BasePresenter <V> {
 
         void confirmUserData();
 
