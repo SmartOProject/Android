@@ -25,7 +25,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
     @BindView(R.id.edit_text_password)  EditText mPasswordEditText;
 
     @Inject
-    IAuthContract.IAuthPresenter mAuthPresenter;
+    IAuthContract.IAuthPresenter<IAuthContract.IAuthActivity> mAuthPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +40,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
 
         ButterKnife.bind(this);
         App.get().getPresenterComponent().inject(this);
+        mAuthPresenter.onAttach(this);
 
     }
 

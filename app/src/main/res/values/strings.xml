@@ -14,10 +14,12 @@
 
     <string name="incorrect_login_error">Please, check login or password.</string>
     <string name="empty_login_error">Login or password is empty.</string>
-    
+    <string name="incorrect_data_error">Some fields are incorrect.</string>
+
     <string name="APP_PREFERENCE">application_prefs</string>
     <string name="registration_email">Email</string>
     <string name="registration_username">Username</string>
     <string name="button_sign_up_text">SIGN UP</string>
+    <string name="incorrect_password">Incorrect password</string>
 
 </resources>

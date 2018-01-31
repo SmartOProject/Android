@@ -25,18 +25,8 @@
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignEnd="@+id/profile_image"
-            android:layout_below="@+id/profile_image"
-            android:layout_marginEnd="14dp"
-            android:layout_marginTop="11dp"
-            android:text="Username"
-            android:textColor="@color/black" />
-
         <Button
-            android:id="@+id/button_login"
+            android:id="@+id/button_download_image"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignTop="@+id/profile_image"
@@ -49,17 +39,19 @@
     </RelativeLayout>
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:inputType="text"
+        android:inputType="textEmailAddress"
         android:drawableStart="@drawable/ic_person_black_24dp"
-        android:hint="@string/registration_username"
+        android:hint="@string/registration_email"
         app:met_floatingLabel="highlight"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -70,6 +62,7 @@
         app:met_floatingLabel="highlight"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_confirm_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
@@ -79,15 +72,15 @@
         android:inputType="textPassword"
         app:met_floatingLabel="highlight"/>
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/register_password_helper"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:drawableStart="@drawable/ic_email_black_24dp"
-        android:hint="@string/registration_email"
-        android:inputType="textEmailAddress"
-        app:met_floatingLabel="highlight"/>
+        android:text="@string/incorrect_password"
+        android:textColor="@color/black"
+        android:layout_marginLeft="64dp"
+        android:textSize="12sp"
+        android:visibility="invisible"/>
 
     <Button
         android:id="@+id/button_register"

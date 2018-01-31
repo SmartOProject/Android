@@ -1,6 +1,7 @@
 package com.android.smarto.di.component;
 
 import com.android.smarto.architecture.authentication.AuthActivity;
+import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.architecture.splash.SplashActivity;
 import com.android.smarto.di.module.PresenterModule;
 import com.android.smarto.di.scope.PresenterScope;
@@ -17,5 +18,6 @@ public interface PresenterComponent {
 
     void inject(SplashActivity splashActivity);
     void inject(AuthActivity authActivity);
+    void inject(RegisterActivity registerActivity);
 
 }

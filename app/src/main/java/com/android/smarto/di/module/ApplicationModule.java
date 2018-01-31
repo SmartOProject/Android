@@ -18,6 +18,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 @Module
+@Singleton
 public class ApplicationModule {
 
     private Application mApplication;

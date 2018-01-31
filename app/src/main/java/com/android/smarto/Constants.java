@@ -10,5 +10,6 @@ public class Constants {
     public static final String TEST_USERNAME = "smarto";
     public static final String TEST_PASSWORD = "password";
     public static final String BASE_API_URL = "https://www.google.ru";
+    public static final int RESULT_LOAD_IMAGE = 1;
 
 }
