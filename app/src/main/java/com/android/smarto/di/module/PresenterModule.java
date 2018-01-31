@@ -19,16 +19,14 @@ public class PresenterModule {
 
     @Provides
     @PresenterScope
-    ISplashContract.ISplashPresenter <ISplashContract.ISplashActivity> getSplashPresenter(
-            SplashPresenter <ISplashContract.ISplashActivity> splashPresenter){
-        return splashPresenter;
+    ISplashContract.ISplashPresenter <ISplashContract.ISplashActivity> getSplashPresenter(){
+        return new SplashPresenter<>();
     }
 
     @Provides
     @PresenterScope
-    IAuthContract.IAuthPresenter <IAuthContract.IAuthActivity> getAuthPresenter(
-            AuthPresenter <IAuthContract.IAuthActivity> authPresenter) {
-        return authPresenter;
+    IAuthContract.IAuthPresenter <IAuthContract.IAuthActivity> getAuthPresenter(){
+        return new AuthPresenter<>();
     }
 
 }

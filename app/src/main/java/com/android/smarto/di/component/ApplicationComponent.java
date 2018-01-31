@@ -1,10 +1,9 @@
 package com.android.smarto.di.component;
 
-import com.android.smarto.architecture.authentication.AuthActivity;
-import com.android.smarto.architecture.splash.ISplashContract;
-import com.android.smarto.architecture.splash.SplashPresenter;
+import com.android.smarto.architecture.home.HomeActivity;
 import com.android.smarto.di.module.PresenterModule;
 import com.android.smarto.di.module.ApplicationModule;
+import com.android.smarto.utils.UtilityWrapper;
 
 import javax.inject.Singleton;
 
@@ -18,9 +17,9 @@ import dagger.Component;
 @Component(modules = ApplicationModule.class)
 public interface ApplicationComponent {
 
-    void inject(SplashPresenter<ISplashContract.ISplashActivity> splashPresenter);
-    void inject(AuthActivity authActivity);
+    void inject(UtilityWrapper utilityWrapper);
+    void inject(HomeActivity homeActivity);
 
-    PresenterComponent getActivityComponent(PresenterModule presenterModule);
+    PresenterComponent getPresenterComponent(PresenterModule presenterModule);
 
 }

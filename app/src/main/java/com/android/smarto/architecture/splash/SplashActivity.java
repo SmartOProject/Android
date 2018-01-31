@@ -13,7 +13,7 @@ import javax.inject.Inject;
 public class SplashActivity extends AppCompatActivity implements ISplashContract.ISplashActivity {
 
     @Inject
-    ISplashContract.ISplashPresenter mSplashPresenter;
+    ISplashContract.ISplashPresenter<ISplashContract.ISplashActivity> mSplashPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity implements ISplashContract
 
     private void init() {
 
-        App.get().getActivityComponent().inject(this);
+        App.get().getPresenterComponent().inject(this);
         mSplashPresenter.onAttach(this);
 
     }

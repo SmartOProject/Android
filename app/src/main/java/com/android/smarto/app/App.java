@@ -41,9 +41,9 @@ public class App extends Application {
 
     }
 
-    public PresenterComponent getActivityComponent(){
+    public PresenterComponent getPresenterComponent(){
 
-        if (mActivityComponent == null) mActivityComponent = mApplicationComponent.getActivityComponent(new PresenterModule());
+        if (mActivityComponent == null) mActivityComponent = mApplicationComponent.getPresenterComponent(new PresenterModule());
         return mActivityComponent;
 
     }

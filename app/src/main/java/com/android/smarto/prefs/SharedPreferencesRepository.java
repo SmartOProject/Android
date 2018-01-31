@@ -12,22 +12,22 @@ import com.android.smarto.Constants;
 
 public class SharedPreferencesRepository implements ISharedPreferencesRepository {
 
-    private SharedPreferences prefs;
+    private SharedPreferences mPrefs;
 
     public SharedPreferencesRepository(Context context) {
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(context);
 
     }
 
     @Override
     public boolean isLoggedIn() {
-        return prefs.getBoolean(Constants.IS_LOGGED_IN, false);
+        return mPrefs.getBoolean(Constants.IS_LOGGED_IN, false);
     }
 
     @Override
     public void setLoggedIn(boolean loggedIn) {
-        prefs.edit().putBoolean(Constants.IS_LOGGED_IN, loggedIn).commit();
+        mPrefs.edit().putBoolean(Constants.IS_LOGGED_IN, loggedIn).commit();
     }
 
 

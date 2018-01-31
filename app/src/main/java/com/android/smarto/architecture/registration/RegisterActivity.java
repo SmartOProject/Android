@@ -17,7 +17,14 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
+        init();
+
+    }
+
+    private void init() {
+
         ButterKnife.bind(this);
+
     }
 
     @OnClick(R.id.button_register)

@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by Anatoly Chernyshev on 30.01.2018.
@@ -36,6 +37,7 @@ public class ApplicationModule {
     Retrofit getRetrofitClient(){
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_API_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
 

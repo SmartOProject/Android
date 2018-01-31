@@ -8,9 +8,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.smarto.R;
+import com.android.smarto.app.App;
 import com.android.smarto.architecture.home.HomeActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.data.UserData;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,7 +24,8 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
     @BindView(R.id.edit_text_login)     EditText mLoginEditText;
     @BindView(R.id.edit_text_password)  EditText mPasswordEditText;
 
-    private IAuthContract.IAuthPresenter authPresenter;
+    @Inject
+    IAuthContract.IAuthPresenter mAuthPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +39,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
     public void init() {
 
         ButterKnife.bind(this);
-
-        authPresenter = new AuthPresenter(this, getApplicationContext());
+        App.get().getPresenterComponent().inject(this);
 
     }
 
@@ -47,7 +50,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
         switch (view.getId()){
 
             case R.id.button_login:
-                authPresenter.confirmUserData();
+                mAuthPresenter.confirmUserData();
                 break;
             case R.id.button_sign_up:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -98,4 +101,13 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
 
     }
 
+    @Override
+    public void showProgress() {
+        //nothing
+    }
+
+    @Override
+    public void hideProgress() {
+        //nothing
+    }
 }
