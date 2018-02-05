@@ -20,7 +20,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity{
 
     @Inject
     ISharedPreferencesRepository mSharedPreferencesRepository;
@@ -29,7 +29,7 @@ public class HomeActivity extends AppCompatActivity {
     Retrofit mRetrofitClient;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
@@ -37,10 +37,10 @@ public class HomeActivity extends AppCompatActivity {
 
     }
 
-    private void init() {
+    private void init(){
 
-        ButterKnife.bind(this);
         App.get().getApplicationComponent().inject(this);
+        ButterKnife.bind(this);
 
     }
 

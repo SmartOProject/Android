@@ -2,25 +2,34 @@ package com.android.smarto.architecture.splash;
 
 import android.util.Log;
 
-import com.android.smarto.architecture.base.Presenter;
+import com.android.smarto.architecture.base.BasePresenter;
+import com.android.smarto.utils.UtilityWrapper;
+
+import javax.inject.Inject;
 
 /**
  * Created by Anatoly Chernyshev on 26.01.18.
  */
 
-public class SplashPresenter<V extends ISplashContract.ISplashActivity> extends Presenter<V> implements ISplashContract.ISplashPresenter<V> {
+public class SplashPresenter<V extends ISplashActivity> extends BasePresenter<V>{
 
     private static final String TAG = SplashPresenter.class.getSimpleName();
 
-    @Override
-    public void isLoggedIn() {
+    private UtilityWrapper mUtilityWrapper;
 
-        Log.i(TAG, "isLoggedIn(): " + getPrefs().isLoggedIn() + "");
+    @Inject
+    public SplashPresenter (UtilityWrapper utilityWrapper){
+        mUtilityWrapper = utilityWrapper;
+    }
 
-        if (getPrefs().isLoggedIn())
-            getView().openHomeActivity();
+    public void isLoggedIn(){
+
+        Log.i(TAG, "isLoggedIn(): " + mUtilityWrapper.getSharedPreferencesRepository().isLoggedIn() + "");
+
+        if (mUtilityWrapper.getSharedPreferencesRepository().isLoggedIn())
+            mView.openHomeActivity();
         else
-            getView().openAuthActivity();
+            mView.openAuthActivity();
     }
 
 }

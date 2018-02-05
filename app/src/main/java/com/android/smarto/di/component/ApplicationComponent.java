@@ -1,7 +1,9 @@
 package com.android.smarto.di.component;
 
+import com.android.smarto.architecture.authentication.AuthActivity;
 import com.android.smarto.architecture.home.HomeActivity;
-import com.android.smarto.di.module.PresenterModule;
+import com.android.smarto.architecture.registration.RegisterActivity;
+import com.android.smarto.architecture.splash.SplashActivity;
 import com.android.smarto.di.module.ApplicationModule;
 import com.android.smarto.utils.UtilityWrapper;
 
@@ -18,8 +20,9 @@ import dagger.Component;
 public interface ApplicationComponent {
 
     void inject(UtilityWrapper utilityWrapper);
+    void inject(SplashActivity splashActivity);
+    void inject(AuthActivity authActivity);
+    void inject(RegisterActivity registerActivity);
     void inject(HomeActivity homeActivity);
-
-    PresenterComponent getPresenterComponent(PresenterModule presenterModule);
 
 }

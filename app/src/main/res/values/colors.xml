@@ -3,14 +3,17 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-
     <color name="loginButton">#7d97ff</color>
-    <color name="googleButton">#ff2a2a</color>
+
     <color name="facebookButton">#0037ff</color>
 
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+    <color name="red">#ff2a2a</color>
 
     <color name="downloadButton">#2c8bff</color>
+
+    <color name="one_of_main">#008dd2</color>
+    <color name="orange">#ef7f1a</color>
 
 </resources>

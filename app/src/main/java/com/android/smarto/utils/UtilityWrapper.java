@@ -12,13 +12,18 @@ import retrofit2.Retrofit;
 
 public class UtilityWrapper {
 
-    @Inject
-    ISharedPreferencesRepository mSharedPreferencesRepository;
+    private ISharedPreferencesRepository mSharedPreferencesRepository;
+
+    private Retrofit mRetrofit;
 
     @Inject
-    Retrofit mRetrofit;
+    public UtilityWrapper(ISharedPreferencesRepository sharedPreferencesRepository,
+                          Retrofit retrofit){
+        mSharedPreferencesRepository = sharedPreferencesRepository;
+        mRetrofit = retrofit;
+    }
 
-    public ISharedPreferencesRepository getmSharedPreferencesRepository(){
+    public ISharedPreferencesRepository getSharedPreferencesRepository(){
         return mSharedPreferencesRepository;
     }
 

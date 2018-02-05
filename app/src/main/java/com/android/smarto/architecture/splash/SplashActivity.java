@@ -10,13 +10,13 @@ import com.android.smarto.architecture.home.HomeActivity;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends AppCompatActivity implements ISplashContract.ISplashActivity {
+public class SplashActivity extends AppCompatActivity implements ISplashActivity{
 
     @Inject
-    ISplashContract.ISplashPresenter<ISplashContract.ISplashActivity> mSplashPresenter;
+    SplashPresenter<ISplashActivity> mSplashPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
         init();
@@ -25,39 +25,30 @@ public class SplashActivity extends AppCompatActivity implements ISplashContract
 
     }
 
-    private void init() {
+    private void init(){
 
-        App.get().getPresenterComponent().inject(this);
+        App.get().getApplicationComponent().inject(this);
+
         mSplashPresenter.onAttach(this);
 
     }
 
     @Override
-    public void openHomeActivity() {
+    public void openHomeActivity(){
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 
     @Override
-    public void openAuthActivity() {
+    public void openAuthActivity(){
         startActivity(new Intent(this, AuthActivity.class));
         finish();
     }
 
     @Override
-    protected void onDestroy() {
+    protected void onDestroy(){
         super.onDestroy();
 
-        mSplashPresenter.onDetach();
     }
 
-    @Override
-    public void showProgress() {
-        //nothing
-    }
-
-    @Override
-    public void hideProgress() {
-        //nothing
-    }
 }

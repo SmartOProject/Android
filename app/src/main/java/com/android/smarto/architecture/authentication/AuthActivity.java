@@ -19,16 +19,16 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AuthActivity extends AppCompatActivity implements IAuthContract.IAuthActivity {
+public class AuthActivity extends AppCompatActivity implements IAuthActivity{
 
     @BindView(R.id.edit_text_login)     EditText mLoginEditText;
     @BindView(R.id.edit_text_password)  EditText mPasswordEditText;
 
     @Inject
-    IAuthContract.IAuthPresenter<IAuthContract.IAuthActivity> mAuthPresenter;
+    AuthPresenter<IAuthActivity> mAuthPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
@@ -36,17 +36,18 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
 
     }
 
-    public void init() {
+    public void init(){
 
+        App.get().getApplicationComponent().inject(this);
         ButterKnife.bind(this);
-        App.get().getPresenterComponent().inject(this);
+
         mAuthPresenter.onAttach(this);
 
     }
 
     @OnClick({R.id.button_login, R.id.button_sign_up, R.id.button_google,
-                    R.id.button_facebook, R.id.button_remind})
-    void onClickButton(View view) {
+                    R.id.button_facebook})
+    void onClickButton(View view){
 
         switch (view.getId()){
 
@@ -66,34 +67,29 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
                  * Show Facebook log in dialog or activity.
                  */
                 break;
-            case R.id.button_remind:
-                /**
-                 * Show remind password dialog or activity.
-                 */
 
         }
 
     }
 
     @Override
-    public void openHomeActivity() {
+    public void openHomeActivity(){
         startActivity(new Intent(this, HomeActivity.class));
         finish();
     }
 
     @Override
-    public void showEmptyLoginDataError() {
+    public void showEmptyLoginDataError(){
         Toast.makeText(this, getString(R.string.empty_login_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showIncorrectLoginDataError() {
+    public void showIncorrectLoginDataError(){
         Toast.makeText(this, getString(R.string.incorrect_login_error), Toast.LENGTH_SHORT).show();
     }
 
-
     @Override
-    public UserData getUserData() {
+    public UserData getUserData(){
 
         String login = mLoginEditText.getText().toString();
         String password = mPasswordEditText.getText().toString();
@@ -102,13 +98,4 @@ public class AuthActivity extends AppCompatActivity implements IAuthContract.IAu
 
     }
 
-    @Override
-    public void showProgress() {
-        //nothing
-    }
-
-    @Override
-    public void hideProgress() {
-        //nothing
-    }
 }

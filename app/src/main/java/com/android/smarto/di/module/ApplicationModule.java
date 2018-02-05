@@ -5,6 +5,7 @@ import android.app.Application;
 import com.android.smarto.Constants;
 import com.android.smarto.prefs.ISharedPreferencesRepository;
 import com.android.smarto.prefs.SharedPreferencesRepository;
+import com.android.smarto.utils.UtilityWrapper;
 
 import javax.inject.Singleton;
 
@@ -29,13 +30,19 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    ISharedPreferencesRepository getPrefs(){
+    UtilityWrapper getUtils(){
+        return new UtilityWrapper(providePrefs(), provideRetrofit());
+    }
+
+    @Provides
+    @Singleton
+    ISharedPreferencesRepository providePrefs(){
         return new SharedPreferencesRepository(mApplication);
     }
 
     @Provides
     @Singleton
-    Retrofit getRetrofitClient(){
+    Retrofit provideRetrofit(){
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())

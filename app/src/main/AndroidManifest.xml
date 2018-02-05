@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".architecture.authentication.AuthActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".architecture.home.HomeActivity" />
         <activity android:name=".architecture.registration.RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>

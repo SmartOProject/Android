@@ -9,7 +9,7 @@ public class Constants {
     public static final String IS_LOGGED_IN = "isLoggedIn";
     public static final String TEST_USERNAME = "smarto";
     public static final String TEST_PASSWORD = "password";
-    public static final String BASE_API_URL = "https://www.google.ru";
+    public static final String BASE_API_URL = "https://www.google_button_login.ru";
     public static final int RESULT_LOAD_IMAGE = 1;
 
 }

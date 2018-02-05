@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,10 +26,10 @@ import io.reactivex.Observable;
 
 import static com.android.smarto.Constants.RESULT_LOAD_IMAGE;
 
-public class RegisterActivity extends AppCompatActivity implements IRegisterContract.IRegisterActivity{
+public class RegisterActivity extends AppCompatActivity implements IRegisterActivity{
 
     @BindView(R.id.button_register)
-    Button mRegisterButton;
+    ImageButton mRegisterButton;
     @BindView(R.id.register_username)
     EditText mRegisterUsername;
     @BindView(R.id.register_password)
@@ -41,24 +42,24 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterCont
     ImageView mProfileImage;
 
     @Inject
-    IRegisterContract.IRegisterPresenter<IRegisterContract.IRegisterActivity> mRegisterPresenter;
+    RegisterPresenter<IRegisterActivity> mRegisterPresenter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        init();
+        initialize();
+        initializeObservables();
 
     }
 
-    private void init() {
+    private void initialize(){
 
         ButterKnife.bind(this);
-        App.get().getPresenterComponent().inject(this);
-        mRegisterPresenter.onAttach(this);
+        App.get().getApplicationComponent().inject(this);
 
-        initializeObservables();
+        mRegisterPresenter.onAttach(this);
 
     }
 
@@ -83,21 +84,10 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterCont
                 mRegisterPresenter.onProfileImageClick(this);
         }
 
-
     }
 
     @Override
-    public void showProgress() {
-        //nothing
-    }
-
-    @Override
-    public void hideProgress() {
-        //nothing
-    }
-
-    @Override
-    public void showConfirmPasswordHelper(boolean show) {
+    public void showConfirmPasswordHelper(boolean show){
         if (show)
             mRegisterPasswordHelper.setVisibility(View.VISIBLE);
         else
@@ -105,19 +95,19 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterCont
     }
 
     @Override
-    public void openHomeActivity() {
+    public void openHomeActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 
     @Override
-    public void showError() {
+    public void showError(){
         Toast.makeText(this, getString(R.string.incorrect_data_error), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == RESULT_LOAD_IMAGE && resultCode == RESULT_OK){
             Uri imageUri = data.getData();
