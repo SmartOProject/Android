@@ -1,15 +1,24 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:actionBarStyle">@style/AppActionBar</item>
+
+    </style>
+
+    <style name="AppActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/one_of_main</item>
+        <item name="android:textColor">@color/orange</item>
     </style>
     
     <style name="SplashStyle" parent="Theme.AppCompat.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_screen</item>
+    </style>
+    
+    <style name="DefaultEditText" parent="Widget.AppCompat.EditText">
+        <item name="colorControlActivated">@color/orange</item>
+        <item name="colorControlNormal">@color/one_of_main</item>
     </style>
 
 </resources>

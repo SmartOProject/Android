@@ -3,6 +3,8 @@ package com.android.smarto.di.module;
 import android.app.Application;
 
 import com.android.smarto.Constants;
+import com.android.smarto.architecture.navigation.INavigationActivity;
+import com.android.smarto.architecture.navigation.NavigationPresenter;
 import com.android.smarto.prefs.ISharedPreferencesRepository;
 import com.android.smarto.prefs.SharedPreferencesRepository;
 import com.android.smarto.utils.UtilityWrapper;
@@ -30,7 +32,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    UtilityWrapper getUtils(){
+    UtilityWrapper provideUtils(){
         return new UtilityWrapper(providePrefs(), provideRetrofit());
     }
 
@@ -47,6 +49,12 @@ public class ApplicationModule {
                 .baseUrl(Constants.BASE_API_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+    }
+
+    @Provides
+    @Singleton
+    NavigationPresenter<INavigationActivity> provideNavigationPresenter(){
+        return new NavigationPresenter<>();
     }
 
 }

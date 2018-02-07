@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/home_item"
+        android:title="Home"
+        android:icon="@drawable/ic_home_black_24dp"/>
+    <item android:id="@+id/contacts_item"
+        android:title="Contacts"
+        android:icon="@drawable/ic_contacts_black_24dp"/>
+    <item android:id="@+id/tasks_item"
+        android:title="Tasks"
+        android:icon="@drawable/ic_format_list_bulleted_black_24dp"/>
+    <item android:id="@+id/chat_item"
+        android:title="Chat"
+        android:icon="@drawable/ic_chat_black_24dp"/>
+    <item android:id="@+id/map_item"
+        android:title="Map"
+        android:icon="@drawable/ic_map_black_24dp"/>
+</menu>

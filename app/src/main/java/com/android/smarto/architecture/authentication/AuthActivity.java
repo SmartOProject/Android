@@ -9,7 +9,7 @@ import android.widget.Toast;
 
 import com.android.smarto.R;
 import com.android.smarto.app.App;
-import com.android.smarto.architecture.home.HomeActivity;
+import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.data.UserData;
 
@@ -74,7 +74,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthActivity{
 
     @Override
     public void openHomeActivity(){
-        startActivity(new Intent(this, HomeActivity.class));
+        startActivity(new Intent(this, NavigationActivity.class));
         finish();
     }
 

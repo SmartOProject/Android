@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import com.android.smarto.app.App;
 import com.android.smarto.architecture.authentication.AuthActivity;
-import com.android.smarto.architecture.home.HomeActivity;
+import com.android.smarto.architecture.navigation.NavigationActivity;
 
 import javax.inject.Inject;
 
@@ -35,7 +35,7 @@ public class SplashActivity extends AppCompatActivity implements ISplashActivity
 
     @Override
     public void openHomeActivity(){
-        startActivity(new Intent(this, HomeActivity.class));
+        startActivity(new Intent(this, NavigationActivity.class));
         finish();
     }
 

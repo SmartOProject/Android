@@ -1,7 +1,7 @@
 package com.android.smarto.di.component;
 
 import com.android.smarto.architecture.authentication.AuthActivity;
-import com.android.smarto.architecture.home.HomeActivity;
+import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.architecture.splash.SplashActivity;
 import com.android.smarto.di.module.ApplicationModule;
@@ -23,6 +23,6 @@ public interface ApplicationComponent {
     void inject(SplashActivity splashActivity);
     void inject(AuthActivity authActivity);
     void inject(RegisterActivity registerActivity);
-    void inject(HomeActivity homeActivity);
+    void inject(NavigationActivity navigationActivity);
 
 }

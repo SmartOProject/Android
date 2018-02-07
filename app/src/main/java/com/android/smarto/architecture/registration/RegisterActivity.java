@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -14,7 +13,7 @@ import android.widget.Toast;
 
 import com.android.smarto.R;
 import com.android.smarto.app.App;
-import com.android.smarto.architecture.home.HomeActivity;
+import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import javax.inject.Inject;
@@ -96,7 +95,7 @@ public class RegisterActivity extends AppCompatActivity implements IRegisterActi
 
     @Override
     public void openHomeActivity(){
-        Intent intent = new Intent(this, HomeActivity.class);
+        Intent intent = new Intent(this, NavigationActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }

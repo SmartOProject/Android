@@ -1,28 +1,31 @@
 <resources>
     <string name="app_name">SmartO</string>
-    <string name="login_hint"> Login</string>
     <string name="password_hint"> Password</string>
     <string name="confirm_password_hint"> Confirm password</string>
     <string name="authentication_text">Authentication</string>
-    <string name="button_login">LOGIN</string>
-    <string name="login_screen_text_or">or</string>
     <string name="login_screen_text_under_sign_up">also, you can login with:</string>
-    <string name="sign_up">SIGN UP</string>
-    <string name="button_google">GOOGLE</string>
-    <string name="button_facebook">FACEBOOK</string>
-    <string name="login_authentication_text">Authentication</string>
-    <string name="remind_password">REMIND PASSWORD</string>
 
     <string name="incorrect_login_error">Please, check login or password.</string>
     <string name="empty_login_error">Login or password is empty.</string>
     <string name="incorrect_data_error">Some fields are incorrect.</string>
 
-    <string name="APP_PREFERENCE">application_prefs</string>
     <string name="registration_email">Email</string>
-    <string name="registration_username">Username</string>
-    <string name="button_sign_up_text">SIGN UP</string>
     <string name="incorrect_password">Incorrect password</string>
     <string name="register_first_name">First name</string>
     <string name="register_second_name">Second name</string>
+
+    <string name="drawer_open">Open</string>
+    <string name="drawer_close">Close</string>
+
+    <string name="home_title">Home</string>
+    <string name="chat_title">Chat</string>
+    <string name="tasks_title">Tasks</string>
+    <string name="map_title">Map</string>
+    <string name="contacts_title">Contacts</string>
+
+
+    <string name="log_out_text">Log out</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 
 </resources>
