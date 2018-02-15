@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.android.smarto">
 
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -21,6 +23,8 @@
         <activity android:name=".architecture.authentication.AuthActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".architecture.navigation.NavigationActivity" />
+        <activity android:name=".architecture.adding.AddTaskActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity android:name=".architecture.registration.RegisterActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
 

@@ -1,16 +1,18 @@
 package com.android.smarto.architecture.splash;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.android.smarto.app.App;
 import com.android.smarto.architecture.authentication.AuthActivity;
+import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.navigation.NavigationActivity;
 
 import javax.inject.Inject;
 
-public class SplashActivity extends AppCompatActivity implements ISplashActivity{
+public class SplashActivity extends BaseActivity implements ISplashActivity{
+
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     @Inject
     SplashPresenter<ISplashActivity> mSplashPresenter;
@@ -20,21 +22,19 @@ public class SplashActivity extends AppCompatActivity implements ISplashActivity
         super.onCreate(savedInstanceState);
 
         init();
-
-        mSplashPresenter.isLoggedIn();
+        mSplashPresenter.onCreate();
 
     }
 
     private void init(){
 
-        App.get().getApplicationComponent().inject(this);
-
+        Log.i(TAG, "onCreate()");
         mSplashPresenter.onAttach(this);
 
     }
 
     @Override
-    public void openHomeActivity(){
+    public void openNavigationActivity(){
         startActivity(new Intent(this, NavigationActivity.class));
         finish();
     }
@@ -48,7 +48,8 @@ public class SplashActivity extends AppCompatActivity implements ISplashActivity
     @Override
     protected void onDestroy(){
         super.onDestroy();
-
+        Log.i(TAG, "onDestroy()");
+        mSplashPresenter.onDetach();
     }
 
 }

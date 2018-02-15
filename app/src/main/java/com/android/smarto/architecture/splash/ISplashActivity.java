@@ -8,7 +8,7 @@ import com.android.smarto.architecture.base.BaseView;
 
 public interface ISplashActivity extends BaseView{
 
-        void openHomeActivity();
+        void openNavigationActivity();
         void openAuthActivity();
 
 }

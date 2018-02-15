@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/nav_header"
     android:layout_width="match_parent"
     android:layout_height="150dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:background="@color/one_of_main"
+    android:background="@color/bg_group_item_normal_state"
     android:gravity="center">
 
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/nav_image_view"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_marginTop="8dp"
@@ -25,6 +27,7 @@
         android:gravity="center">
 
         <TextView
+            android:id="@+id/nav_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Anatoly Chernyshev"
@@ -32,6 +35,7 @@
             android:textColor="@color/black"/>
 
         <TextView
+            android:id="@+id/nav_user_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="roundpay@gmail.com"

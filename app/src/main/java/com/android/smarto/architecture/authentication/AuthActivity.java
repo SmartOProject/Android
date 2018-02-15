@@ -1,17 +1,16 @@
 package com.android.smarto.architecture.authentication;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.smarto.R;
-import com.android.smarto.app.App;
+import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
-import com.android.smarto.data.UserData;
 
 import javax.inject.Inject;
 
@@ -19,7 +18,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class AuthActivity extends AppCompatActivity implements IAuthActivity{
+public class AuthActivity extends BaseActivity implements IAuthActivity{
+
+    private static final String TAG = AuthActivity.class.getSimpleName();
 
     @BindView(R.id.edit_text_login)     EditText mLoginEditText;
     @BindView(R.id.edit_text_password)  EditText mPasswordEditText;
@@ -38,9 +39,8 @@ public class AuthActivity extends AppCompatActivity implements IAuthActivity{
 
     public void init(){
 
-        App.get().getApplicationComponent().inject(this);
+        Log.i(TAG, "onCreate()");
         ButterKnife.bind(this);
-
         mAuthPresenter.onAttach(this);
 
     }
@@ -50,9 +50,10 @@ public class AuthActivity extends AppCompatActivity implements IAuthActivity{
     void onClickButton(View view){
 
         switch (view.getId()){
-
             case R.id.button_login:
-                mAuthPresenter.confirmUserData();
+                String login = mLoginEditText.getText().toString();
+                String password = mPasswordEditText.getText().toString();
+                mAuthPresenter.onLoginClicked(login, password);
                 break;
             case R.id.button_sign_up:
                 startActivity(new Intent(this, RegisterActivity.class));
@@ -80,7 +81,7 @@ public class AuthActivity extends AppCompatActivity implements IAuthActivity{
 
     @Override
     public void showEmptyLoginDataError(){
-        Toast.makeText(this, getString(R.string.empty_login_error), Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -89,13 +90,8 @@ public class AuthActivity extends AppCompatActivity implements IAuthActivity{
     }
 
     @Override
-    public UserData getUserData(){
-
-        String login = mLoginEditText.getText().toString();
-        String password = mPasswordEditText.getText().toString();
-
-        return new UserData(login, password);
-
+    protected void onDestroy() {
+        super.onDestroy();
+        mAuthPresenter.onDetach();
     }
-
 }

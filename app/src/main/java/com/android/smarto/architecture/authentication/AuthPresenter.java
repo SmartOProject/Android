@@ -1,13 +1,15 @@
 package com.android.smarto.architecture.authentication;
 
 import android.text.TextUtils;
+import android.util.Log;
 
-import com.android.smarto.Constants;
 import com.android.smarto.architecture.base.BasePresenter;
-import com.android.smarto.data.UserData;
-import com.android.smarto.utils.UtilityWrapper;
+import com.android.smarto.data.IDataManager;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Anatoly Chernyshev on 25.01.18.
@@ -15,25 +17,42 @@ import javax.inject.Inject;
 
 public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
 
-    private UtilityWrapper mUtilityWrapper;
+    private static final String TAG = AuthPresenter.class.getSimpleName();
+
+    private IDataManager mDataManager;
 
     @Inject
-    public AuthPresenter(UtilityWrapper utilityWrapper){
-        mUtilityWrapper = utilityWrapper;
+    public AuthPresenter(IDataManager dataManager){
+        this.mDataManager = dataManager;
     }
 
-    public void confirmUserData(){
-        UserData userData = mView.getUserData();
-        if (TextUtils.isEmpty(userData.getLogin()) || TextUtils.isEmpty(userData.getPassword()))
-            mView.showEmptyLoginDataError();
-        else
-            if (userData.getLogin().equals(Constants.TEST_USERNAME) && userData.getPassword().equals(Constants.TEST_PASSWORD)) {
-                mUtilityWrapper.getSharedPreferencesRepository().setLoggedIn(true);
-                mView.openHomeActivity();
-            }
-            else
-                mView.showIncorrectLoginDataError();
+    public void onLoginClicked(String email, String password){
 
+        Log.i(TAG, "onLoginClicked()");
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
+            mView.showEmptyLoginDataError();
+            return;
+        }
+
+        mDataManager.isCorrectUserInput(email, password)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(e -> {
+                    if (e) {
+                        mDataManager.getUser(email)
+                                .subscribeOn(Schedulers.io())
+                                .observeOn(AndroidSchedulers.mainThread())
+                                .subscribe(u -> {
+                                    mDataManager.setCurrentUser(u);
+                                    mDataManager.saveUUID(u.getUniqueId());
+                                    mView.openHomeActivity();
+                                });
+                    } else {
+                        mView.showIncorrectLoginDataError();
+                        return;
+                    }
+                });
     }
 
 }

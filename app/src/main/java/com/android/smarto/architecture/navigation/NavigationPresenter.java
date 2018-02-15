@@ -1,6 +1,9 @@
 package com.android.smarto.architecture.navigation;
 
 import com.android.smarto.architecture.base.BasePresenter;
+import com.android.smarto.data.IDataManager;
+
+import javax.inject.Inject;
 
 /**
  * Created by Anatoly Chernyshev on 07.02.2018.
@@ -8,9 +11,14 @@ import com.android.smarto.architecture.base.BasePresenter;
 
 public class NavigationPresenter<V extends INavigationActivity> extends BasePresenter<V> {
 
-    public void onCreate(){
-        mView.setHomeFragment();
+    private IDataManager mDataManager;
+
+    @Inject
+    public NavigationPresenter(IDataManager dataManager){
+        this.mDataManager = dataManager;
     }
+
+    public void onCreate() { mView.showHomeFragment();}
     public void onHomeClicked(){
         mView.showHomeFragment();
     }
@@ -27,6 +35,8 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         mView.showTaskFragment();
     }
     public void onLogoutClicked(){
+        mDataManager.saveUUID(null);
+        mDataManager.setCurrentUser(null);
         mView.signOut();
     }
 

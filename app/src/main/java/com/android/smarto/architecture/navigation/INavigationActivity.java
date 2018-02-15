@@ -8,8 +8,6 @@ import com.android.smarto.architecture.base.BaseView;
 
 public interface INavigationActivity extends BaseView {
 
-    void setHomeFragment();
-
     void showHomeFragment();
     void showChatFragment();
     void showTaskFragment();

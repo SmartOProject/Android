@@ -16,7 +16,7 @@
         android:layout_above="@id/edit_text_container"
         android:src="@drawable/profile_image"
         android:scaleType="centerCrop"
-        app:civ_border_width="4dp"
+        app:civ_border_width="2dp"
         app:civ_border_color="@color/orange"
         app:civ_circle_background_color="@color/white"/>
 
@@ -43,6 +43,7 @@
             android:drawableStart="@drawable/ic_email_black_24dp"/>
 
         <EditText
+            android:id="@+id/register_first_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
@@ -55,6 +56,7 @@
             android:drawableStart="@drawable/ic_person_black_24dp"/>
 
         <EditText
+            android:id="@+id/register_second_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

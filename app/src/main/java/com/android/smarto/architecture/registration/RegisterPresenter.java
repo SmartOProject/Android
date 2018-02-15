@@ -2,11 +2,15 @@ package com.android.smarto.architecture.registration;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.provider.MediaStore;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.android.smarto.Constants;
 import com.android.smarto.architecture.base.BasePresenter;
-import com.android.smarto.utils.UtilityWrapper;
+import com.android.smarto.data.IDataManager;
+import com.android.smarto.db.model.User;
 
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +18,7 @@ import javax.inject.Inject;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Anatoly Chernyshev on 31.01.2018.
@@ -21,23 +26,70 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 public class RegisterPresenter<V extends IRegisterActivity> extends BasePresenter<V>{
 
-    private UtilityWrapper mUtilityWrapper;
+    private static final String TAG = RegisterPresenter.class.getSimpleName();
+
+    private IDataManager mDataManager;
 
     private boolean mIsShowConfirmPasswordHelper = false;
 
     @Inject
-    public RegisterPresenter(UtilityWrapper utilityWrapper){
-        mUtilityWrapper = utilityWrapper;
+    public RegisterPresenter(IDataManager dataManager){
+        this.mDataManager = dataManager;
     }
 
-    public void onRegisterClick(String login, String password, String confirmPassword){
-        if (Constants.TEST_USERNAME.equals(login) || password.length() < 4
-                || !password.equals(confirmPassword) || mIsShowConfirmPasswordHelper)
-            mView.showError();
-        else {
-            mUtilityWrapper.getSharedPreferencesRepository().setLoggedIn(true);
-            mView.openHomeActivity();
+    public void onRegisterClicked(String email, String password, String confirmPassword,
+                                  String firstName, String secondName, Uri profileImage){
+
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)
+                || TextUtils.isEmpty(confirmPassword) || TextUtils.isEmpty(firstName)
+                || TextUtils.isEmpty(secondName)) {
+            mView.showFieldEmptyError();
+            return;
         }
+
+        if (!isValidEmail(email)) {
+            mView.showEmailError();
+            return;
+        }
+
+        mDataManager.isEmailExist(email)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(b -> {
+                    if (!b) {
+                        mView.showEmailExistError();
+                        return;
+                    }
+                });
+
+        if (!password.equals(confirmPassword)) {
+            mView.showIncorrectConfirmPasswordError();
+            return;
+        }
+
+        User user;
+        if (profileImage == null){
+        user = new User(email, password, firstName,
+                                secondName, null);
+        } else {
+            user = new User(email, password, firstName,
+                    secondName, profileImage.toString());
+        }
+
+        mDataManager.addUser(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(e -> Log.i(TAG, "User added to db: " + user.getFirstName() + " "
+                        + user.getSecondName()));
+
+        mDataManager.setCurrentUser(user);
+        mDataManager.saveUUID(user.getUniqueId());
+        mView.openHomeActivity();
+
+    }
+
+    boolean isValidEmail(CharSequence email) {
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
 
     public void onProfileImageClick(Activity activity){
@@ -51,7 +103,7 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
         Observable.combineLatest(passwordObs, confirmPasswordObs,
                 (password, confirmPassword) -> !password.toString()
                         .equals(confirmPassword.toString()))
-                .debounce(200, TimeUnit.MILLISECONDS)
+                .debounce(100, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b -> {
                     mIsShowConfirmPasswordHelper = (Boolean) b;

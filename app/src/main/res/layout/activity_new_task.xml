@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <EditText
+        android:id="@+id/edit_text_add_group_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="group name"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        android:theme="@style/DefaultEditText" />
+
+    <EditText
+        android:id="@+id/edit_text_add_group_prior"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="prior"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        android:theme="@style/DefaultEditText" />
+
+    <Button
+        android:id="@+id/button_add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"/>
+
+    <EditText
+        android:id="@+id/edit_text_add_task_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="task discr"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        android:theme="@style/DefaultEditText" />
+
+    <EditText
+        android:id="@+id/edit_text_add_task_to"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="id to group"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        android:theme="@style/DefaultEditText" />
+
+    <Button
+        android:id="@+id/button_add_task"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ADD"/>
+
+</LinearLayout>
