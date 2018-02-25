@@ -11,10 +11,13 @@ import dagger.android.support.AndroidSupportInjection;
 
 public class BaseFragment extends Fragment {
 
+    protected Context mContext;
+
     @Override
     public void onAttach(Context context) {
         AndroidSupportInjection.inject(this);
         super.onAttach(context);
+        mContext = context;
 
     }
 

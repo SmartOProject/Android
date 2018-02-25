@@ -9,7 +9,7 @@ import com.android.smarto.architecture.base.BaseView;
 public interface IAuthActivity extends BaseView{
 
         void openHomeActivity();
-        void showEmptyLoginDataError();
+        void showEmptyMobileNumberError();
         void showIncorrectLoginDataError();
 
 }

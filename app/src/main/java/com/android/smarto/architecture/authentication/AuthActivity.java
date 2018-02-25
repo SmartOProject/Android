@@ -2,6 +2,8 @@ package com.android.smarto.architecture.authentication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -11,6 +13,7 @@ import com.android.smarto.R;
 import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import javax.inject.Inject;
 
@@ -28,13 +31,29 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
     @Inject
     AuthPresenter<IAuthActivity> mAuthPresenter;
 
+    private MaskedTextChangedListener listener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auth);
 
         init();
+        initMaskedListener();
 
+    }
+
+    private void initMaskedListener() {
+        listener = new MaskedTextChangedListener(
+                "+7 ([000]) [000] [00] [00]",
+                true,
+                mLoginEditText,
+                null,
+                (maskFilled, extractedValue) -> {}
+        );
+        mLoginEditText.addTextChangedListener(listener);
+        mLoginEditText.setOnFocusChangeListener(listener);
+        mLoginEditText.setHint(listener.placeholder());
     }
 
     public void init(){
@@ -80,7 +99,7 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
     }
 
     @Override
-    public void showEmptyLoginDataError(){
+    public void showEmptyMobileNumberError(){
         Toast.makeText(this, getString(R.string.error_field_empty), Toast.LENGTH_SHORT).show();
     }
 

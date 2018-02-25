@@ -1,16 +1,20 @@
 package com.android.smarto.adapters.tasks;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.smarto.Constants;
 import com.android.smarto.R;
 import com.android.smarto.architecture.task.model.SingleTask;
-import com.android.smarto.architecture.task.model.TaskData;
+import com.android.smarto.data.TaskManager;
 import com.android.smarto.architecture.task.model.TaskGroup;
 import com.android.smarto.utils.DrawableUtils;
 import com.android.smarto.utils.ViewUtils;
@@ -25,15 +29,10 @@ import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandab
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemConstants;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultAction;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionDefault;
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionMoveToSwipedDirection;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.action.SwipeResultActionRemoveItem;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableSwipeableItemViewHolder;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractExpandableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.RecyclerViewAdapterUtils;
-
-import java.util.List;
-
-import io.reactivex.Single;
 
 import static com.h6ah4i.android.widget.advrecyclerview.animator.impl.ItemMoveAnimationManager.TAG;
 
@@ -46,9 +45,11 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
         ExpandableSwipeableItemAdapter<TaskListAdapter.GroupViewHolder, TaskListAdapter.ChildViewHolder> {
 
     private final RecyclerViewExpandableItemManager mExpandableItemManager;
-    private TaskData mDataProvider;
+    private TaskManager mDataProvider;
     private EventListener mEventListener;
     private View.OnClickListener mItemViewOnClickListener;
+    private View.OnClickListener mSwipeableViewContainerOnClickListener;
+    private Context mContext;
 
     // NOTE: Make accessible with short name
     private interface Expandable extends ExpandableItemConstants {
@@ -222,6 +223,7 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
     public GroupViewHolder onCreateGroupViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View v = inflater.inflate(R.layout.list_group_item_draggable, parent, false);
+        v.setOnClickListener(mItemViewOnClickListener);
         return new GroupViewHolder(v);
     }
 
@@ -229,6 +231,7 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
     public ChildViewHolder onCreateChildViewHolder(ViewGroup parent, int viewType) {
         final LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         final View v = inflater.inflate(R.layout.list_item_draggable, parent, false);
+        v.setOnClickListener(mItemViewOnClickListener);
         return new ChildViewHolder(v);
     }
 
@@ -239,11 +242,13 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
 
         // set listeners
         holder.itemView.setOnClickListener(mItemViewOnClickListener);
-        holder.mContainer.setOnClickListener(mItemViewOnClickListener);
 
         // set text
         holder.mTextView.setText(item.getGroupName());
-        holder.mNumbersOfTasks.setText("Number of tasks: " + mDataProvider.getChildCount(groupPosition));
+
+        holder.mNumbersOfTasks.setText(mDataProvider.getChildCount(groupPosition)+"");
+        holder.mExampleTasks.setText(item.getSingleTaskList().size() == 0 ? "" :
+                item.getSingleTaskList().get(0).getTaskText());
 
         // set background resource (target view ID: container)
         final int dragState = holder.getDragStateFlags();
@@ -290,10 +295,30 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
         // child item
         final SingleTask item = mDataProvider.getChildItem(groupPosition, childPosition);
 
+        int drawableIconRes = 0;
+        switch(item.getTaskType()){
+            case Constants.MEETING_TASK_TYPE:
+                drawableIconRes = R.drawable.ic_accessibility_black_24dp;
+                break;
+            case Constants.COMMON_TASK_TYPE:
+                drawableIconRes = R.drawable.ic_query_builder_black_24dp;
+                break;
+            case Constants.GOODS_TASK_TYPE:
+                drawableIconRes = R.drawable.ic_kitchen_black_24dp;
+                break;
+        }
+
         // set listeners
         // (if the item is *pinned*, click event comes to the itemView)
         holder.itemView.setOnClickListener(mItemViewOnClickListener);
-        holder.mContainer.setOnClickListener(mItemViewOnClickListener);
+        holder.mContainer.setOnClickListener(mSwipeableViewContainerOnClickListener);
+        holder.mChecked.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) item.setChecked(true);
+                else item.setChecked(false);
+        });
+
+        holder.mChecked.setChecked(item.isChecked());
+        holder.mTypeIcon.setImageResource(drawableIconRes);
 
         // set text
         holder.mTextView.setText(item.getTaskText());
@@ -427,12 +452,14 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
         public View mDragHandle;
         public TextView mTextView;
         private int mExpandStateFlags;
+        public View mChildContainer;
 
         public BaseViewHolder(View v) {
             super(v);
             mContainer = v.findViewById(R.id.container);
             mDragHandle = v.findViewById(R.id.drag_handle);
             mTextView = v.findViewById(android.R.id.text1);
+            mChildContainer = v.findViewById(R.id.main_child_container);
         }
 
         @Override
@@ -454,25 +481,34 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
     public static class GroupViewHolder extends BaseViewHolder {
         public ExpandableItemIndicator mIndicator;
         public TextView mNumbersOfTasks;
+        public TextView mExampleTasks;
 
         public GroupViewHolder(View v) {
             super(v);
             mIndicator = v.findViewById(R.id.indicator);
             mNumbersOfTasks = v.findViewById(R.id.number_of_tasks_text);
+            mExampleTasks = v.findViewById(R.id.example_of_tasks);
         }
     }
 
     public static class ChildViewHolder extends BaseViewHolder {
+        public ImageView mTypeIcon;
+        public CheckBox mChecked;
         public ChildViewHolder(View v) {
             super(v);
+            mTypeIcon = v.findViewById(R.id.task_type_icon);
+            mChecked = v.findViewById(R.id.is_completed_task);
         }
     }
 
     public TaskListAdapter(RecyclerViewExpandableItemManager expandableItemManager,
-                           TaskData data) {
+                           TaskManager data, Context context) {
         mExpandableItemManager = expandableItemManager;
         mDataProvider = data;
         mItemViewOnClickListener = v -> onItemViewClick(v);
+        mSwipeableViewContainerOnClickListener = v -> onSwipeableViewContainerClick(v);
+        this.mContext = context;
+
 
 
         // ExpandableItemAdapter, ExpandableDraggableItemAdapter and ExpandableSwipeableItemAdapter
@@ -483,6 +519,12 @@ public class TaskListAdapter extends AbstractExpandableItemAdapter<TaskListAdapt
     private void onItemViewClick(View v) {
         if (mEventListener != null) {
             mEventListener.onItemViewClicked(v, true);  // true --- pinned
+        }
+    }
+
+    private void onSwipeableViewContainerClick(View v) {
+        if (mEventListener != null) {
+            mEventListener.onItemViewClicked(RecyclerViewAdapterUtils.getParentViewHolderItemView(v), false);  // false --- not pinned
         }
     }
 

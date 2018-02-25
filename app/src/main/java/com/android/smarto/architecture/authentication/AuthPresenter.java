@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.smarto.architecture.base.BasePresenter;
 import com.android.smarto.data.IDataManager;
+import com.android.smarto.db.model.User;
 
 import javax.inject.Inject;
 
@@ -20,39 +21,42 @@ public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
     private static final String TAG = AuthPresenter.class.getSimpleName();
 
     private IDataManager mDataManager;
+    private String mMobile;
 
     @Inject
     public AuthPresenter(IDataManager dataManager){
         this.mDataManager = dataManager;
     }
 
-    public void onLoginClicked(String email, String password){
+    public void onLoginClicked(String mobileNumber, String password){
 
         Log.i(TAG, "onLoginClicked()");
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-            mView.showEmptyLoginDataError();
+        mMobile = reformatNumber(mobileNumber);
+
+        if (TextUtils.isEmpty(mMobile) || TextUtils.isEmpty(password)) {
+            mView.showEmptyMobileNumberError();
             return;
         }
 
-        mDataManager.isCorrectUserInput(email, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(e -> {
-                    if (e) {
-                        mDataManager.getUser(email)
-                                .subscribeOn(Schedulers.io())
-                                .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(u -> {
-                                    mDataManager.setCurrentUser(u);
-                                    mDataManager.saveUUID(u.getUniqueId());
-                                    mView.openHomeActivity();
-                                });
-                    } else {
-                        mView.showIncorrectLoginDataError();
-                        return;
-                    }
-                });
+        User user = mDataManager.getUser(mMobile);
+
+        if (user != null) {
+            if (user.getPassword().equals(password)) {
+                mDataManager.saveUUID(user.getUniqueId());
+                mDataManager.setCurrentUser(user);
+                mView.openHomeActivity();
+            } else mView.showIncorrectLoginDataError();
+        } else mView.showIncorrectLoginDataError();
+    }
+
+    private String reformatNumber(String mobile) {
+        String format = mobile;
+        format = format.replace(" ", "");
+        format = format.trim();
+        format = format.replace("(", "");
+        format = format.replace(")", "");
+        return format;
     }
 
 }

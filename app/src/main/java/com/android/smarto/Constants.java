@@ -12,8 +12,27 @@ public class Constants {
     public static final String BASE_API_URL = "https://www.google_button_login.ru";
     public static final int RESULT_LOAD_IMAGE = 1;
     public static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 1;
+    public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2;
+    public static final String TIME_PICKER_DIALOG_TAG = "Timepickerdialog";
+    public static final String DATE_PICKER_DIALOG_TAG = "Datepickerdialog";
+
+    public static final String DIALOG_DELETE_ICON = "delete";
+    public static final String DIALOG_ADD_ICON = "add";
+
+    public static final String COMMON_TASK = "Common";
+    public static final String MEETING_TASK = "Meeting";
+    public static final String GOODS_TASK = "Goods";
+
+    public static final int COMMON_TASK_TYPE = 1;
+    public static final int MEETING_TASK_TYPE = 2;
+    public static final int GOODS_TASK_TYPE = 3;
+
+    public static final String CHILD_ITEM_ID = "child_id";
+    public static final String GROUP_ITEM_ID = "group_id";
 
     public class Database {
+
+        public static final String USER_TABLE_NAME = "user";
 
         public static final int DATABASE_VERSION = 1;
         public static final String DATABASE_NAME = "usersDb";

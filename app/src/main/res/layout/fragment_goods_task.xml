@@ -1,0 +1,67 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white"
+    android:layout_margin="8dp"
+    tools:context="com.android.smarto.architecture.add_task.types.goods.GoodsTaskFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/goods_task_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the name of product"
+            android:layout_margin="8dp"
+            app:met_floatingLabel="highlight" />
+
+        <LinearLayout
+            android:layout_below="@id/goods_task_edit_text"
+            android:id="@+id/spinner_goods_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <com.jaredrummler.materialspinner.MaterialSpinner
+                android:id="@+id/goods_group_spinner"
+                android:layout_weight="3"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginTop="8dp"
+                app:ms_text_color="@color/black"/>
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/fab_goods_add_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_add_black_24dp"
+                app:fab_type="mini"
+                app:fab_colorNormal="@color/secondary_normal"
+                app:fab_colorPressed="@color/secondary_light"
+                app:fab_colorRipple="@color/primary_normal"
+                app:fab_shadow="false"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="4dp"
+                android:layout_marginRight="8dp"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_add_goods_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/spinner_goods_container"
+            android:layout_margin="8dp"
+            android:background="@color/secondary_normal"
+            android:text="ADD"/>
+
+    </RelativeLayout>
+
+</FrameLayout>

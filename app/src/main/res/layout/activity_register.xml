@@ -17,7 +17,7 @@
         android:src="@drawable/profile_image"
         android:scaleType="centerCrop"
         app:civ_border_width="2dp"
-        app:civ_border_color="@color/orange"
+        app:civ_border_color="@color/primary_normal"
         app:civ_circle_background_color="@color/white"/>
 
     <LinearLayout
@@ -30,17 +30,17 @@
         android:layout_marginBottom="10dp">
 
         <EditText
-            android:id="@+id/register_username"
+            android:id="@+id/register_mobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:inputType="textEmailAddress"
-            android:hint="@string/registration_email"
+            android:inputType="phone"
+            android:hint="@string/mobile_number"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:theme="@style/DefaultEditText"
-            android:drawableStart="@drawable/ic_email_black_24dp"/>
+            android:drawableStart="@drawable/ic_phone_android_black_24dp"/>
 
         <EditText
             android:id="@+id/register_first_name"
@@ -56,7 +56,7 @@
             android:drawableStart="@drawable/ic_person_black_24dp"/>
 
         <EditText
-            android:id="@+id/register_second_name"
+            android:id="@+id/register_last_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="16dp"

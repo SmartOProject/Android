@@ -37,50 +37,40 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
         this.mDataManager = dataManager;
     }
 
-    public void onRegisterClicked(String email, String password, String confirmPassword,
-                                  String firstName, String secondName, Uri profileImage){
+    public void onRegisterClicked(String mobileNumber, String password, String confirmPassword,
+                                  String firstName, String lastName, Uri profileImage){
 
-        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)
+        if (TextUtils.isEmpty(mobileNumber) || TextUtils.isEmpty(password)
                 || TextUtils.isEmpty(confirmPassword) || TextUtils.isEmpty(firstName)
-                || TextUtils.isEmpty(secondName)) {
+                    || TextUtils.isEmpty(lastName)) {
             mView.showFieldEmptyError();
             return;
         }
 
-        if (!isValidEmail(email)) {
-            mView.showEmailError();
+        if (!validMobilePhone(mobileNumber)) {
+            mView.showMobileInputError();
             return;
         }
 
-        mDataManager.isEmailExist(email)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(b -> {
-                    if (!b) {
-                        mView.showEmailExistError();
-                        return;
-                    }
-                });
+        if (mDataManager.getUser(mobileNumber) != null){
+            mView.showUserExistError();
+            return;
+        }
 
         if (!password.equals(confirmPassword)) {
             mView.showIncorrectConfirmPasswordError();
             return;
         }
 
-        User user;
-        if (profileImage == null){
-        user = new User(email, password, firstName,
-                                secondName, null);
-        } else {
-            user = new User(email, password, firstName,
-                    secondName, profileImage.toString());
-        }
+        User user = new User();
+        user.setMobileNumber(mobileNumber);
+        user.setPassword(password);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        if (profileImage == null) user.setProfileImagePath("");
+            else user.setProfileImagePath(profileImage.toString());
 
-        mDataManager.addUser(user)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(e -> Log.i(TAG, "User added to db: " + user.getFirstName() + " "
-                        + user.getSecondName()));
+        mDataManager.addUser(user);
 
         mDataManager.setCurrentUser(user);
         mDataManager.saveUUID(user.getUniqueId());
@@ -88,8 +78,9 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
 
     }
 
-    boolean isValidEmail(CharSequence email) {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
+    public boolean validMobilePhone(String number)
+    {
+        return android.util.Patterns.PHONE.matcher(number).matches();
     }
 
     public void onProfileImageClick(Activity activity){

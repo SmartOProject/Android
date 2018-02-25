@@ -6,8 +6,8 @@
     <string name="login_screen_text_under_sign_up">also, you can email with:</string>
 
     <string name="error_field_empty">Some field is empty</string>
-    <string name="error_incorrect_email">Email format is incorrect</string>
-    <string name="error_exist_email">This email is already exist</string>
+    <string name="error_incorrect_mobile_number">Mobile number is incorrect</string>
+    <string name="error_exist_user">User already exist</string>
     <string name="error_incorrect_passwords">Passwords are not same</string>
     <string name="incorrect_login_error">Login or password is incorrect</string>
 
@@ -25,15 +25,20 @@
     <string name="map_title">Map</string>
     <string name="contacts_title">Contacts</string>
 
-    <string name="snack_bar_text_item_removed">1 item removed</string>
     <string name="snack_bar_text_group_item_removed">1 group item removed</string>
     <string name="snack_bar_text_child_item_removed">1 child item removed</string>
-    <string name="snack_bar_text_button_clicked">Button clicked! (position = %1$d)</string>
     <string name="snack_bar_action_undo">UNDO</string>
 
     <string name="log_out_text">Log out</string>
     <string name="profile_text">Profile</string>
+    <string name="choose_the_type_of_task">Choose the type of task:</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="task_description">Enter the description</string>
+    <string name="enable_date">Enable date</string>
+    <string name="add">ADD</string>
+    <string name="dialog_static_group">GROUP</string>
+    <string name="mobile_number">Mobile number</string>
+    <string name="add_common_task_group_error">Group count 0. Create new group to add task</string>
+    <string name="task_description_empty_error">Task description is empty</string>
 
 </resources>

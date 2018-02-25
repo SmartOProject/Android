@@ -1,211 +1,248 @@
 package com.android.smarto.db;
 
-import android.content.ContentValues;
+import android.content.ContentProviderOperation;
+import android.content.ContentResolver;
 import android.content.Context;
+import android.content.OperationApplicationException;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.RemoteException;
+import android.provider.ContactsContract;
 import android.util.Log;
 
-import com.android.smarto.architecture.task.model.TaskGroup;
-import com.android.smarto.db.model.TaskList;
+import com.android.smarto.data.TaskManager;
+import com.android.smarto.data.Contact;
+import com.android.smarto.data.UsersManager;
 import com.android.smarto.db.model.User;
-import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-
-import static com.android.smarto.Constants.Database.DATABASE_NAME;
-import static com.android.smarto.Constants.Database.DATABASE_VERSION;
-import static com.android.smarto.Constants.Database.KEY_EMAIL;
-import static com.android.smarto.Constants.Database.KEY_FIRST_NAME;
-import static com.android.smarto.Constants.Database.KEY_ID;
-import static com.android.smarto.Constants.Database.KEY_IMAGE_PATH;
-import static com.android.smarto.Constants.Database.KEY_LIST;
-import static com.android.smarto.Constants.Database.KEY_PASSWORD;
-import static com.android.smarto.Constants.Database.KEY_SECOND_NAME;
-import static com.android.smarto.Constants.Database.TABLE_TASKS;
-import static com.android.smarto.Constants.Database.TABLE_USERS;
 
 /**
  * Created by Anatoly Chernyshev on 09.02.2018.
  */
 
 @Singleton
-public class DbHelper extends SQLiteOpenHelper implements IDbHelper {
+public class DbHelper implements IDbHelper {
 
     public static final String TAG = DbHelper.class.getSimpleName();
 
+    private UsersManager mUsersManager;
+    private TaskManager mTaskManager;
+    private Context mContext;
+
     @Inject
-    public DbHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DbHelper(UsersManager usersManager, TaskManager taskManager, Context context) {
+        this.mUsersManager = usersManager;
+        this.mTaskManager = taskManager;
+        this.mContext = context;
     }
 
-    @Override
-    public boolean isEmailExist(String email) {
-
-        Cursor cursor = getWritableDatabase().query(TABLE_USERS, null,
-                null, null, null, null, null);
-
-        Log.i(TAG, "IsEmailExist(" + email + "):");
-
-        if (cursor.moveToFirst()){
-            int emailIndex = cursor.getColumnIndex(KEY_EMAIL);
-            do{
-
-                Log.i(TAG, "    Email: " + cursor.getString(emailIndex));
-
-                if (email.equals(cursor.getString(emailIndex))) return true;
-
-            } while(cursor.moveToNext());
-        }
-
-        return false;
-    }
 
     @Override
-    public boolean isCorrectUserInput(String email, String password) {
-
-        Cursor cursor = getWritableDatabase().query(TABLE_USERS, null,
-                null, null, null, null, null);
-
-        Log.i(TAG, "IsCorrectUserInsert(" + email + ", " + password + "):");
-
-        if (cursor.moveToFirst()){
-            int emailIndex = cursor.getColumnIndex(KEY_EMAIL);
-            int passwordIndex = cursor.getColumnIndex(KEY_PASSWORD);
-            do{
-
-                Log.i(TAG,"    Email: " + cursor.getString(emailIndex) + "\n"
-                        + "    Password: " + cursor.getString(passwordIndex));
-
-                if (email.equals(cursor.getString(emailIndex))
-                        && password.equals(cursor.getString(passwordIndex))){
-                    return true;
-                }
-
-            } while(cursor.moveToNext());
-        }
-
-        return false;
+    public TaskManager getTaskManager() {
+        return mTaskManager;
     }
 
     @Override
     public User getUser(String query) {
-
-        Cursor cursor = getWritableDatabase().query(TABLE_USERS, null,
-                null, null, null, null, null);
-        if (cursor.moveToFirst()){
-            int uuidIndex = cursor.getColumnIndex(KEY_ID);
-            int emailIndex = cursor.getColumnIndex(KEY_EMAIL);
-            int passwordIndex = cursor.getColumnIndex(KEY_PASSWORD);
-            int firstNameIndex = cursor.getColumnIndex(KEY_FIRST_NAME);
-            int secondNameIndex = cursor.getColumnIndex(KEY_SECOND_NAME);
-            int profileImageIndex = cursor.getColumnIndex(KEY_IMAGE_PATH);
-
-            do {
-
-                Log.i(TAG, "GetUserFromEmailOrUUID(" + query + ")" + "\n"
-                + "    UUID: " + cursor.getString(uuidIndex) + "\n"
-                + "    Email: " + cursor.getString(emailIndex) + "\n"
-                + "    Password: " + cursor.getString(passwordIndex) + "\n"
-                + "    First name: " + cursor.getString(firstNameIndex) + "\n"
-                + "    Second name: " + cursor.getString(secondNameIndex) + "\n"
-                + "    Image path: " + cursor.getString(profileImageIndex));
-
-                if (query.equals(cursor.getString(emailIndex))
-                        || query.equals(cursor.getString(uuidIndex))){
-                    return new User(cursor.getString(uuidIndex),
-                            cursor.getString(emailIndex),
-                            cursor.getString(passwordIndex),
-                            cursor.getString(firstNameIndex),
-                            cursor.getString(secondNameIndex),
-                            cursor.getString(profileImageIndex));
-                }
-
-            } while (cursor.moveToNext());
-
-        }
-
-        return null;
+        return mUsersManager.getUserByQuery(query);
     }
 
     @Override
-    public List<TaskGroup> getTaskList() {
-
-        Cursor cursor = getWritableDatabase().query(TABLE_TASKS, null,
-                null, null, null, null, null);
-        if (cursor.moveToFirst()){
-            int taskIndex = cursor.getColumnIndex(KEY_LIST);
-
-            do {
-                Gson gson = new Gson();
-                String list_json = cursor.getString(taskIndex);
-                Log.i(TAG, list_json);
-                List<TaskGroup> list = gson.fromJson(list_json, TaskList.class).getTaskList();
-                return list;
-
-            } while (cursor.moveToNext());
-
-        }
-
-        return null;
-
+    public List<User> getAllUsers() {
+        return mUsersManager.usersList;
     }
 
     @Override
     public void addUser(User user) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_ID, user.getUniqueId());
-        contentValues.put(KEY_EMAIL, user.getEmail());
-        contentValues.put(KEY_PASSWORD, user.getPassword());
-        contentValues.put(KEY_FIRST_NAME, user.getFirstName());
-        contentValues.put(KEY_SECOND_NAME, user.getSecondName());
-        contentValues.put(KEY_IMAGE_PATH, user.getProfileImagePath());
+        mUsersManager.usersList.add(user);
+    }
 
-        getWritableDatabase().insert(TABLE_USERS, null, contentValues);
+    @Override
+    public User getCurrentUser() {
+        return mUsersManager.getCurrentUser();
+    }
 
-        Log.i(TAG, "AddUser: " + "\n"
-                + "    UUID: " + user.getUniqueId() + "\n"
-                + "    Email: " + user.getEmail() + "\n"
-                + "    Password: " + user.getPassword() + "\n"
-                + "    First name: " + user.getFirstName() + "\n"
-                + "    Second name: " + user.getSecondName() + "\n"
-                + "    Image path: " + user.getProfileImagePath());
+    @Override
+    public void setCurrentUser(User user) {
+        mUsersManager.setCurrentUser(user);
+    }
+
+    @Override
+    public void removeFriend(User user) {
+        mUsersManager.notFriends.add(user);
+        mUsersManager.friendsList.remove(user);
+        //deleteContact(mContext.getContentResolver(), user.mobileNumber);
+    }
+
+    private void deleteContact(ContentResolver contentResolver, String number) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        String[] args = new String[] { String.valueOf(getContactID(contentResolver, number)) };
+        ops.add(ContentProviderOperation.newDelete(ContactsContract.RawContacts.CONTENT_URI).withSelection(ContactsContract.RawContacts.CONTACT_ID + "=?", args).build());
+        try {
+            contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        } catch (OperationApplicationException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private long getContactID(ContentResolver contentResolver, String number) {
+
+        Uri contactUri = Uri.withAppendedPath(ContactsContract.PhoneLookup.CONTENT_FILTER_URI, Uri.encode(number));
+        String[] projection = { ContactsContract.PhoneLookup._ID };
+        Cursor cursor = null;
+
+        try {
+            cursor = contentResolver.query(contactUri, projection, null, null,null);
+            if (cursor.moveToFirst()) {
+                int personID = cursor.getColumnIndex(ContactsContract.PhoneLookup._ID);
+                return cursor.getLong(personID);
+            }
+            return -1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+                cursor = null;
+            }
+        }
+        return -1;
 
     }
 
     @Override
-    public void addTaskList(List<TaskGroup> taskList) {
+    public void addFriend(User user) {
+        mUsersManager.notFriends.remove(user);
+        mUsersManager.friendsList.add(user);
+        insertContact(mContext.getContentResolver(), user.getName(), user.getMobileNumber());
+    }
 
-        getWritableDatabase().execSQL("delete from "+ TABLE_TASKS);
+    private boolean insertContact(ContentResolver contentResolver, String name, String mobileNumber) {
+        ArrayList<ContentProviderOperation> ops = new ArrayList<ContentProviderOperation>();
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.RawContacts.CONTENT_URI).withValue(ContactsContract.RawContacts.ACCOUNT_TYPE, null).withValue(ContactsContract.RawContacts.ACCOUNT_NAME, null).build());
 
-        TaskList list = new TaskList(taskList);
-        Gson gson = new Gson();
-        String list_json = gson.toJson(list);
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0).withValue(ContactsContract.Data.MIMETYPE,ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE).withValue(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME,name).build());
 
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(KEY_LIST, list_json);
-
-        getWritableDatabase().insert(TABLE_TASKS, null, contentValues);
+        ops.add(ContentProviderOperation.newInsert(ContactsContract.Data.CONTENT_URI).withValueBackReference(ContactsContract.Data.RAW_CONTACT_ID, 0).withValue(ContactsContract.Data.MIMETYPE,ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE).withValue(ContactsContract.CommonDataKinds.Phone.NUMBER,mobileNumber).withValue(ContactsContract.CommonDataKinds.Phone.TYPE, ContactsContract.CommonDataKinds.Phone.TYPE_MOBILE).build());
+        try {
+            contentResolver.applyBatch(ContactsContract.AUTHORITY, ops);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_USERS + "(" + KEY_ID
-            + " text," + KEY_EMAIL + " text,"
-            + KEY_PASSWORD + " text," + KEY_FIRST_NAME + " text,"
-                + KEY_SECOND_NAME + " text," + KEY_IMAGE_PATH + " text" + ")");
+    public List<User> getFriendList() {
 
-        db.execSQL("create table " + TABLE_TASKS + "(" + KEY_LIST + " text" + ")");
+        if (mUsersManager.getFriendsList() == null) {
+
+            List<Contact> friends = new ArrayList<>();
+            String name = "";
+            String phone = "";
+
+            ContentResolver cr = mContext.getContentResolver();
+            Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                    null, null, null, null);
+
+            if ((cur != null ? cur.getCount() : 0) > 0) {
+                while (cur != null && cur.moveToNext()) {
+                    String id = cur.getString(
+                            cur.getColumnIndex(ContactsContract.Contacts._ID));
+                    name = cur.getString(cur.getColumnIndex(
+                            ContactsContract.Contacts.DISPLAY_NAME));
+
+                    if (cur.getInt(cur.getColumnIndex(
+                            ContactsContract.Contacts.HAS_PHONE_NUMBER)) > 0) {
+                        Cursor pCur = cr.query(
+                                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                                null,
+                                ContactsContract.CommonDataKinds.Phone.CONTACT_ID + " = ?",
+                                new String[]{id}, null);
+                        while (pCur.moveToNext()) {
+                            phone = pCur.getString(pCur.getColumnIndex(
+                                    ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+                            if (phone.startsWith("8")) {
+                                phone = "+7" + phone.substring(1);
+                            }
+
+                            phone = phone.replaceAll(" -", "");
+
+                            Log.i(TAG, "Name: " + name);
+                            Log.i(TAG, "Phone Number: " + phone);
+                        }
+                        pCur.close();
+                    }
+                    friends.add(new Contact(friends.size(), name, phone));
+                }
+            }
+            if (cur != null) {
+                cur.close();
+            }
+
+            List<User> users = mUsersManager.usersList;
+            List<User> myFriends = new ArrayList<>();
+
+            Log.i(TAG, users.toString() + "\n" + friends.toString());
+
+            for (User user : users) {
+                if (!user.equals(mUsersManager.getCurrentUser())) {
+                    for (Contact contact : friends) {
+                        Log.i(TAG, "azaza: " + user.getUniqueId() + " " + user.getName());
+                        if (user.getMobileNumber().equals(contact.getMobileNumber())) {
+                            Log.i(TAG, user.getUniqueId() + " " + user.getName());
+                            myFriends.add(user);
+                        }
+                    }
+                }
+            }
+
+            List<User> unFriend = new ArrayList<>();
+
+            for (User user : users) {
+                if (user.uniqueId != mUsersManager.getCurrentUser().uniqueId) {
+                    if (!myFriends.contains(user)) {
+                        unFriend.add(user);
+                    }
+                }
+            }
+
+            mUsersManager.setNotFriends(unFriend);
+
+            mUsersManager.setFriendsList(myFriends);
+        }
+
+        return mUsersManager.getFriendsList();
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("drop table if exists " + TABLE_USERS);
-        onCreate(db);
+    public List<User> getUnfriends() {
+        return mUsersManager.notFriends;
+    }
+
+    @Override
+    public List<User> getSortedUnFriends(String query) {
+
+        List<User> unFriends = mUsersManager.notFriends;
+        List<User> sortedList = new ArrayList<>();
+
+        for (User user: unFriends){
+            if (user.getName().toLowerCase().replaceAll(" ","").contains(query.toLowerCase())
+                    || user.getMobileNumber().toLowerCase().replaceAll(" ","").contains(query.toLowerCase())) {
+                Log.i(TAG, user.getName().toLowerCase() + " - " + query.toLowerCase());
+                sortedList.add(user);
+            }
+        }
+
+        return sortedList;
     }
 
 }

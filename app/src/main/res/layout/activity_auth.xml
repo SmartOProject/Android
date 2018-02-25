@@ -7,21 +7,22 @@
     android:background="@drawable/back"
     tools:context="com.android.smarto.architecture.authentication.AuthActivity">
 
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/edit_text_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
+        android:textCursorDrawable="@color/secondary_light"
         android:layout_above="@id/edit_text_password"
-        android:inputType="textEmailAddress"
-        android:hint="@string/registration_email"
+        android:inputType="phone"
+        android:hint="@string/mobile_number"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:theme="@style/DefaultEditText"
-        android:drawableStart="@drawable/ic_email_black_24dp"/>
+        android:drawableStart="@drawable/ic_phone_android_black_24dp"
+        app:met_floatingLabel="highlight"/>
 
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/edit_text_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,11 +30,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:inputType="textPassword"
+        android:textCursorDrawable="@color/secondary_light"
         android:hint="@string/password_hint"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:theme="@style/DefaultEditText"
-        android:drawableStart="@drawable/ic_lock_black_24dp"/>
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        app:met_floatingLabel="highlight"/>
 
     <TextView
         android:id="@+id/textView4"
@@ -42,7 +44,7 @@
         android:layout_above="@+id/button_facebook"
         android:layout_centerHorizontal="true"
         android:text="@string/login_screen_text_under_sign_up"
-        android:textColor="@color/one_of_main" />
+        android:textColor="@color/secondary_normal" />
 
     <ImageButton
         android:id="@+id/button_google"
@@ -93,7 +95,7 @@
         android:layout_centerHorizontal="true"
         android:text="@string/authentication_text"
         android:layout_marginBottom="8dp"
-        android:textColor="@color/one_of_main"
+        android:textColor="@color/secondary_normal"
         android:textStyle="bold"
         android:textSize="20sp" />
 

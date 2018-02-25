@@ -1,17 +1,24 @@
 package com.android.smarto.di;
 
 import com.android.smarto.Constants;
-import com.android.smarto.architecture.adding.AddTaskActivity;
+import com.android.smarto.architecture.add_task.AddTaskActivity;
+import com.android.smarto.architecture.add_task.types.common.CommonTaskFragment;
+import com.android.smarto.architecture.add_task.types.goods.GoodsTaskFragment;
+import com.android.smarto.architecture.add_task.types.MeetingTaskFragment;
 import com.android.smarto.architecture.authentication.AuthActivity;
+import com.android.smarto.architecture.contacts.addcontact.AddContactActivity;
+import com.android.smarto.architecture.fragments.ChatFragment;
+import com.android.smarto.architecture.contacts.ContactFragment;
+import com.android.smarto.architecture.fragments.HomeFragment;
+import com.android.smarto.architecture.fragments.MapFragment;
 import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.architecture.splash.SplashActivity;
-import com.android.smarto.architecture.task.ITaskFragment;
 import com.android.smarto.architecture.task.TaskFragment;
-import com.android.smarto.architecture.task.TaskPresenter;
-import com.android.smarto.architecture.task.model.TaskData;
+import com.android.smarto.data.TaskManager;
 import com.android.smarto.data.DataManager;
 import com.android.smarto.data.IDataManager;
+import com.android.smarto.data.UsersManager;
 import com.android.smarto.db.DbHelper;
 import com.android.smarto.db.IDbHelper;
 import com.android.smarto.prefs.IPreferenceHelper;
@@ -42,15 +49,15 @@ public abstract class AppModule {
 
     @Singleton
     @Binds
-    abstract IDbHelper dbHelper(DbHelper dbHelper);
-
-    @Singleton
-    @Binds
     abstract INetworkHelper networkHelper(NetworkHelper networkHelper);
 
     @Singleton
     @Binds
     abstract IPreferenceHelper preferenceHelper(PreferenceHelper preferenceHelper);
+
+    @Singleton
+    @Binds
+    abstract IDbHelper dbHelper(DbHelper dbHelper);
 
     @Singleton
     @Provides
@@ -63,8 +70,14 @@ public abstract class AppModule {
 
     @Singleton
     @Provides
-    public static TaskData getTaskData(){
-        return new TaskData();
+    public static TaskManager getTaskData(){
+        return new TaskManager();
+    }
+
+    @Singleton
+    @Provides
+    public static UsersManager getUserData(){
+        return new UsersManager();
     }
 
     @ActivityScope
@@ -89,6 +102,38 @@ public abstract class AppModule {
 
     @ActivityScope
     @ContributesAndroidInjector
-    abstract AddTaskActivity mAddTaskActivityInjector();
+    abstract HomeFragment homeFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract ContactFragment contactFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract ChatFragment chatFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract MapFragment mapFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract CommonTaskFragment commonTaskFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract GoodsTaskFragment goodsTaskFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract MeetingTaskFragment meetingTaskFragmentInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract AddTaskActivity AddTaskActivityInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract AddContactActivity AddContactActivityInjector();
 
 }

@@ -11,8 +11,8 @@ public interface IRegisterActivity extends BaseView{
         void showConfirmPasswordHelper(boolean show);
         void openHomeActivity();
         void showFieldEmptyError();
-        void showEmailError();
+        void showMobileInputError();
         void showIncorrectConfirmPasswordError();
-        void showEmailExistError();
+        void showUserExistError();
 
 }

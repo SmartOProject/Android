@@ -1,7 +1,5 @@
 package com.android.smarto.data;
 
-import com.android.smarto.architecture.task.model.TaskData;
-import com.android.smarto.architecture.task.model.TaskGroup;
 import com.android.smarto.db.IDbHelper;
 import com.android.smarto.db.model.User;
 import com.android.smarto.prefs.IPreferenceHelper;
@@ -13,6 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import io.reactivex.Observable;
+import retrofit2.Retrofit;
 
 /**
  * Created by Anatoly Chernyshev on 09.02.2018.
@@ -21,14 +20,13 @@ import io.reactivex.Observable;
 @Singleton
 public class DataManager implements IDataManager {
 
-    @Inject
-    TaskData mTaskData;
+    public static final String TAG = DataManager.class.getSimpleName();
 
     private final IPreferenceHelper mPreferenceHelper;
     private final INetworkHelper mNetworkHelper;
     private final IDbHelper mDbHelper;
 
-    private User currentUser;
+    private TaskManager mTaskManager;
 
     @Inject
     public DataManager(IPreferenceHelper preferenceHelper,
@@ -36,16 +34,6 @@ public class DataManager implements IDataManager {
         this.mPreferenceHelper = preferenceHelper;
         this.mNetworkHelper = networkHelper;
         this.mDbHelper = dbHelper;
-    }
-
-    @Override
-    public User getCurrentUser() {
-        return currentUser;
-    }
-
-    @Override
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
     }
 
     @Override
@@ -58,33 +46,73 @@ public class DataManager implements IDataManager {
         mPreferenceHelper.saveUUID(uuid);
     }
 
-    @Override
-    public Observable<User> getUser(String query) {
-        return Observable.fromCallable(() -> mDbHelper.getUser(query));
+    public Retrofit getRetrofitClient() {
+        return null;
     }
 
     @Override
-    public Observable<Boolean> isCorrectUserInput(String email, String password) {
-        return Observable.fromCallable(() -> mDbHelper.isCorrectUserInput(email, password));
+    public User getCurrentUser() {
+        return mDbHelper.getCurrentUser();
     }
 
     @Override
-    public Observable<Boolean> isEmailExist(String email) {
-        return Observable.fromCallable(() -> mDbHelper.isEmailExist(email));
+    public void setCurrentUser(User user) {
+        mDbHelper.setCurrentUser(user);
     }
 
     @Override
-    public Observable<Void> addUser(User user) {
-        return Observable.create(e -> mDbHelper.addUser(user));
+    public TaskManager getTaskManager() {
+        if (mTaskManager == null) mTaskManager = mDbHelper.getTaskManager();
+        return mTaskManager;
     }
 
     @Override
-    public Observable<Void> addTaskList(List<TaskGroup> taskList) {
-        return Observable.create(e -> mDbHelper.addTaskList(taskList));
+    public Observable<List<User>> getFriends() {
+        return Observable.create(e -> {
+            e.onNext(mDbHelper.getFriendList());
+            e.onComplete();
+        });
     }
 
     @Override
-    public Observable<List<TaskGroup>> getTaskList() {
-        return Observable.fromCallable(()-> mDbHelper.getTaskList());
+    public Observable<List<User>> getUnfriends() {
+        return Observable.create(e ->{
+            e.onNext(mDbHelper.getUnfriends());
+            e.onComplete();
+        });
     }
+
+    @Override
+    public Observable<List<User>> getSortedUnFriends(String name) {
+        return Observable.create(e -> {
+            e.onNext(mDbHelper.getSortedUnFriends(name));
+            e.onComplete();
+        });
+    }
+
+    @Override
+    public User getUser(String query) {
+        return mDbHelper.getUser(query);
+    }
+
+    @Override
+    public List<User> getAllUsers() {
+        return mDbHelper.getAllUsers();
+    }
+
+    @Override
+    public void addUser(User user) {
+        mDbHelper.addUser(user);
+    }
+
+    @Override
+    public void removeFriend(User user) {
+        mDbHelper.removeFriend(user);
+    }
+
+    @Override
+    public void addFriend(User user) {
+        mDbHelper.addFriend(user);
+    }
+
 }

@@ -1,6 +1,5 @@
 package com.android.smarto.data;
 
-import com.android.smarto.architecture.task.model.TaskGroup;
 import com.android.smarto.db.model.User;
 
 import java.util.List;
@@ -14,19 +13,16 @@ import io.reactivex.Observable;
 public interface IDataManager {
 
     User getCurrentUser();
-    void setCurrentUser(User currentUser);
-
+    void setCurrentUser(User user);
+    TaskManager getTaskManager();
+    Observable<List<User>> getFriends();
     String getUUID();
-    void saveUUID(String uuid);
-
-    Observable<User> getUser(String query);
-    Observable<Boolean> isCorrectUserInput(String email, String password);
-    Observable<Boolean> isEmailExist(String email);
-    Observable<Void> addUser(User user);
-    Observable<Void> addTaskList(List<TaskGroup> taskList);
-    Observable<List<TaskGroup>> getTaskList();
-
-
-
-
+    void saveUUID(String id);
+    Observable<List<User>> getUnfriends();
+    Observable<List<User>> getSortedUnFriends(String name);
+    User getUser(String query);
+    List<User> getAllUsers();
+    void addUser(User user);
+    void removeFriend(User user);
+    void addFriend(User user);
 }

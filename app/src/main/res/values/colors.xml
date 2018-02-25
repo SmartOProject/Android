@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Main colors -->
+
+    <color name="primary_normal">#ef7f1a</color>
+    <color name="primary_light">#ffaf4e</color>
+
+    <color name="secondary_normal">#008dd2</color>
+    <color name="secondary_light">#5ebdff</color>
+    <color name="secondary_dark">#0060a0</color>
+
+    <!-- Others -->
+
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="red">#ff2a2a</color>
     <color name="grey">#636363</color>
 
-    <color name="one_of_main">#008dd2</color>
-    <color name="orange">#ef7f1a</color>
-
-    <color name="black_semi_transparent">#B2000000</color>
-
     <!-- For task list -->
-
-    <color name="half_black">#808080</color>
-    <color name="white_pressed">#f1f1f1</color>
 
     <color name="bg_item_normal_state">#21c6ef</color>
     <color name="bg_item_dragging_state">#ffffdddd</color>
@@ -32,11 +35,6 @@
     <color name="bg_group_item_swiping_active_state">#008dd2</color>
 
     <color name="bg_swipe_item_neutral">@android:color/transparent</color>
-    <color name="bg_swipe_item_pinned">#fff9930d</color>
-    <color name="bg_swipe_item_dismiss">#ff2f8b2a</color>
-    <color name="bg_swipe_item_gray">#999999</color>
-    <color name="bg_swipe_group_item_pinned">#fff45f30</color>
-    <color name="bg_swipe_group_item_dismiss">#ff295db3</color>
 
     <color name="snackbar_action_color_done">#ffccccff</color>
 

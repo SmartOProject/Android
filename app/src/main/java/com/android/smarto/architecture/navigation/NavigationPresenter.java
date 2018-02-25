@@ -18,7 +18,10 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         this.mDataManager = dataManager;
     }
 
-    public void onCreate() { mView.showHomeFragment();}
+    public void onCreate() {
+        mView.showHomeFragment();
+        mView.initNavigationBar(mDataManager.getCurrentUser());
+    }
     public void onHomeClicked(){
         mView.showHomeFragment();
     }
@@ -38,6 +41,10 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         mDataManager.saveUUID(null);
         mDataManager.setCurrentUser(null);
         mView.signOut();
+    }
+
+    public void onItemUndoActionClicked(){
+        mView.onItemUndoAction(mDataManager.getTaskManager().undoLastRemoval());
     }
 
 }

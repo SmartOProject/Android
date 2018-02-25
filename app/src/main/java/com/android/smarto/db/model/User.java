@@ -8,51 +8,51 @@ import java.util.UUID;
 
 public class User {
 
-    private String uniqueId;
-    private String email;
-    private String password;
-    private String firstName;
-    private String secondName;
-    private String profileImagePath;
+    public String uniqueId;
+    public String mobileNumber;
+    public String password;
+    public String firstName;
+    public String lastName;
+    public String profileImagePath;
 
-    public User(String email, String password, String firstName,
-                String secondName, String profileImagePath) {
-        this.uniqueId = UUID.randomUUID().toString();
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.profileImagePath = profileImagePath;
+    public String getUniqueId() {
+        return uniqueId;
     }
 
-    public User(String UUID, String email, String password, String firstName,
-                String secondName, String profileImagePath) {
-        this.uniqueId = UUID;
-        this.email = email;
-        this.password = password;
-        this.firstName = firstName;
-        this.secondName = secondName;
-        this.profileImagePath = profileImagePath;
+    public void setUniqueId(String uniqueId) {
+        this.uniqueId = uniqueId;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMobileNumber() {
+        return mobileNumber;
+    }
+
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
     }
 
     public String getPassword() {
         return password;
     }
 
-    public String getUniqueId() {
-        return uniqueId;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFirstName() {
         return firstName;
     }
 
-    public String getSecondName() {
-        return secondName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getProfileImagePath() {
@@ -62,4 +62,9 @@ public class User {
     public void setProfileImagePath(String profileImagePath) {
         this.profileImagePath = profileImagePath;
     }
+
+    public String getName(){
+        return firstName + " " + lastName;
+    }
+
 }

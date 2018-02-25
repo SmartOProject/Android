@@ -4,7 +4,6 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -21,7 +20,6 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,22 +27,19 @@ import com.android.smarto.R;
 import com.android.smarto.architecture.authentication.AuthActivity;
 import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.fragments.ChatFragment;
-import com.android.smarto.architecture.fragments.ContactFragment;
+import com.android.smarto.architecture.contacts.ContactFragment;
 import com.android.smarto.architecture.fragments.HomeFragment;
 import com.android.smarto.architecture.fragments.MapFragment;
 import com.android.smarto.architecture.task.TaskFragment;
-import com.android.smarto.architecture.task.model.TaskData;
-import com.android.smarto.data.IDataManager;
 import com.android.smarto.db.model.User;
-import com.android.smarto.utils.ImageUtils;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
-
-import java.io.IOException;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.android.smarto.Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE;
 
@@ -54,7 +49,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     private static final String TAG = NavigationActivity.class.getSimpleName();
 
     private ActionBarDrawerToggle mToggle;
-    private User mCurrentUser;
 
     @BindView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
     @BindView(R.id.navigation_view) NavigationView mNavigationView;
@@ -63,10 +57,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     @Inject
     NavigationPresenter<INavigationActivity> mNavigationPresenter;
 
-    @Inject
-    IDataManager mDataManager;
-    @Inject
-    TaskData mTaskData;
+    private User mCurrentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -74,9 +65,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         setContentView(R.layout.activity_navigation);
 
         init();
-        initNavigationBar();
-
-        mNavigationPresenter.onCreate();
 
         mBottomNavigationView.setOnNavigationItemSelectedListener( item -> {
 
@@ -108,7 +96,9 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         return fragmentTransaction;
     }
 
-    private void initNavigationBar() {
+    @Override
+    public void initNavigationBar(User user) {
+        mCurrentUser = user;
 
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
                 R.string.drawer_close);
@@ -120,8 +110,28 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
 
         requestExternalReadPermissions();
 
-        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.orange)));
+        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_normal)));
+    }
 
+    @Override
+    public void onItemUndoAction(long id) {
+        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(TaskFragment.class.getSimpleName());
+        final long result = id;
+
+        if (result == RecyclerViewExpandableItemManager.NO_EXPANDABLE_POSITION) {
+            return;
+        }
+
+        final int groupPosition = RecyclerViewExpandableItemManager.getPackedPositionGroup(result);
+        final int childPosition = RecyclerViewExpandableItemManager.getPackedPositionChild(result);
+
+        if (childPosition == RecyclerView.NO_POSITION) {
+            // group item
+            ((TaskFragment) fragment).notifyGroupItemRestored(groupPosition);
+        } else {
+            // child item
+            ((TaskFragment) fragment).notifyChildItemRestored(groupPosition, childPosition);
+        }
     }
 
     private void requestExternalReadPermissions() {
@@ -139,18 +149,17 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
 
     private void takeHeader() {
         View headerLayout = mNavigationView.getHeaderView(0);
-        ImageView navImage = headerLayout.findViewById(R.id.nav_image_view);
+        CircleImageView navImage = headerLayout.findViewById(R.id.nav_image_view);
         TextView navUserName = headerLayout.findViewById(R.id.nav_user_name);
         TextView navUserEmail = headerLayout.findViewById(R.id.nav_user_email);
 
-        navUserName.setText(mCurrentUser.getFirstName() + " " + mCurrentUser.getSecondName());
-        navUserEmail.setText(mCurrentUser.getEmail());
-        if (mCurrentUser.getProfileImagePath() != null)
-            try {
-                navImage.setImageBitmap(ImageUtils.convertToBitmap(Uri.parse(mCurrentUser.getProfileImagePath()), this));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+        navUserName.setText(mCurrentUser.getFirstName() + " " + mCurrentUser.getLastName());
+        navUserEmail.setText(mCurrentUser.getMobileNumber());
+        if (mCurrentUser.getProfileImagePath() != null){
+            Picasso.with(getApplicationContext()).load(mCurrentUser.getProfileImagePath())
+                    .resize(200,200)
+                    .centerCrop().into(navImage);
+        }
     }
 
     @Override
@@ -181,8 +190,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         Log.i(TAG, "onCreate()");
         ButterKnife.bind(this);
         mNavigationPresenter.onAttach(this);
-
-        mCurrentUser = mDataManager.getCurrentUser();
+        mNavigationPresenter.onCreate();
 
     }
 
@@ -261,23 +269,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     }
 
     private void onItemUndoActionClicked() {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(TaskFragment.class.getSimpleName());
-        final long result = mTaskData.undoLastRemoval();
-
-        if (result == RecyclerViewExpandableItemManager.NO_EXPANDABLE_POSITION) {
-            return;
-        }
-
-        final int groupPosition = RecyclerViewExpandableItemManager.getPackedPositionGroup(result);
-        final int childPosition = RecyclerViewExpandableItemManager.getPackedPositionChild(result);
-
-        if (childPosition == RecyclerView.NO_POSITION) {
-            // group item
-            ((TaskFragment) fragment).notifyGroupItemRestored(groupPosition);
-        } else {
-            // child item
-            ((TaskFragment) fragment).notifyChildItemRestored(groupPosition, childPosition);
-        }
+        mNavigationPresenter.onItemUndoActionClicked();
     }
 
     @Override

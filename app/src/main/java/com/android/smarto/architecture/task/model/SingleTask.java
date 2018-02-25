@@ -8,13 +8,10 @@ public class SingleTask {
 
     private String mTaskText;
     private long mId;
-    private String mTaskTitle;
     private boolean mPinned;
-
-    public SingleTask(long id, String text) {
-        mTaskText = text;
-        mId = id;
-    }
+    private int mTaskType;
+    private boolean isChecked;
+    private String mDate;
 
     public String getTaskText() {
         return mTaskText;
@@ -40,11 +37,27 @@ public class SingleTask {
         return mPinned;
     }
 
-    public String getTaskTitle() {
-        return mTaskTitle;
+    public int getTaskType() {
+        return mTaskType;
     }
 
-    public void setTaskTitle(String taskTitle) {
-        mTaskTitle = taskTitle;
+    public void setTaskType(int taskType) {
+        mTaskType = taskType;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
+    }
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        this.mDate = date;
     }
 }

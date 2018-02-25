@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.android.smarto.architecture.base.BasePresenter;
 import com.android.smarto.data.IDataManager;
+import com.android.smarto.db.model.User;
 
 import javax.inject.Inject;
 
@@ -31,17 +32,14 @@ public class SplashPresenter<V extends ISplashActivity> extends BasePresenter<V>
 
         String uuid = mDataManager.getUUID();
 
+        Log.i(TAG, "onCreate() " + uuid);
+
         if (uuid != null) {
-            mDataManager.getUser(uuid)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(e -> {
-                        mDataManager.setCurrentUser(e);
-                        mView.openNavigationActivity();
-                    });
+            User user = mDataManager.getUser(uuid);
+            mDataManager.setCurrentUser(user);
+            mView.openNavigationActivity();
         }
-        else
-            mView.openAuthActivity();
+        else mView.openAuthActivity();
     }
 
 }
