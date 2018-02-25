@@ -29,7 +29,7 @@ import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.fragments.ChatFragment;
 import com.android.smarto.architecture.contacts.ContactFragment;
 import com.android.smarto.architecture.fragments.HomeFragment;
-import com.android.smarto.architecture.fragments.MapFragment;
+import com.android.smarto.architecture.map.MapFragment;
 import com.android.smarto.architecture.task.TaskFragment;
 import com.android.smarto.db.model.User;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;

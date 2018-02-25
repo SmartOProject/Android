@@ -10,7 +10,7 @@ import com.android.smarto.architecture.contacts.addcontact.AddContactActivity;
 import com.android.smarto.architecture.fragments.ChatFragment;
 import com.android.smarto.architecture.contacts.ContactFragment;
 import com.android.smarto.architecture.fragments.HomeFragment;
-import com.android.smarto.architecture.fragments.MapFragment;
+import com.android.smarto.architecture.map.MapFragment;
 import com.android.smarto.architecture.navigation.NavigationActivity;
 import com.android.smarto.architecture.registration.RegisterActivity;
 import com.android.smarto.architecture.splash.SplashActivity;

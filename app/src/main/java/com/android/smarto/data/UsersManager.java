@@ -40,6 +40,8 @@ public class UsersManager {
         user.setPassword("qwerty");
         user.setMobileNumber("+79867250805");
         user.setProfileImagePath("https://i.imgur.com/jFTXiXb.jpg");
+        user.setLatitude(56.321953);
+        user.setLongitude(44.032514);
         usersList.add(user);
 
         User user1 = new User();
@@ -49,6 +51,8 @@ public class UsersManager {
         user1.setPassword("qwerty");
         user1.setMobileNumber("+79159336790");
         user1.setProfileImagePath("https://i.imgur.com/07ALk21.jpg");
+        user1.setLatitude(56.323036);
+        user1.setLongitude(44.034145);
         usersList.add(user1);
 
         User user2 = new User();
@@ -58,6 +62,8 @@ public class UsersManager {
         user2.setPassword("qwerty");
         user2.setMobileNumber("+79026575817");
         user2.setProfileImagePath("https://i.imgur.com/gAyMyWD.jpg");
+        user2.setLatitude(56.322078);
+        user2.setLongitude(44.037879);
         usersList.add(user2);
 
         User user3 = new User();
@@ -67,6 +73,8 @@ public class UsersManager {
         user3.setPassword("qwerty");
         user3.setMobileNumber("+79016575817");
         user3.setProfileImagePath("https://i.imgur.com/4dAES14.jpg");
+        user3.setLatitude(56.320107);
+        user3.setLongitude(44.036224);
         usersList.add(user3);
 
         User user4 = new User();
@@ -76,6 +84,8 @@ public class UsersManager {
         user4.setPassword("qwerty");
         user4.setMobileNumber("+79200393767");
         user4.setProfileImagePath("https://i.imgur.com/zPpJzBp.jpg");
+        user4.setLatitude(56.320381);
+        user4.setLongitude(44.029315);
         usersList.add(user4);
 
 //        User user5 = new User();
