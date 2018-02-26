@@ -25,9 +25,9 @@
     <color name="bg_item_swiping_state">#ffddddff</color>
     <color name="bg_item_swiping_active_state">#ff9999ff</color>
 
-    <color name="bg_group_item_normal_state">#ffaf4e</color>
+    <color name="bg_group_item_normal_state">#f1923c</color>
     <color name="bg_group_item_normal_pressed_state">#ff99cc99</color>
-    <color name="bg_group_item_expanded_state">#ffbe6f</color>
+    <color name="bg_group_item_expanded_state">#ec9c3c</color>
     <color name="bg_group_item_expanded_pressed_state">#ff99cc99</color>
     <color name="bg_group_item_dragging_state">#82cbef</color>
     <color name="bg_group_item_dragging_active_state">#008dd2</color>

@@ -43,6 +43,7 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
         singleTask.setTaskType(Constants.GOODS_TASK_TYPE);
 
         mDataManager.getTaskManager().addTaskToGroup(singleTask, mSelectedGroupId);
+        mView.finishActivity();
 
     }
 

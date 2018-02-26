@@ -121,7 +121,7 @@ public class DbHelper implements IDbHelper {
     public void addFriend(User user) {
         mUsersManager.notFriends.remove(user);
         mUsersManager.friendsList.add(user);
-        insertContact(mContext.getContentResolver(), user.getName(), user.getMobileNumber());
+        //insertContact(mContext.getContentResolver(), user.getName(), user.getMobileNumber());
     }
 
     private boolean insertContact(ContentResolver contentResolver, String name, String mobileNumber) {
@@ -225,7 +225,7 @@ public class DbHelper implements IDbHelper {
 
     @Override
     public List<User> getUnfriends() {
-        return mUsersManager.notFriends;
+        return mUsersManager.getNotFriends();
     }
 
     @Override

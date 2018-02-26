@@ -6,6 +6,7 @@ import com.android.smarto.prefs.IPreferenceHelper;
 import com.android.smarto.retrofit.INetworkHelper;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -76,9 +77,11 @@ public class DataManager implements IDataManager {
 
     @Override
     public Observable<List<User>> getUnfriends() {
-        return Observable.create(e ->{
-            e.onNext(mDbHelper.getUnfriends());
-            e.onComplete();
+        return Observable.fromCallable(new Callable<List<User>>() {
+            @Override
+            public List<User> call() throws Exception {
+                return mDbHelper.getUnfriends();
+            }
         });
     }
 

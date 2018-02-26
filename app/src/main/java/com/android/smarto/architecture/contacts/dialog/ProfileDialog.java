@@ -60,7 +60,7 @@ public class ProfileDialog extends Dialog {
         ButterKnife.bind(this);
 
         Picasso.with(mContext).load(mImagePath)
-                .resize(200, 200)
+                .resize(300, 300)
                 .centerCrop().into(mProfileImage);
 
         mProfileUsername.setText(mUsername);

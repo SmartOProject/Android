@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="80dp"
-    android:layout_marginTop="8dp"
     android:layout_marginLeft="8dp"
     android:layout_marginRight="8dp"
+    android:layout_marginTop="8dp"
     android:background="#ffffff">
 
     <FrameLayout
@@ -25,7 +24,7 @@
             android:layout_gravity="top|left"
             android:background="#20000000"
             android:clickable="true"
-            tools:ignore="RtlHardcoded"/>
+            tools:ignore="RtlHardcoded" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -35,29 +34,29 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@android:id/text1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Test"
                     android:layout_marginLeft="8dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/secondary_dark"
-                    android:textSize="25sp" />
+                    android:text="Test"
+                    android:textColor="@color/white"
+                    android:textSize="25sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/example_of_tasks"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:textColor="@color/secondary_dark"
                     android:text="aaaaaaaaaaaaaaaaaaaaaaaaa"
-                    android:layout_marginLeft="8dp"
-                    android:textSize="12sp"/>
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -69,9 +68,9 @@
                 android:layout_centerVertical="true"
                 android:layout_marginRight="45dp"
                 android:text="8"
-                android:textColor="@color/secondary_dark"
+                android:textColor="@color/white"
                 android:textSize="32sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </RelativeLayout>
 
