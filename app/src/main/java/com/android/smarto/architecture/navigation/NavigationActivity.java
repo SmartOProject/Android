@@ -32,6 +32,7 @@ import com.android.smarto.architecture.fragments.HomeFragment;
 import com.android.smarto.architecture.map.MapFragment;
 import com.android.smarto.architecture.task.TaskFragment;
 import com.android.smarto.db.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.squareup.picasso.Picasso;
 
@@ -58,11 +59,17 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     NavigationPresenter<INavigationActivity> mNavigationPresenter;
 
     private User mCurrentUser;
+    String currentUserID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_navigation);
+        currentUserID = null;
+        Intent intent = getIntent();
+        if (intent != null) {
+            currentUserID = intent.getStringExtra("currentUserID");
+        }
 
         init();
 
@@ -190,7 +197,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         Log.i(TAG, "onCreate()");
         ButterKnife.bind(this);
         mNavigationPresenter.onAttach(this);
-        mNavigationPresenter.onCreate();
+        mNavigationPresenter.onCreate(currentUserID);
 
     }
 
@@ -242,6 +249,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
 
     @Override
     public void signOut() {
+        FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(this, AuthActivity.class));
         finish();
     }

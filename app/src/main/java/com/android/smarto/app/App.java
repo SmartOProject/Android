@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.android.smarto.di.DaggerAppComponent;
+import com.google.firebase.FirebaseApp;
 
 import javax.inject.Inject;
 

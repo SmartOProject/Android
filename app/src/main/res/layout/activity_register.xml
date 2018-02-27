@@ -36,7 +36,7 @@
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:inputType="phone"
-            android:hint="@string/mobile_number"
+            android:hint="@string/phone_number"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
             android:theme="@style/DefaultEditText"

@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "629992541417",
+    "firebase_url": "https://smarto-1519586525815.firebaseio.com",
+    "project_id": "smarto-1519586525815",
+    "storage_bucket": "smarto-1519586525815.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:629992541417:android:536d3a72cd39c70d",
+        "android_client_info": {
+          "package_name": "com.android.smarto"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "629992541417-ftujad2f3nb36nibp6hvkmranr6sarji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.android.smarto",
+            "certificate_hash": "1532f4ba2cbe07ae534e7bbdf3ea90e9e117c746"
+          }
+        },
+        {
+          "client_id": "629992541417-eg1b14hlse0ivtp6fo6bpc4brhj7ddsj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBItMa7glbfuT1O-STXNcF6df-SFpHQF5Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "629992541417-eg1b14hlse0ivtp6fo6bpc4brhj7ddsj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

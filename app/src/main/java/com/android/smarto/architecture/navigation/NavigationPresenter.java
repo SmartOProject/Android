@@ -18,9 +18,10 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         this.mDataManager = dataManager;
     }
 
-    public void onCreate() {
+    public void onCreate(String userID) {
         mView.showHomeFragment();
-        mView.initNavigationBar(mDataManager.getCurrentUser());
+        mView.initNavigationBar(mDataManager.getUser(userID));
+        mDataManager.setCurrentUser(mDataManager.getUser(userID));
     }
     public void onHomeClicked(){
         mView.showHomeFragment();

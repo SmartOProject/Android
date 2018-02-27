@@ -7,41 +7,38 @@
     android:background="@drawable/back"
     tools:context="com.android.smarto.architecture.authentication.AuthActivity">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_login"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:textCursorDrawable="@color/secondary_light"
-        android:layout_above="@id/edit_text_password"
-        android:inputType="phone"
-        android:hint="@string/mobile_number"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        android:drawableStart="@drawable/ic_phone_android_black_24dp"
-        app:met_floatingLabel="highlight"/>
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/auth_progress_bar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:matProg_barColor="@color/primary_normal"
+        app:matProg_progressIndeterminate="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_text_password"
+        android:id="@+id/auth_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@id/button_login"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
-        android:inputType="textPassword"
-        android:textCursorDrawable="@color/secondary_light"
-        android:hint="@string/password_hint"
+        android:drawableStart="@drawable/ic_phone_android_black_24dp"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        android:drawableStart="@drawable/ic_lock_black_24dp"
-        app:met_floatingLabel="highlight"/>
+        android:textCursorDrawable="@color/secondary_light"
+        app:met_floatingLabel="highlight" />
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/auth_helper_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/button_facebook"
+        android:layout_above="@id/button_facebook"
         android:layout_centerHorizontal="true"
         android:text="@string/login_screen_text_under_sign_up"
         android:textColor="@color/secondary_normal" />
@@ -50,19 +47,28 @@
         android:id="@+id/button_google"
         android:layout_width="93dp"
         android:layout_height="93dp"
-        android:layout_alignBottom="@+id/button_facebook"
-        android:layout_toEndOf="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/auth_space"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="70dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/google_button" />
+
+    <android.support.v4.widget.Space
+        android:id="@+id/auth_space"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_alignParentBottom="true"/>
 
     <ImageButton
         android:id="@+id/button_facebook"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="53dp"
-        android:layout_toStartOf="@+id/imageView"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="65dp"
+        android:layout_above="@id/auth_space"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/facebook_button" />
@@ -71,39 +77,30 @@
         android:id="@+id/button_login"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:layout_above="@+id/button_sign_up"
+        android:layout_above="@id/auth_helper_text"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
         android:background="@android:color/transparent"
         android:scaleType="fitCenter"
         android:src="@drawable/login_button" />
-
-    <ImageButton
-        android:id="@+id/button_sign_up"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_above="@+id/textView4"
-        android:background="@android:color/transparent"
-        android:layout_centerHorizontal="true"
-        android:scaleType="fitCenter"
-        android:src="@drawable/sign_up_button" />
 
     <TextView
         android:id="@+id/authentication_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_text_login"
+        android:layout_above="@id/auth_phone_number"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
         android:text="@string/authentication_text"
-        android:layout_marginBottom="8dp"
         android:textColor="@color/secondary_normal"
-        android:textStyle="bold"
-        android:textSize="20sp" />
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_above="@+id/authentication_text"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_above="@id/authentication_text"
         android:layout_centerHorizontal="true"
         android:src="@drawable/top_login_screen_icon" />
 

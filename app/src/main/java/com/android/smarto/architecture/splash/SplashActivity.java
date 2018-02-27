@@ -7,6 +7,7 @@ import android.util.Log;
 import com.android.smarto.architecture.authentication.AuthActivity;
 import com.android.smarto.architecture.base.BaseActivity;
 import com.android.smarto.architecture.navigation.NavigationActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import javax.inject.Inject;
 
@@ -21,8 +22,22 @@ public class SplashActivity extends BaseActivity implements ISplashActivity{
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        if (auth.getCurrentUser() != null) {
+
+            Log.i(TAG, "auth.getCurrentUser().getIdToken() - " + auth.getCurrentUser().getUid());
+            Intent intent = new Intent(this, NavigationActivity.class);
+            intent.putExtra("currentUserID", auth.getCurrentUser().getUid());
+            startActivity(intent);
+            finish();
+        } else {
+            Log.i(TAG, "auth.getCurrentUser().getPhoneNumber().isEmpty()");
+            openAuthActivity();
+            finish();
+        }
+
         init();
-        mSplashPresenter.onCreate();
+        //mSplashPresenter.onCreate();
 
     }
 

@@ -56,22 +56,22 @@ public class UsersManager {
         usersList.add(user1);
 
         User user2 = new User();
-        user2.setUniqueId("3");
+        user2.setUniqueId("OHLaDljMYBfTvFIE0inOFe54ktn2");
         user2.setFirstName("Sam");
         user2.setLastName("Brown");
         user2.setPassword("qwerty");
-        user2.setMobileNumber("+79026575817");
+        user2.setMobileNumber("+79036575817");
         user2.setProfileImagePath("https://i.imgur.com/gAyMyWD.jpg");
         user2.setLatitude(56.322078);
         user2.setLongitude(44.037879);
         usersList.add(user2);
 
         User user3 = new User();
-        user3.setUniqueId("4");
+        user3.setUniqueId("pSGuSQapk9cx1kP7Vbke03l4oP83");
         user3.setFirstName("Eik");
         user3.setLastName("en Zwijn");
         user3.setPassword("qwerty");
-        user3.setMobileNumber("+79016575817");
+        user3.setMobileNumber("+79586670448");
         user3.setProfileImagePath("https://i.imgur.com/4dAES14.jpg");
         user3.setLatitude(56.320107);
         user3.setLongitude(44.036224);

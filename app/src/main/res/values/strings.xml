@@ -37,7 +37,7 @@
     <string name="enable_date">Enable date</string>
     <string name="add">ADD</string>
     <string name="dialog_static_group">GROUP</string>
-    <string name="mobile_number">Mobile number</string>
+    <string name="phone_number">Phone number</string>
     <string name="add_common_task_group_error">Group count 0. Create new group to add task</string>
     <string name="task_description_empty_error">Task description is empty</string>
     <string name="title_activity_maps">Map</string>
