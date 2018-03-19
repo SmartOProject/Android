@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.NinePatchDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.task.adapter.TaskListAdapter;
@@ -173,6 +176,8 @@ public class TaskFragment extends BaseFragment implements ITaskFragment,
         mRecyclerViewTouchActionGuardManager.setEnabled(true);
 
         mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
+        mRecyclerViewDragDropManager.setDraggingItemShadowDrawable(
+                (NinePatchDrawable) ContextCompat.getDrawable(getContext(), R.drawable.material_shadow_z3));
         mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
 
         final TaskListAdapter ourTaskListAdapter =
@@ -226,6 +231,11 @@ public class TaskFragment extends BaseFragment implements ITaskFragment,
         mTaskList.setItemAnimator(animator);
         mTaskList.setHasFixedSize(false);
 
+        if (supportsViewElevation()) {
+            // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
+        } else {
+            mTaskList.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) ContextCompat.getDrawable(getContext(), R.drawable.material_shadow_z1)));
+        }
         mTaskList.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(getContext(), R.drawable.list_divider_h), true));
 
         mRecyclerViewTouchActionGuardManager.attachRecyclerView(mTaskList);
@@ -298,6 +308,10 @@ public class TaskFragment extends BaseFragment implements ITaskFragment,
     @Override
     public void onGroupExpand(int groupPosition, boolean fromUser, Object payload) {
         mTaskList.scrollToPosition(groupPosition);
+    }
+
+    private boolean supportsViewElevation() {
+        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
     public void notifyGroupItemRestored(int groupPosition) {

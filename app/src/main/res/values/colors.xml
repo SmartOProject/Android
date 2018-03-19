@@ -25,14 +25,14 @@
     <color name="bg_item_swiping_state">#ffddddff</color>
     <color name="bg_item_swiping_active_state">#ff9999ff</color>
 
-    <color name="bg_group_item_normal_state">#F7A052</color>
+    <color name="bg_group_item_normal_state">#ffddffdd</color>
     <color name="bg_group_item_normal_pressed_state">#ff99cc99</color>
-    <color name="bg_group_item_expanded_state">#F7B77E</color>
+    <color name="bg_group_item_expanded_state">#FFFFB55B</color>
     <color name="bg_group_item_expanded_pressed_state">#ff99cc99</color>
-    <color name="bg_group_item_dragging_state">#82cbef</color>
-    <color name="bg_group_item_dragging_active_state">#008dd2</color>
-    <color name="bg_group_item_swiping_state">#82cbef</color>
-    <color name="bg_group_item_swiping_active_state">#008dd2</color>
+    <color name="bg_group_item_dragging_state">#ffeeccff</color>
+    <color name="bg_group_item_dragging_active_state">#ffee99ff</color>
+    <color name="bg_group_item_swiping_state">#ffddccff</color>
+    <color name="bg_group_item_swiping_active_state">#ffbb99ff</color>
 
     <color name="bg_swipe_item_neutral">@android:color/transparent</color>
     <color name="bg_swipe_item_pinned">#fff9930d</color>
