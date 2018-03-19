@@ -61,6 +61,7 @@ public class ProfileDialog extends Dialog {
 
         Picasso.with(mContext).load(mImagePath)
                 .resize(300, 300)
+                .placeholder(R.drawable.profile_image)
                 .centerCrop().into(mProfileImage);
 
         mProfileUsername.setText(mUsername);
