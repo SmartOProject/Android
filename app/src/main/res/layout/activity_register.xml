@@ -1,119 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/back">
+    android:background="@drawable/back"
+    android:padding="16dp"
+    tools:context="com.im.smarto.ui.registration.RegisterActivity">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_above="@id/edit_text_container"
-        android:src="@drawable/profile_image"
-        android:scaleType="centerCrop"
-        app:civ_border_width="2dp"
-        app:civ_border_color="@color/primary_normal"
-        app:civ_circle_background_color="@color/white"/>
-
-    <LinearLayout
-        android:id="@+id/edit_text_container"
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_mobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:layout_above="@id/button_register"
-        android:layout_marginBottom="10dp">
+        android:drawableStart="@drawable/ic_phone_android_black_24dp"
+        android:hint="@string/phone_number"
+        android:inputType="phone"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        app:met_floatingLabel="highlight"
+        app:layout_constraintBottom_toTopOf="@id/register_first_name" />
 
-        <EditText
-            android:id="@+id/register_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="phone"
-            android:hint="@string/phone_number"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:theme="@style/DefaultEditText"
-            android:drawableStart="@drawable/ic_phone_android_black_24dp"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_first_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawableStart="@drawable/ic_person_black_24dp"
+        android:hint="@string/register_first_name"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        app:met_floatingLabel="highlight"
+        app:layout_constraintBottom_toTopOf="@id/register_last_name" />
 
-        <EditText
-            android:id="@+id/register_first_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="text"
-            android:hint="@string/register_first_name"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:theme="@style/DefaultEditText"
-            android:drawableStart="@drawable/ic_person_black_24dp"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_last_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/register_last_name"
+        android:inputType="text"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        app:met_floatingLabel="highlight"
+        app:layout_constraintBottom_toTopOf="@id/register_password" />
 
-        <EditText
-            android:id="@+id/register_last_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="text"
-            android:hint="@string/register_second_name"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:theme="@style/DefaultEditText"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:drawableStart="@drawable/ic_lock_black_24dp"
+        android:hint="@string/password_hint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        app:met_floatingLabel="highlight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
-            android:id="@+id/register_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="textPassword"
-            android:hint="@string/password_hint"
-            android:textColor="@color/black"
-            android:textColorHint="@color/grey"
-            android:theme="@style/DefaultEditText"
-            android:drawableStart="@drawable/ic_lock_black_24dp"/>
+    <TextView
+        android:id="@+id/register_password_helper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/incorrect_password"
+        android:textColor="@color/red"
+        android:textSize="12sp"
+        android:visibility="invisible"
+        app:layout_constraintEnd_toEndOf="@id/register_password"
+        app:layout_constraintTop_toBottomOf="@id/register_password" />
 
-        <TextView
-            android:id="@+id/register_password_helper"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/incorrect_password"
-            android:textColor="@color/red"
-            android:textSize="12sp"
-            android:visibility="invisible"/>
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/register_confirm_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:hint="@string/confirm_password_hint"
+        android:inputType="textPassword"
+        android:textColor="@color/black"
+        android:textColorHint="@color/grey"
+        app:met_floatingLabel="highlight"
+        app:layout_constraintTop_toBottomOf="@id/register_password" />
 
-        <EditText
-            android:id="@+id/register_confirm_password"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
-            android:inputType="textPassword"
-            android:textColor="@color/black"
-            android:hint="@string/confirm_password_hint"
-            android:textColorHint="@color/grey"
-            android:theme="@style/DefaultEditText"/>
-
-    </LinearLayout>
-
-    <ImageButton
+    <Button
         android:id="@+id/button_register"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="40dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:layout_marginBottom="50dp"
-        android:background="@android:color/transparent"
-        android:scaleType="fitCenter"
-        android:src="@drawable/register_sign_up" />
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/register_button"
+        android:text="SIGN UP"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

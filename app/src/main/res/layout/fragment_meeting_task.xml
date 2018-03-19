@@ -1,9 +1,205 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_group_item_expanded_pressed_state"
-    android:layout_margin="8dp"
-    tools:context="com.android.smarto.architecture.add_task.types.MeetingTaskFragment">
+    android:background="@color/white"
+    android:padding="8dp"
+    tools:context="com.android.smarto.com.im.smarto.ui.add_task.types.meeting.MeetingTaskFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/meeting_task_top_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Meeting Task"
+            android:textColor="@color/secondary_normal"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/meeting_task_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_task_top_label"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:hint="Meet description"
+            app:met_floatingLabel="highlight" />
+
+        <TextView
+            android:id="@+id/meeting_choose_group_helper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_task_description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:text="Choose group or create new"
+            android:textColor="@color/secondary_normal" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/meeting_fab_choose_group"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/meeting_choose_group_helper"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_playlist_add_check_white_24dp"
+            app:fab_colorNormal="@color/secondary_normal"
+            app:fab_colorPressed="@color/secondary_light"
+            app:fab_colorRipple="@color/primary_normal"
+            app:fab_type="normal" />
+
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/meeting_fab_add_group"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/meeting_choose_group_helper"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_playlist_add_white_24dp"
+            app:fab_colorNormal="@color/secondary_normal"
+            app:fab_colorPressed="@color/secondary_light"
+            app:fab_colorRipple="@color/primary_normal"
+            app:fab_type="normal" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/meeting_fab_add_group"
+            android:layout_centerHorizontal="true">
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/meeting_button_time"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:src="@drawable/ic_query_builder_white_24dp"
+                app:fab_colorNormal="@color/secondary_normal"
+                app:fab_colorPressed="@color/secondary_light"
+                app:fab_colorRipple="@color/primary_normal"
+                app:fab_type="normal" />
+
+            <com.melnykov.fab.FloatingActionButton
+                android:id="@+id/meeting_button_choose_contact"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_person_white_24dp"
+                app:fab_colorNormal="@color/secondary_normal"
+                app:fab_colorPressed="@color/secondary_light"
+                app:fab_colorRipple="@color/primary_normal"
+                app:fab_type="normal" />
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/meeting_task_preview"
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:layout_above="@id/btn_add_meeting_task">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/meeting_preview_group_helper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To:"
+                    android:textColor="@color/secondary_dark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/meeting_preview_group_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Anatoly Chernyshev"
+                    android:textColor="@color/secondary_normal"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/meeting_preview_contact_helper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Contact:"
+                    android:textColor="@color/secondary_dark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/meeting_preview_contact_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Anatoly Chernyshev"
+                    android:textColor="@color/secondary_normal"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/meeting_time_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="23:59"
+                    android:textColor="@color/secondary_normal"
+                    android:textSize="40dp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+                <TextView
+                    android:id="@+id/meeting_data_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="02/12/2018"
+                    android:textColor="@color/secondary_dark"
+                    android:textSize="18.8sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_add_meeting_task"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="8dp"
+            android:background="@color/secondary_normal"
+            android:text="@string/add" />
+
+    </RelativeLayout>
 
 </FrameLayout>

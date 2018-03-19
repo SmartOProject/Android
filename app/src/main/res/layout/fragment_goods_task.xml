@@ -1,66 +1,120 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/white"
-    android:layout_margin="8dp"
-    tools:context="com.android.smarto.architecture.add_task.types.goods.GoodsTaskFragment">
+    android:padding="8dp"
+    tools:context="com.android.smarto.com.im.smarto.ui.add_task.types.goods.GoodsTaskFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="8dp">
+
+        <TextView
+            android:id="@+id/goods_task_top_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="16dp"
+            android:text="Goods Task"
+            android:textColor="@color/secondary_normal"
+            android:textSize="30sp"
+            android:textStyle="bold" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/goods_task_edit_text"
+            android:id="@+id/goods_task_description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter the name of product"
-            android:layout_margin="8dp"
+            android:layout_below="@id/goods_task_top_label"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:hint="Enter name of product"
             app:met_floatingLabel="highlight" />
 
-        <LinearLayout
-            android:layout_below="@id/goods_task_edit_text"
-            android:id="@+id/spinner_goods_container"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/goods_choose_group_helper"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_below="@id/goods_task_description"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="8dp"
+            android:text="Choose group or create new"
+            android:textColor="@color/secondary_normal" />
 
-            <com.jaredrummler.materialspinner.MaterialSpinner
-                android:id="@+id/goods_group_spinner"
-                android:layout_weight="3"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:layout_marginLeft="8dp"
-                android:layout_marginRight="8dp"
-                android:layout_marginTop="8dp"
-                app:ms_text_color="@color/black"/>
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/goods_fab_choose_group"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_below="@id/goods_choose_group_helper"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_playlist_add_check_white_24dp"
+            app:fab_colorNormal="@color/secondary_normal"
+            app:fab_colorPressed="@color/secondary_light"
+            app:fab_colorRipple="@color/primary_normal"
+            app:fab_type="normal" />
 
-            <com.melnykov.fab.FloatingActionButton
-                android:id="@+id/fab_goods_add_group"
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/goods_fab_add_group"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/goods_choose_group_helper"
+            android:layout_marginEnd="8dp"
+            android:src="@drawable/ic_playlist_add_white_24dp"
+            app:fab_colorNormal="@color/secondary_normal"
+            app:fab_colorPressed="@color/secondary_light"
+            app:fab_colorRipple="@color/primary_normal"
+            app:fab_type="normal" />
+
+        <RelativeLayout
+            android:id="@+id/goods_task_preview"
+            android:layout_width="match_parent"
+            android:layout_height="93dp"
+            android:layout_above="@id/btn_add_goods_task">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_add_black_24dp"
-                app:fab_type="mini"
-                app:fab_colorNormal="@color/secondary_normal"
-                app:fab_colorPressed="@color/secondary_light"
-                app:fab_colorRipple="@color/primary_normal"
-                app:fab_shadow="false"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="4dp"
-                android:layout_marginRight="8dp"/>
+                android:layout_centerVertical="true"
+                android:orientation="vertical">
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/preview_group_helper"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="To:"
+                    android:textColor="@color/secondary_dark"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/goods_preview_group_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:text="Common"
+                    android:textColor="@color/secondary_normal"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:visibility="invisible" />
+
+            </LinearLayout>
+
+        </RelativeLayout>
 
         <Button
             android:id="@+id/btn_add_goods_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/spinner_goods_container"
+            android:layout_alignParentBottom="true"
             android:layout_margin="8dp"
             android:background="@color/secondary_normal"
-            android:text="ADD"/>
+            android:text="ADD" />
 
     </RelativeLayout>
 

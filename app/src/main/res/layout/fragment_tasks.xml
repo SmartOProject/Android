@@ -3,7 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.android.smarto.architecture.task.TaskFragment">
+    tools:context="com.android.smarto.com.im.smarto.ui.task.TaskFragment">
+
+    <com.pnikosis.materialishprogress.ProgressWheel
+        android:id="@+id/task_progress"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:visibility="invisible"
+        app:matProg_barColor="@color/primary_normal"
+        app:matProg_progressIndeterminate="true" />
 
     <android.support.v7.widget.RecyclerView
         android:layout_width="match_parent"

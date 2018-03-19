@@ -94,9 +94,9 @@
                 android:textSize="14sp"
                 android:gravity="center"
                 android:layout_marginTop="8dp"
-                android:text="I want to buy something"
                 android:background="@android:color/transparent"
-                android:textColor="@color/white" />
+                android:textColor="@color/white"
+                android:inputType="text" />
 
             <TextView
                 android:id="@+id/dialog_time_text_view"
@@ -122,6 +122,6 @@
         android:layout_below="@id/data_container"
         android:layout_centerHorizontal="true"
         android:background="@drawable/dialog_save_btn"
-        android:text="SAVE"/>
+        android:text="@string/save"/>
 
 </RelativeLayout>

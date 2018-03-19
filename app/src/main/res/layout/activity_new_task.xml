@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/primary_normal"
-    android:orientation="vertical">
+    android:background="@color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/choose_the_type_of_task"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"
-        />
-
-    <com.jaredrummler.materialspinner.MaterialSpinner
-        android:id="@+id/task_type_spinner"
+    <it.neokree.materialtabs.MaterialTabHost
+        android:id="@+id/tabHost"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginTop="8dp"
-        app:ms_text_color="@color/black"/>
+        android:layout_height="60dp"
+        app:accentColor="@color/secondary_light"
+        app:hasIcons="true"
+        app:primaryColor="@color/primary_normal" />
 
-    <FrameLayout
-        android:id="@+id/task_variable_content"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/add_task_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tabHost">
 
-</LinearLayout>
+        <FrameLayout
+            android:id="@+id/task_variable_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </android.support.v4.view.ViewPager>
+
+
+</RelativeLayout>

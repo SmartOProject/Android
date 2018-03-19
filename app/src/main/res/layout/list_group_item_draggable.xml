@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
+        android:visibility="visible"
         android:foreground="?attr/selectableItemBackground"
         tools:ignore="UselessParent">
 
@@ -24,12 +25,12 @@
             android:layout_gravity="top|left"
             android:background="#20000000"
             android:clickable="true"
-            tools:ignore="RtlHardcoded" />
+            tools:ignore="RtlHardcoded"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="32dp">
+            android:layout_marginStart="32dp">
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,10 +40,11 @@
 
                 <TextView
                     android:id="@android:id/text1"
-                    android:layout_width="wrap_content"
+                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:text="Test"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:layout_marginStart="8dp"
                     android:textColor="@color/white"
                     android:textSize="25sp"
                     android:textStyle="bold" />
@@ -51,10 +53,9 @@
                     android:id="@+id/example_of_tasks"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
+                    android:layout_marginStart="8dp"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="aaaaaaaaaaaaaaaaaaaaaaaaa"
                     android:textColor="@color/white"
                     android:textSize="12sp" />
 
@@ -64,22 +65,21 @@
                 android:id="@+id/number_of_tasks_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:layout_marginRight="45dp"
-                android:text="8"
+                android:layout_marginEnd="45dp"
                 android:textColor="@color/white"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
         </RelativeLayout>
 
-        <com.android.smarto.widget.ExpandableItemIndicator
+        <com.im.smarto.widget.ExpandableItemIndicator
             android:id="@+id/indicator"
             android:layout_width="24dp"
             android:layout_height="24dp"
-            android:layout_gravity="right|center_vertical"
-            android:layout_marginRight="16dp" />
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginEnd="16dp" />
 
     </FrameLayout>
 
