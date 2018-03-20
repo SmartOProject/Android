@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    android:id="@+id/auth_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/auth_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:padding="16dp"
-    tools:context="com.android.smarto.com.im.smarto.ui.authentication.AuthActivity">
+    tools:context="com.im.smarto.ui.authentication.AuthActivity"
+    tools:layout_editor_absoluteY="89dp">
 
     <CheckBox
         android:id="@+id/auth_remember_check_box"
@@ -56,7 +56,7 @@
         android:id="@+id/auth_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="8dp"
         android:drawableStart="@drawable/ic_lock_black_24dp"
         android:hint="@string/password"
         android:inputType="textPassword"
@@ -74,14 +74,14 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/button_facebook"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"
         android:text="@string/login_screen_text_under_sign_up"
         android:textColor="@color/secondary_normal"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@id/button_google"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/button_login" />
 
     <Button
         android:id="@+id/button_google"
@@ -90,18 +90,18 @@
         android:layout_height="80dp"
         android:layout_alignParentStart="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/google_facebook_button"
         android:drawablePadding="-15sp"
         android:drawableTop="@drawable/google_icon"
         android:paddingTop="10dp"
         android:text="GOOGLE"
+        android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button_facebook"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toEndOf="@+id/button_facebook"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/auth_helper_text"
         tools:ignore="ContentDescription" />
 
     <Button
@@ -111,19 +111,18 @@
         android:layout_height="80dp"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="50dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/google_facebook_button"
         android:drawablePadding="-15dp"
         android:drawableTop="@drawable/facebook_icon"
         android:paddingTop="10dp"
         android:text="FACEBOOK"
+        android:textColor="@color/white"
         android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_google"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintHorizontal_chainStyle="spread"
-        app:layout_constraintHorizontal_weight="1"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toEndOf="@+id/button_google"
+        app:layout_constraintTop_toBottomOf="@id/auth_helper_text" />
 
     <Button
         android:id="@+id/button_login"
@@ -132,28 +131,30 @@
         android:layout_height="80dp"
         android:layout_above="@id/auth_helper_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
+        android:layout_marginTop="90dp"
         android:background="@drawable/login_button"
         android:text="LOGIN"
-        app:layout_constraintBottom_toTopOf="@id/auth_helper_text"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/sign_up_button"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginLeft="8dp"
         android:background="@drawable/signup_button"
         android:gravity="center"
+        android:layout_marginBottom="14dp"
+        android:layout_marginEnd="8dp"
         android:text="sign up"
         android:textColor="@color/secondary_normal"
         android:textSize="10sp"
-        app:layout_constraintBottom_toTopOf="@id/auth_helper_text"
-        app:layout_constraintStart_toEndOf="@id/button_login" />
+        app:layout_constraintEnd_toStartOf="@id/button_login"
+        app:layout_constraintBottom_toBottomOf="@id/button_login"/>
 
     <TextView
         android:id="@+id/authentication_text"
@@ -161,7 +162,6 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/auth_phone_number"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="8dp"
         android:text="@string/authentication_text"
         android:textColor="@color/secondary_normal"
         android:textSize="25sp"

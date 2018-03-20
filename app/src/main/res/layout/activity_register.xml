@@ -8,6 +8,18 @@
     android:padding="16dp"
     tools:context="com.im.smarto.ui.registration.RegisterActivity">
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Registration"
+        android:textColor="@color/secondary_normal"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/register_mobile"/>
+
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/register_mobile"
         android:layout_width="match_parent"
@@ -17,8 +29,8 @@
         android:inputType="phone"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        app:met_floatingLabel="highlight"
-        app:layout_constraintBottom_toTopOf="@id/register_first_name" />
+        app:layout_constraintBottom_toTopOf="@id/register_first_name"
+        app:met_floatingLabel="highlight" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/register_first_name"
@@ -29,8 +41,8 @@
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        app:met_floatingLabel="highlight"
-        app:layout_constraintBottom_toTopOf="@id/register_last_name" />
+        app:layout_constraintBottom_toTopOf="@id/register_last_name"
+        app:met_floatingLabel="highlight" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/register_last_name"
@@ -40,8 +52,8 @@
         android:inputType="text"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        app:met_floatingLabel="highlight"
-        app:layout_constraintBottom_toTopOf="@id/register_password" />
+        app:layout_constraintBottom_toTopOf="@id/register_password"
+        app:met_floatingLabel="highlight" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/register_password"
@@ -53,12 +65,12 @@
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        app:met_floatingLabel="highlight"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:met_floatingLabel="highlight" />
 
     <TextView
         android:id="@+id/register_password_helper"
@@ -80,8 +92,8 @@
         android:inputType="textPassword"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
-        app:met_floatingLabel="highlight"
-        app:layout_constraintTop_toBottomOf="@id/register_password" />
+        app:layout_constraintTop_toBottomOf="@id/register_password"
+        app:met_floatingLabel="highlight" />
 
     <Button
         android:id="@+id/button_register"
