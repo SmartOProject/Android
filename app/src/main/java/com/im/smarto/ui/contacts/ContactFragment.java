@@ -62,6 +62,7 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //requestContactsPermissions();
         friendsData = new ArrayList<>();
         if (getArguments() != null) {
         }
@@ -94,7 +95,6 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
             }
             return;
         }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
     @Override
     public void onResume() {
         super.onResume();
-        requestContactsPermissions();
+        mContactsPresenter.updateList();
     }
 
     @Override

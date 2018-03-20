@@ -75,7 +75,7 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                 .subscribe(s -> mView.hideProgressBar());
     }
 
-    private void updateList() {
+    public void updateList() {
         mView.showProgressBar();
         mDataManager.networkHelper().getContact()
                 .subscribeOn(Schedulers.io())

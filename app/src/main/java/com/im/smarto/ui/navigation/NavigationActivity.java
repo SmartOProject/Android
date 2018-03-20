@@ -31,6 +31,7 @@ import com.im.smarto.ui.fragments.ChatFragment;
 import com.im.smarto.ui.contacts.ContactFragment;
 import com.im.smarto.ui.fragments.HomeFragment;
 import com.im.smarto.ui.map.MapFragment;
+import com.im.smarto.ui.profile.ProfileActivity;
 import com.im.smarto.ui.task.TaskFragment;
 import com.im.smarto.db.entities.User;
 import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
@@ -43,7 +44,7 @@ import butterknife.ButterKnife;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NavigationActivity extends BaseActivity implements INavigationActivity,
-        NavigationView.OnNavigationItemSelectedListener{
+        NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = NavigationActivity.class.getSimpleName();
 
@@ -114,12 +115,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     }
 
     @Override
-    public void requestLocationPermissions() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                                                Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_REQUEST);
-    }
-
-    @Override
     public void onItemUndoAction(long id) {
         final Fragment fragment = getSupportFragmentManager().findFragmentByTag(TaskFragment.class.getSimpleName());
         final long result = id;
@@ -174,18 +169,11 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
             case Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     takeHeader();
-                    requestLocationPermissions();
                 } else {
                     // Permission Denied
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
                 }
                 break;
-            case LOCATION_REQUEST:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mNavigationPresenter.startLocationScan();
-                } else {
-                    mNavigationPresenter.locationPermissionsDenied();
-                }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
@@ -217,6 +205,10 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
             case R.id.logout:
                 mNavigationPresenter.onLogoutClicked();
                 break;
+            case R.id.profile_menu_item:
+                mNavigationPresenter.onProfileClicked();
+                break;
+
         }
         return true;
     }
@@ -260,6 +252,11 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     public void signOut() {
         startActivity(new Intent(this, AuthActivity.class));
         finish();
+    }
+
+    @Override
+    public void openProfileActivity() {
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 
     public void onGroupItemRemoved(int groupPosition) {

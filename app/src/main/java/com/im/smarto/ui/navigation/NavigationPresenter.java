@@ -88,37 +88,7 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         mView.onItemUndoAction(mDataManager.taskManager().undoLastRemoval());
     }
 
-    public void startLocationScan() {
-
-        if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            mView.requestLocationPermissions();
-            return;
-        }
-
-        mDataManager.locationManager()
-                .fusedLocationProviderClient()
-                .requestLocationUpdates(new LocationRequest()
-                        .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
-                        .setInterval(5000)
-                        .setFastestInterval(3000)
-                        .setSmallestDisplacement(10), new LocationCallback() {
-                    @Override
-                    public void onLocationResult(LocationResult locationResult) {
-                        for (Location location: locationResult.getLocations()){
-                            Log.i(TAG, location.getLatitude() + ":" + location.getLongitude());
-                            mDataManager.prefHelper().updateLocation(location);
-                            mDataManager.networkHelper()
-                                    .updateUserPosition(location.getLatitude(),
-                                            location.getLongitude())
-                                    .subscribeOn(Schedulers.io())
-                                    .subscribe(success -> Log.i(TAG, "Coordinates updated!"),
-                                            error -> Log.i(TAG, "Update error!"));
-                        }
-                    }
-                }, Looper.myLooper());
-    }
-
-    public void locationPermissionsDenied() {
-        Log.i(TAG, "Location permissions denied!");
+    public void onProfileClicked() {
+        mView.openProfileActivity();
     }
 }

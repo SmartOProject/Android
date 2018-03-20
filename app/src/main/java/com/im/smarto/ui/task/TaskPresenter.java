@@ -112,10 +112,10 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
         if (fromGroupPosition == toGroupPosition) {
             return;
         }
-
+        Log.i(TAG, fromGroupPosition + " " + toGroupPosition);
         final TaskGroup from = mDataManager.taskManager().mData.remove(fromGroupPosition);
-        final TaskGroup to = mDataManager.taskManager().mData.remove(toGroupPosition);
         mDataManager.taskManager().mData.add(toGroupPosition, from);
+        mView.updateList(mDataManager.taskManager().mData);
     }
 
     public void onMoveChildItem(int fromGroupPosition, int fromChildPosition, int toGroupPosition, int toChildPosition) {

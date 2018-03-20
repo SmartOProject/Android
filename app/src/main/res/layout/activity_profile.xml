@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:scrollbars="vertical"
+    tools:context="com.im.smarto.ui.profile.ProfileActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="16dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/profile_image"
+        app:civ_border_width="1dp"
+        app:civ_border_color="@color/secondary_normal"
+        app:civ_circle_background_color="@color/white" />
+
+    <Button
+        android:id="@+id/download_image_from_phone"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:drawableTop="@drawable/ic_file_download_black_24dp"
+        android:paddingTop="3dp"
+        android:paddingStart="1dp"
+        android:layout_alignBottom="@id/profile_image"
+        android:layout_toEndOf="@id/profile_image"
+        android:background="@drawable/edit_button"/>
+
+    <TextView
+        android:id="@+id/profile_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_image"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/secondary_normal"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:text="Anatoly Chernyshev"/>
+
+    <Button
+        android:id="@+id/change_username"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:drawableTop="@drawable/ic_edit_black_10dp"
+        android:layout_toRightOf="@id/profile_username"
+        android:layout_alignTop="@id/profile_username"
+        android:paddingTop="2.4dp"
+        android:paddingStart="1.7dp"
+        android:paddingEnd="0.1dp"
+        android:layout_marginStart="3dp"
+        android:background="@drawable/edit_button"/>
+
+    <ImageView
+        android:layout_width="145dp"
+        android:layout_height="1dp"
+        android:src="@drawable/list_divider_h"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_username"
+        android:layout_marginTop="8dp"
+        android:background="@color/secondary_normal"/>
+
+    <TextView
+        android:id="@+id/profile_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_username"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/secondary_normal"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="+79036575817"/>
+
+    <Button
+        android:id="@+id/change_phone"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:drawableTop="@drawable/ic_edit_black_10dp"
+        android:layout_toRightOf="@id/profile_phone"
+        android:layout_alignTop="@id/profile_phone"
+        android:paddingTop="2.4dp"
+        android:paddingStart="1.7dp"
+        android:paddingEnd="0.1dp"
+        android:layout_marginStart="3dp"
+        android:background="@drawable/edit_button"/>
+
+    <ImageView
+        android:layout_width="105dp"
+        android:layout_height="1dp"
+        android:src="@drawable/list_divider_h"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/profile_phone"
+        android:layout_marginTop="8dp"
+        android:background="@color/secondary_normal"/>
+
+    <TextView
+        android:id="@+id/profile_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_phone"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:textColor="@color/black"
+        android:textSize="17sp"
+        android:textStyle="bold"
+        android:text="Your email"/>
+
+    <Button
+        android:id="@+id/change_email"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:drawableTop="@drawable/ic_edit_black_10dp"
+        android:layout_toRightOf="@id/profile_email"
+        android:layout_alignTop="@id/profile_email"
+        android:paddingTop="2.4dp"
+        android:paddingStart="1.7dp"
+        android:paddingEnd="0.1dp"
+        android:layout_marginStart="3dp"
+        android:background="@drawable/edit_button"/>
+
+</RelativeLayout>
