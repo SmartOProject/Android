@@ -9,9 +9,9 @@
         android:id="@+id/tabHost"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        app:accentColor="@color/secondary_light"
+        app:accentColor="@color/primary_normal"
         app:hasIcons="true"
-        app:primaryColor="@color/primary_normal" />
+        app:primaryColor="@color/secondary_normal" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/add_task_view_pager"

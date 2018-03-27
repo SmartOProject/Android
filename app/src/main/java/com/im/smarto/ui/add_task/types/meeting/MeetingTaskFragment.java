@@ -30,8 +30,6 @@ public class MeetingTaskFragment extends BaseFragment implements IMeetingTaskFra
         DatePickerDialog.OnDateSetListener {
 
     @BindView(R.id.meeting_task_description)        MaterialEditText        mMeetingTaskDescription;
-    @BindView(R.id.meeting_fab_choose_group)        FloatingActionButton    mChooseGroupButton;
-    @BindView(R.id.meeting_fab_add_group)           FloatingActionButton    mAddGroupButton;
     @BindView(R.id.meeting_button_time)             FloatingActionButton    mTimeButton;
     @BindView(R.id.meeting_button_choose_contact)   FloatingActionButton    mChooseContactButton;
     @BindView(R.id.meeting_preview_group_name)      TextView                mGroupPreview;
@@ -46,6 +44,8 @@ public class MeetingTaskFragment extends BaseFragment implements IMeetingTaskFra
     private TimePickerDialog mTimePickerDialog;
     private DatePickerDialog mDatePickerDialog;
 
+    int groupPosition;
+
     public MeetingTaskFragment() {
         // Required empty public constructor
     }
@@ -53,6 +53,9 @@ public class MeetingTaskFragment extends BaseFragment implements IMeetingTaskFra
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle bundle = getArguments();
+        if (bundle != null) groupPosition = bundle.getInt(Constants.GROUP_POSITION);
+
         mMeetingTaskPresenter.onAttach(this);
     }
 
@@ -61,21 +64,15 @@ public class MeetingTaskFragment extends BaseFragment implements IMeetingTaskFra
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_meeting_task, container, false);
         ButterKnife.bind(this, v);
-        mMeetingTaskPresenter.onCreate();
+        mMeetingTaskPresenter.onCreate(groupPosition);
 
         return v;
     }
 
-    @OnClick({R.id.meeting_fab_choose_group, R.id.meeting_fab_add_group, R.id.btn_add_meeting_task,
-            R.id.meeting_button_time, R.id.meeting_button_choose_contact})
+    @OnClick({R.id.btn_add_meeting_task, R.id.meeting_button_time,
+            R.id.meeting_button_choose_contact})
     void onClick(View view){
         switch (view.getId()) {
-            case R.id.meeting_fab_choose_group:
-                mMeetingTaskPresenter.chooseGroupButtonClicked();
-                break;
-            case R.id.meeting_fab_add_group:
-                mMeetingTaskPresenter.addGroupButtonClicked();
-                break;
             case R.id.btn_add_meeting_task:
                 mMeetingTaskPresenter.onAddMeetingTaskClicked(mMeetingTaskDescription.getText().toString());
                 break;
@@ -127,6 +124,12 @@ public class MeetingTaskFragment extends BaseFragment implements IMeetingTaskFra
     public void showTargetContactPreview(String contactName) {
         mContactPreview.setText(contactName);
         mContactPreview.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void setGroupNamePreview(String groupName) {
+        mGroupPreview.setText(groupName);
+        mGroupPreview.setVisibility(View.VISIBLE);
     }
 
     @Override

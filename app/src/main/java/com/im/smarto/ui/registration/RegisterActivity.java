@@ -64,7 +64,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
 
     private void init(){
 
-        Log.i(TAG, "onCreate()");
+        Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mRegisterPresenter.onAttach(this);
 

@@ -25,14 +25,19 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
 
     private IDataManager mDataManager;
 
-    private String mTargetGroup;
+    private int mCurrentGroupPosition;
+    private TaskGroup mCurrentGroup;
 
     @Inject
     public GoodsTaskPresenter(IDataManager dataManager) {
         mDataManager = dataManager;
     }
 
-    public void onCreate() {
+    public void onCreate(int groupPosition) {
+        Log.i(TAG, groupPosition + " | " + mDataManager.taskManager().mData.get(groupPosition).getGroupName());
+        mCurrentGroupPosition = groupPosition;
+        mCurrentGroup = mDataManager.taskManager().mData.get(groupPosition);
+        mView.showGroupNamePreview(mCurrentGroup.getGroupName());
     }
 
     public void onAddTaskClicked(String description) {
@@ -41,12 +46,12 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
             return;
         }
 
-        if (mTargetGroup == null) return;
+        if (mCurrentGroup == null) return;
 
-        int groupId = mDataManager.taskManager().getGroupId(mTargetGroup);
-        int groupPosition = mDataManager.taskManager().getGroupPosition(mTargetGroup);
+        int groupId = (int) mCurrentGroup.getId();
+        int groupPosition = mCurrentGroupPosition;
         int type = Constants.GOODS_TASK_TYPE;
-        int orderNum = mDataManager.taskManager().mData.get(groupPosition).getSingleTaskList().size();
+        int orderNum = mCurrentGroup.getSingleTaskList().size();
 
         mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
                 .subscribeOn(Schedulers.io())
@@ -61,22 +66,11 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
                         error -> Log.i(TAG, error.getMessage()));
     }
 
-    public void onAddGroupClicked() {
-        mView.showAddGroupAlertDialog();
-    }
-
-    public void onChooseGroupClicked() {
-        List<String> groupNames = mDataManager.taskManager().getGroupNames();
-        mView.showChooseGroupAlertDialog(groupNames.toArray(new String[groupNames.size()]));
-    }
-
     public void onSingleChoiceClicked(String groupName) {
-        mTargetGroup = groupName;
         mView.showGroupNamePreview(groupName);
     }
 
     public void onDialogAddGroupClicked(String groupName) {
-        mTargetGroup = groupName;
         mView.showGroupNamePreview(groupName);
 
         int orderNum = mDataManager.taskManager().mData.size();

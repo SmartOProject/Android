@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 
+import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.add_task.types.common.CommonTaskFragment;
 import com.im.smarto.ui.add_task.types.goods.GoodsTaskFragment;
@@ -37,15 +38,14 @@ public class AddTaskActivity extends BaseActivity implements IAddTaskActivity, M
 
     private ViewPagerAdapter mViewPagerAdapter;
 
-    FragmentManager mFragmentManager;
-    Fragment mCommonFragment;
-    Fragment mMeetingFragment;
-    Fragment mGoodsFragment;
+    int groupPosition;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_task);
+
+        groupPosition = getIntent().getIntExtra(Constants.GROUP_POSITION, 0);
 
         init();
         viewPager();
@@ -83,39 +83,6 @@ public class AddTaskActivity extends BaseActivity implements IAddTaskActivity, M
     private void init() {
         ButterKnife.bind(this);
         mAddTaskPresenter.onAttach(this);
-
-        mFragmentManager = getSupportFragmentManager();
-        mCommonFragment = new CommonTaskFragment();
-        mMeetingFragment = new MeetingTaskFragment();
-        mGoodsFragment = new GoodsTaskFragment();
-
-        mAddTaskPresenter.onCreate();
-
-    }
-
-    private FragmentTransaction createFragmentTransaction(){
-        return mFragmentManager.beginTransaction();
-    }
-
-    @Override
-    public void showCommonTypeFragment() {
-        createFragmentTransaction()
-                .replace(R.id.task_variable_content, mCommonFragment, CommonTaskFragment.class.getSimpleName())
-                .commit();
-    }
-
-    @Override
-    public void showMeetingTypeFragment() {
-        createFragmentTransaction()
-                .replace(R.id.task_variable_content, mMeetingFragment, MeetingTaskFragment.class.getSimpleName())
-                .commit();
-    }
-
-    @Override
-    public void showGoodsTypeFragment() {
-        createFragmentTransaction()
-                .replace(R.id.task_variable_content, mGoodsFragment, GoodsTaskFragment.class.getSimpleName())
-                .commit();
     }
 
     @Override
@@ -145,6 +112,7 @@ public class AddTaskActivity extends BaseActivity implements IAddTaskActivity, M
         }
         public Fragment getItem(int num) {
 
+            Bundle args = new Bundle();
             Fragment fragment = null;
             switch (num) {
                 case 0:
@@ -157,6 +125,8 @@ public class AddTaskActivity extends BaseActivity implements IAddTaskActivity, M
                     fragment = new MeetingTaskFragment();
                     break;
             }
+            args.putInt(Constants.GROUP_POSITION, groupPosition);
+            if (fragment != null) fragment.setArguments(args);
             return fragment;
         }
         @Override

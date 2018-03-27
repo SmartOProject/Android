@@ -1,6 +1,7 @@
 package com.im.smarto.ui.add_task.types.common;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +33,6 @@ public class CommonTaskFragment extends BaseFragment implements ICommonTaskFragm
     private static final String TAG = CommonTaskFragment.class.getSimpleName();
 
     @BindView(R.id.common_task_description) MaterialEditText mCommonTaskDescription;
-    @BindView(R.id.fab_choose_group) FloatingActionButton mChooseGroupButton;
-    @BindView(R.id.fab_add_group) FloatingActionButton mAddGroupButton;
     @BindView(R.id.button_time) FloatingActionButton mIsNeedDateButton;
     @BindView(R.id.preview_group_name) TextView mPreviewGroupName;
     @BindView(R.id.time_text_view) TextView mPreviewTime;
@@ -42,6 +41,8 @@ public class CommonTaskFragment extends BaseFragment implements ICommonTaskFragm
 
     @Inject
     CommonTaskPresenter<ICommonTaskFragment> mCommonTaskPresenter;
+
+    int groupPosition;
 
     private TimePickerDialog mTimePickerDialog;
     private DatePickerDialog mDatePickerDialog;
@@ -53,6 +54,10 @@ public class CommonTaskFragment extends BaseFragment implements ICommonTaskFragm
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) groupPosition = bundle.getInt(Constants.GROUP_POSITION);
+
         mCommonTaskPresenter.onAttach(this);
     }
 
@@ -61,20 +66,14 @@ public class CommonTaskFragment extends BaseFragment implements ICommonTaskFragm
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_common_task, container, false);
         ButterKnife.bind(this, v);
-        mCommonTaskPresenter.onCreate();
+        mCommonTaskPresenter.onCreate(groupPosition);
 
         return v;
     }
 
-    @OnClick({R.id.fab_choose_group, R.id.fab_add_group, R.id.btn_add_common_task, R.id.button_time})
+    @OnClick({R.id.btn_add_common_task, R.id.button_time})
     void onClick(View view){
         switch (view.getId()) {
-            case R.id.fab_choose_group:
-                mCommonTaskPresenter.chooseGroupButtonClicked();
-                break;
-            case R.id.fab_add_group:
-                mCommonTaskPresenter.addGroupButtonClicked();
-                break;
             case R.id.btn_add_common_task:
                 mCommonTaskPresenter.onAddCommonTaskClicked(mCommonTaskDescription.getText().toString());
                 break;
@@ -87,6 +86,11 @@ public class CommonTaskFragment extends BaseFragment implements ICommonTaskFragm
     @Override
     public void finishActivity() {
         getActivity().finish();
+    }
+
+    @Override
+    public void setGroupNamePreview(String groupName) {
+        mPreviewGroupName.setText(groupName);
     }
 
     @Override

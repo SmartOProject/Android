@@ -8,8 +8,4 @@ import com.im.smarto.ui.base.BaseView;
 
 public interface IAddTaskActivity extends BaseView {
 
-    void showCommonTypeFragment();
-    void showMeetingTypeFragment();
-    void showGoodsTypeFragment();
-
 }

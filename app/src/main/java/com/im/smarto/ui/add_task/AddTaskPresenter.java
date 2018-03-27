@@ -12,20 +12,4 @@ public class AddTaskPresenter<V extends IAddTaskActivity> extends BasePresenter<
     @Inject
     public AddTaskPresenter(){}
 
-    public void onCreate(){
-        mView.showCommonTypeFragment();
-    }
-
-    public void onCommonTaskChoose(){
-        mView.showCommonTypeFragment();
-    }
-
-    public void onMeetingTaskChoose(){
-        mView.showMeetingTypeFragment();
-    }
-
-    public void onGoodsTaskChoose(){
-        mView.showGoodsTypeFragment();
-    }
-
 }

@@ -39,11 +39,16 @@
         <activity
             android:name=".ui.contacts.addcontact.AddContactActivity"
             android:label="Search" />
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".ui.profile.ProfileActivity"
-            android:label="Profile"/>
+
+        <activity
+            android:name=".ui.profile.ProfileActivity"
+            android:label="Profile" />
+        <activity android:name=".ui.group.GroupActivity"
+            android:label=""/>
     </application>
 
 </manifest>

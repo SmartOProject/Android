@@ -13,9 +13,23 @@ import java.util.List;
 
 public interface ITaskFragment extends BaseView, ILoading {
 
-    void updateList(List<TaskGroup> groupList);
-    void openAddActivity();
-    void setupRecyclerView();
-    void showDialog(TaskGroup group, SingleTask task);
+    void initRecyclerView();
 
+    void update(List<TaskGroup> data);
+
+    void showAddActivity();
+
+    void updateGroupAmount(int size);
+
+    void showGroupActivity(int position);
+
+    void showSnackBar();
+
+    void restoreItem(TaskGroup removedItem, int removedIndex);
+
+    void removeItem(int deletedIndex);
+
+    void showAddGroupDialog();
+
+    void addItem(int id, String groupName);
 }

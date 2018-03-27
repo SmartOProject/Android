@@ -27,4 +27,6 @@ public interface IMeetingTaskFragment extends BaseView {
     void hideTargetContactPreview();
 
     void showTargetContactPreview(String contactName);
+
+    void setGroupNamePreview(String groupName);
 }

@@ -1,4 +1,4 @@
-package com.im.smarto.ui.fragments;
+package com.im.smarto.ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -10,6 +10,8 @@ import com.im.smarto.ui.base.BaseFragment;
 
 public class HomeFragment extends BaseFragment {
 
+    private static final String TAG = HomeFragment.class.getSimpleName();
+
     public HomeFragment() {
         // Required empty public constructor
     }
@@ -17,13 +19,8 @@ public class HomeFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false);
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
+        View v = inflater.inflate(R.layout.fragment_home, container, false);
+        return v;
     }
 
 }

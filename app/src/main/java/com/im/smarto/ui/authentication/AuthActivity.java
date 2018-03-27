@@ -67,7 +67,7 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
     }
 
     public void init(){
-        Log.i(TAG, "onCreate()");
+        Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mAuthPresenter.onAttach(this);
     }

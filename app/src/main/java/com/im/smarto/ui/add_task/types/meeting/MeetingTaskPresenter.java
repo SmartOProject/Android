@@ -10,6 +10,7 @@ import com.im.smarto.ui.add_task.types.common.CommonTaskPresenter;
 import com.im.smarto.ui.base.BasePresenter;
 import com.im.smarto.ui.task.model.SingleTask;
 import com.im.smarto.ui.task.model.TaskGroup;
+import com.im.smarto.utils.DateUtils;
 
 import java.util.List;
 
@@ -23,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 
 public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePresenter<V> {
 
-    private static final String TAG = CommonTaskPresenter.class.getSimpleName();
+    private static final String TAG = MeetingTaskPresenter.class.getSimpleName();
 
     private IDataManager mDataManager;
 
@@ -31,15 +32,30 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
     private String mTargetTime;
     private String mTargetContact;
     private String mTargetGroup;
+    private int mCurrentGroupPosition;
+    private TaskGroup mCurrentGroup;
     private boolean mIsActiveTimeButton = false;
     private boolean mIsActiveContactButton = false;
+
+    private boolean isDateSet = false;
+    private boolean isTimeSet = false;
+    private int year;
+    private int month;
+    private int day;
+    private int hours;
+    private int minutes;
+    private int seconds;
 
     @Inject
     public MeetingTaskPresenter(DataManager dataManager) {
         mDataManager = dataManager;
     }
 
-    public void onCreate() {
+    public void onCreate(int groupPosition) {
+        Log.i(TAG, groupPosition + " | " + mDataManager.taskManager().mData.get(groupPosition).getGroupName());
+        mCurrentGroupPosition = groupPosition;
+        mCurrentGroup = mDataManager.taskManager().mData.get(groupPosition);
+        mView.setGroupNamePreview(mCurrentGroup.getGroupName());
         mView.setupCalendar();
     }
 
@@ -53,40 +69,34 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
     }
 
     public void onDateSet(int year, int monthOfYear, int dayOfMonth) {
-        String month;
-        if (monthOfYear < 10) month = "0" + monthOfYear;
-        else month = String.valueOf(monthOfYear);
-        mTargetDate = dayOfMonth + "/" + month + "/" + year;
+        Log.i(TAG, "Year: " + year + "\n"
+                + "Month: " + monthOfYear + "\n"
+                + "Day: " + dayOfMonth);
+        this.isDateSet = true;
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
+
         mView.showTimePickerDialog();
     }
 
     public void onTimeSet(int hourOfDay, int minute) {
-        String time;
+        Log.i(TAG, "Hour: " + hourOfDay + "\n"
+                + "Minute: " + minute);
 
-        if (hourOfDay < 10) time = "0" + String.valueOf(hourOfDay);
-        else time = String.valueOf(hourOfDay);
+        this.isTimeSet = true;
+        this.hours = hourOfDay;
+        this.minutes = minute;
 
-        if(minute < 10) time = time + ":" + "0" + minute;
-        else time = time + ":" + minute;
-
-        mTargetTime = time;
         mIsActiveTimeButton = true;
         mView.changeTimeButtonBackground(true);
-        mView.showTargetDatePreview(mTargetDate, mTargetTime);
-    }
-
-    public void chooseGroupButtonClicked() {
-        List<String> groupNames = mDataManager.taskManager().getGroupNames();
-        mView.showChooseGroupDialog(groupNames.toArray(new String[groupNames.size()]));
+        mView.showTargetDatePreview(DateUtils.convertToISOFormat(year, month, day),
+                DateUtils.convertToISOFormat(hours, minutes));
     }
 
     public void onSingleChoiceClicked(String groupName) {
         mTargetGroup = groupName;
         mView.showGroupNamePreview(mTargetGroup);
-    }
-
-    public void addGroupButtonClicked() {
-        mView.showAddGroupDialog();
     }
 
     public void onDialogAddGroupClicked(String groupName) {
@@ -111,19 +121,19 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
             return;
         }
 
-        if (mTargetGroup == null) return;
+        if (mCurrentGroup == null) return;
 
         int userId;
         if (mTargetContact == null) userId = 0;
         else userId = mDataManager.userManager().getId(mTargetContact);
 
-        int groupId = mDataManager.taskManager().getGroupId(mTargetGroup);
-        int groupPosition = mDataManager.taskManager().getGroupPosition(mTargetGroup);
+        int groupId = (int) mCurrentGroup.getId();
+        int groupPosition = mCurrentGroupPosition;
         Log.i(TAG, groupPosition + "");
         int type = Constants.MEETING_TASK_TYPE;
-        int orderNum = mDataManager.taskManager().mData.get(groupPosition).getSingleTaskList().size();
+        int orderNum = mCurrentGroup.getSingleTaskList().size();
 
-        if (mTargetTime == null || mTargetDate == null) {
+        if (!isDateSet || !isTimeSet) {
             mDataManager.networkHelper().insertTask(groupId, userId, type, description, orderNum)
                     .subscribeOn(Schedulers.io())
                     .subscribe(success -> {
@@ -140,7 +150,8 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
             return;
         }
 
-        String date = mTargetDate + " " + mTargetTime;
+        String date = DateUtils.convertToISOFormat(year, month, day) + " "
+                + DateUtils.convertToISOFormat(hours, minutes) + ":00";
 
         mDataManager.networkHelper().insertTask(groupId, userId, type, description, date, orderNum)
                 .subscribeOn(Schedulers.io())

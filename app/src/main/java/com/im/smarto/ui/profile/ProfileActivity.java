@@ -13,13 +13,6 @@ import butterknife.BindView;
 
 public class ProfileActivity extends BaseActivity implements IProfileActivity {
 
-    @BindView(R.id.change_email) Button mChangeEmailButton;
-    @BindView(R.id.profile_email) TextView mEmailText;
-    @BindView(R.id.change_phone) Button mChangePhoneButton;
-    @BindView(R.id.profile_phone) TextView mPhoneText;
-    @BindView(R.id.change_username) Button mChangeUsernameButton;
-    @BindView(R.id.profile_username) TextView mUsernameText;
-
     @Inject
     ProfilePresenter<IProfileActivity> mProfilePresenter;
 

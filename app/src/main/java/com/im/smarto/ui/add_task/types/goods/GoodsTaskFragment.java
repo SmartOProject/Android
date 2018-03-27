@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseFragment;
 import com.melnykov.fab.FloatingActionButton;
@@ -24,9 +25,6 @@ public class GoodsTaskFragment extends BaseFragment implements IGoodsTaskFragmen
 
     @BindView(R.id.goods_task_description)
     MaterialEditText mGoodsTaskEditText;
-    @BindView(R.id.goods_fab_choose_group)
-    FloatingActionButton mChooseGroupButton;
-    @BindView(R.id.goods_fab_add_group) FloatingActionButton mAddGroupButton;
     @BindView(R.id.goods_preview_group_name)
     TextView mGroupPreview;
     @BindView(R.id.btn_add_goods_task)
@@ -35,30 +33,24 @@ public class GoodsTaskFragment extends BaseFragment implements IGoodsTaskFragmen
     @Inject
     GoodsTaskPresenter<IGoodsTaskFragment> mGoodsTaskPresenter;
 
+    int groupPosition;
+
     public GoodsTaskFragment() {
         // Required empty public constructor
     }
 
-    @OnClick({R.id.btn_add_goods_task, R.id.goods_fab_add_group, R.id.goods_fab_choose_group})
-    void onClick(View view){
-
-        switch (view.getId()){
-            case R.id.btn_add_goods_task:
-                mGoodsTaskPresenter.onAddTaskClicked(mGoodsTaskEditText.getText().toString());
-                break;
-            case R.id.goods_fab_add_group:
-                mGoodsTaskPresenter.onAddGroupClicked();
-                break;
-            case R.id.goods_fab_choose_group:
-                mGoodsTaskPresenter.onChooseGroupClicked();
-                break;
-        }
-
+    @OnClick(R.id.btn_add_goods_task)
+    void onClick(){
+        mGoodsTaskPresenter.onAddTaskClicked(mGoodsTaskEditText.getText().toString());
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) groupPosition = bundle.getInt(Constants.GROUP_POSITION);
+
         mGoodsTaskPresenter.onAttach(this);
     }
 
@@ -67,7 +59,7 @@ public class GoodsTaskFragment extends BaseFragment implements IGoodsTaskFragmen
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_goods_task, container, false);
         ButterKnife.bind(this, v);
-        mGoodsTaskPresenter.onCreate();
+        mGoodsTaskPresenter.onCreate(groupPosition);
 
         return v;
     }

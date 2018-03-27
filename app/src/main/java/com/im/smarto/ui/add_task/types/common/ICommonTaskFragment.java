@@ -20,4 +20,5 @@ public interface ICommonTaskFragment extends BaseView {
     void showTimePickerDialog();
     void finishActivity();
 
+    void setGroupNamePreview(String groupName);
 }

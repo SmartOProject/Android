@@ -22,6 +22,8 @@ public class Constants {
 
     public static final String CURRENT_LOCATION = "current_location";
 
+    public static final String GROUP_POSITION = "group_position";
+
     public static final String DIALOG_DELETE_ICON = "delete";
     public static final String DIALOG_ADD_ICON = "add";
 

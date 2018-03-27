@@ -29,7 +29,7 @@ import com.im.smarto.ui.authentication.AuthActivity;
 import com.im.smarto.ui.base.BaseActivity;
 import com.im.smarto.ui.fragments.ChatFragment;
 import com.im.smarto.ui.contacts.ContactFragment;
-import com.im.smarto.ui.fragments.HomeFragment;
+import com.im.smarto.ui.home.HomeFragment;
 import com.im.smarto.ui.map.MapFragment;
 import com.im.smarto.ui.profile.ProfileActivity;
 import com.im.smarto.ui.task.TaskFragment;
@@ -126,13 +126,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         final int groupPosition = RecyclerViewExpandableItemManager.getPackedPositionGroup(result);
         final int childPosition = RecyclerViewExpandableItemManager.getPackedPositionChild(result);
 
-        if (childPosition == RecyclerView.NO_POSITION) {
-            // group item
-            ((TaskFragment) fragment).notifyGroupItemRestored(groupPosition);
-        } else {
-            // child item
-            ((TaskFragment) fragment).notifyChildItemRestored(groupPosition, childPosition);
-        }
     }
 
     private void requestExternalReadPermissions() {
@@ -188,7 +181,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
 
     private void init(){
 
-        Log.i(TAG, "onCreate()");
+        Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mNavigationPresenter.onAttach(this);
 

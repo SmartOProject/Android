@@ -127,6 +127,7 @@
     <Button
         android:id="@+id/button_login"
         style="?android:attr/borderlessButtonStyle"
+        android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_above="@id/auth_helper_text"

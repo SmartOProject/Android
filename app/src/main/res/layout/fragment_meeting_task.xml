@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:padding="8dp"
-    tools:context="com.android.smarto.com.im.smarto.ui.add_task.types.meeting.MeetingTaskFragment">
+    tools:context="com.im.smarto.ui.add_task.types.meeting.MeetingTaskFragment">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_marginBottom="8dp"
             android:layout_marginTop="16dp"
             android:text="Meeting Task"
-            android:textColor="@color/secondary_normal"
+            android:textColor="@color/primary_normal"
             android:textSize="30sp"
             android:textStyle="bold" />
 
@@ -42,38 +42,14 @@
             android:layout_below="@id/meeting_task_description"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8dp"
-            android:text="Choose group or create new"
+            android:text="Choose day, time and friend if it needs"
             android:textColor="@color/secondary_normal" />
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/meeting_fab_choose_group"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_below="@id/meeting_choose_group_helper"
-            android:layout_marginStart="8dp"
-            android:src="@drawable/ic_playlist_add_check_white_24dp"
-            app:fab_colorNormal="@color/secondary_normal"
-            app:fab_colorPressed="@color/secondary_light"
-            app:fab_colorRipple="@color/primary_normal"
-            app:fab_type="normal" />
-
-        <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/meeting_fab_add_group"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@id/meeting_choose_group_helper"
-            android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_playlist_add_white_24dp"
-            app:fab_colorNormal="@color/secondary_normal"
-            app:fab_colorPressed="@color/secondary_light"
-            app:fab_colorRipple="@color/primary_normal"
-            app:fab_type="normal" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/meeting_fab_add_group"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/meeting_choose_group_helper"
             android:layout_centerHorizontal="true">
 
             <com.melnykov.fab.FloatingActionButton

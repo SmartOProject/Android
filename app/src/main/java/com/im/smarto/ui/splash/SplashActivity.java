@@ -27,7 +27,7 @@ public class SplashActivity extends BaseActivity implements ISplashActivity{
     }
 
     private void init(){
-        Log.i(TAG, "onCreate()");
+        Log.i(TAG, "onCreateView()");
         mSplashPresenter.onAttach(this);
     }
 

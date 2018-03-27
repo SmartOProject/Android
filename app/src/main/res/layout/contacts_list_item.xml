@@ -9,8 +9,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/primary_normal">
+        android:layout_height="match_parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/contact_profile_image"
@@ -24,8 +23,8 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:layout_marginRight="16dp"
-            android:layout_alignParentRight="true"
+            android:layout_marginEnd="16dp"
+            android:layout_alignParentEnd="true"
             android:gravity="center_vertical">
 
             <TextView
@@ -34,7 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:text="Anatoly Chernyshev"
-                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textColor="@color/secondary_normal"
                 android:textSize="18sp"/>
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="+79876543210"
-                android:textColor="@color/white"
+                android:textColor="@color/secondary_dark"
                 android:textSize="12sp"/>
 
         </LinearLayout>

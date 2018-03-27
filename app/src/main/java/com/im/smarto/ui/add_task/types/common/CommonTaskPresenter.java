@@ -9,6 +9,7 @@ import com.im.smarto.data.DataManager;
 import com.im.smarto.data.IDataManager;
 import com.im.smarto.ui.task.model.SingleTask;
 import com.im.smarto.ui.task.model.TaskGroup;
+import com.im.smarto.utils.DateUtils;
 
 import java.util.List;
 
@@ -29,6 +30,18 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
     private String mTargetDate;
     private String mTargetTime;
     private String mTargetGroup;
+    private TaskGroup mCurrentGroup;
+    private int mCurrentGroupPosition;
+
+    private boolean isDateSet = false;
+    private boolean isTimeSet = false;
+    private int year;
+    private int month;
+    private int day;
+    private int hours;
+    private int minutes;
+    private int seconds;
+
     private boolean mIsActiveTimeButton = false;
 
     @Inject
@@ -36,7 +49,11 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
         mDataManager = dataManager;
     }
 
-    public void onCreate() {
+    public void onCreate(int groupPosition) {
+        Log.i(TAG, groupPosition + " | " + mDataManager.taskManager().mData.get(groupPosition).getGroupName());
+        mCurrentGroupPosition = groupPosition;
+        mCurrentGroup = mDataManager.taskManager().mData.get(groupPosition);
+        mView.showGroupNamePreview(mCurrentGroup.getGroupName());
         mView.setupCalendar();
     }
 
@@ -50,40 +67,34 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
     }
 
     public void onDateSet(int year, int monthOfYear, int dayOfMonth) {
-        String month;
-        if (monthOfYear < 10) month = "0" + monthOfYear;
-        else month = String.valueOf(monthOfYear);
-        mTargetDate = dayOfMonth + "/" + month + "/" + year;
+        Log.i(TAG, "Year: " + year + "\n"
+                        + "Month: " + monthOfYear + "\n"
+                        + "Day: " + dayOfMonth);
+        this.isDateSet = true;
+        this.year = year;
+        this.month = monthOfYear;
+        this.day = dayOfMonth;
+
         mView.showTimePickerDialog();
     }
 
     public void onTimeSet(int hourOfDay, int minute) {
-        String time;
+        Log.i(TAG, "Hour: " + hourOfDay + "\n"
+                + "Minute: " + minute);
 
-        if (hourOfDay < 10) time = "0" + String.valueOf(hourOfDay);
-        else time = String.valueOf(hourOfDay);
+        this.isTimeSet = true;
+        this.hours = hourOfDay;
+        this.minutes = minute;
 
-        if(minute < 10) time = time + ":" + "0" + minute;
-        else time = time + ":" + minute;
-
-        mTargetTime = time;
         mIsActiveTimeButton = true;
         mView.changeTimeButtonBackground(true);
-        mView.showTargetDatePreview(mTargetDate, mTargetTime);
-    }
-
-    public void chooseGroupButtonClicked() {
-        List<String> groupNames = mDataManager.taskManager().getGroupNames();
-        mView.showChooseGroupDialog(groupNames.toArray(new String[groupNames.size()]));
+        mView.showTargetDatePreview(DateUtils.convertToISOFormat(year, month, day),
+                DateUtils.convertToISOFormat(hours, minutes));
     }
 
     public void onSingleChoiceClicked(String groupName) {
         mTargetGroup = groupName;
         mView.showGroupNamePreview(groupName);
-    }
-
-    public void addGroupButtonClicked() {
-        mView.showAddGroupDialog();
     }
 
     public void onDialogAddGroupClicked(String groupName) {
@@ -108,15 +119,13 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
             return;
         }
 
-        if (mTargetGroup == null) return;
-
-        int groupId = mDataManager.taskManager().getGroupId(mTargetGroup);
-        int groupPosition = mDataManager.taskManager().getGroupPosition(mTargetGroup);
+        int groupId = (int) mCurrentGroup.getId();
+        int groupPosition = mCurrentGroupPosition;
         Log.i(TAG, groupPosition + " " + groupId + " " + 1 + " " + description);
         int type = Constants.COMMON_TASK_TYPE;
-        int orderNum = mDataManager.taskManager().mData.get(groupPosition).getSingleTaskList().size();
+        int orderNum = mCurrentGroup.getSingleTaskList().size();
 
-        if (mTargetTime == null || mTargetDate == null) {
+        if (!isDateSet || !isTimeSet) {
             mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
                     .subscribeOn(Schedulers.io())
                     .subscribe(success -> {
@@ -131,9 +140,8 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
             return;
         }
 
-        String date = mTargetDate + " " + mTargetTime;
-        Log.i(TAG, date);
-
+        String date = DateUtils.convertToISOFormat(year, month, day) + " "
+                + DateUtils.convertToISOFormat(hours, minutes) + ":00";
         mDataManager.networkHelper().insertTask(groupId, type, description, date, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
@@ -146,4 +154,5 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
                         },
                         error -> Log.i(TAG, error.getMessage()));
     }
+
 }

@@ -14,7 +14,8 @@ import com.im.smarto.ui.authentication.AuthActivity;
 import com.im.smarto.ui.contacts.addcontact.AddContactActivity;
 import com.im.smarto.ui.fragments.ChatFragment;
 import com.im.smarto.ui.contacts.ContactFragment;
-import com.im.smarto.ui.fragments.HomeFragment;
+import com.im.smarto.ui.group.GroupActivity;
+import com.im.smarto.ui.home.HomeFragment;
 import com.im.smarto.ui.map.MapFragment;
 import com.im.smarto.ui.navigation.NavigationActivity;
 import com.im.smarto.ui.profile.ProfileActivity;
@@ -116,6 +117,10 @@ public abstract class AppModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract SplashActivity splashActivityInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract GroupActivity groupActivityInjector();
 
     @ActivityScope
     @ContributesAndroidInjector
