@@ -17,6 +17,8 @@ import com.google.android.gms.location.LocationResult;
 
 import javax.inject.Inject;
 
+import io.reactivex.Observable;
+import io.reactivex.Single;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
@@ -39,6 +41,17 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
 
     public void onCreate(String token) {
         mView.showHomeFragment();
+
+        mDataManager.networkHelper().getContact()
+                .subscribeOn(Schedulers.io())
+                .flatMap(users -> {
+                    Observable.fromCallable(() -> {
+                        mDataManager.userManager().updateContactsMap(users);
+                        return true;
+                    }).subscribe();
+                    return Single.just("Success");
+                })
+                .subscribe();
 
         if (mDataManager.userManager().getCurrentUser() == null) {
             String bearer = "Bearer " + token;
@@ -82,10 +95,6 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         mDataManager.prefHelper().saveToken(null);
         mDataManager.taskManager().mData.clear();
         mView.signOut();
-    }
-
-    public void onItemUndoActionClicked() {
-        mView.onItemUndoAction(mDataManager.taskManager().undoLastRemoval());
     }
 
     public void onProfileClicked() {

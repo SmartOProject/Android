@@ -7,7 +7,11 @@ import com.im.smarto.ui.base.BaseView;
  */
 
 public interface IProfileActivity extends BaseView {
-    void showProfileImage();
-    void showUsername(String username);
-    void showMobile(String phone);
+    void setProfileImage(String imgUrl);
+
+    void setFirstName(String firstName);
+
+    void setLastName(String lastName);
+
+    void setMobile(String phone);
 }

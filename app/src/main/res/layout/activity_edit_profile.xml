@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context="com.im.smarto.ui.edit_profile.EditProfileActivity">
+
+    <TextView
+        android:id="@+id/edit_profile_header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit first name"
+        android:layout_centerHorizontal="true"
+        android:textSize="20sp"
+        android:textColor="@color/secondary_normal"
+        android:textStyle="bold"/>
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/changed_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="First name"
+        android:inputType="text"
+        android:layout_below="@id/edit_profile_header"
+        app:met_floatingLabel="highlight"/>
+
+    <TextView
+        android:id="@+id/field_helper"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/secondary_dark"
+        android:text="Bla bla bla about field"
+        android:layout_below="@id/changed_field"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:id="@+id/edit_profile_save_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:background="@color/secondary_normal"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

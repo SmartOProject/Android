@@ -12,6 +12,7 @@ import com.im.smarto.ui.add_task.types.goods.GoodsTaskFragment;
 import com.im.smarto.ui.add_task.types.meeting.MeetingTaskFragment;
 import com.im.smarto.ui.authentication.AuthActivity;
 import com.im.smarto.ui.contacts.addcontact.AddContactActivity;
+import com.im.smarto.ui.edit_profile.EditProfileActivity;
 import com.im.smarto.ui.fragments.ChatFragment;
 import com.im.smarto.ui.contacts.ContactFragment;
 import com.im.smarto.ui.group.GroupActivity;
@@ -129,6 +130,10 @@ public abstract class AppModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract AuthActivity authActivityInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract EditProfileActivity editProfileActivityInjector();
 
     @ActivityScope
     @ContributesAndroidInjector

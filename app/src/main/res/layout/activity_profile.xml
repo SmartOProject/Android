@@ -8,84 +8,136 @@
     android:scrollbars="vertical"
     tools:context="com.im.smarto.ui.profile.ProfileActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/register_top_block"
         android:layout_width="match_parent"
         android:layout_height="170dp"
-        android:orientation="vertical"
-        android:gravity="center_horizontal|center_vertical"
-        android:background="@color/secondary_light">
+        android:background="@color/secondary_normal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_marginTop="8dp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
             android:src="@drawable/profile_image"
             app:civ_border_width="1dp"
-            app:civ_border_color="@color/primary_normal"
+            app:civ_border_color="@color/secondary_dark"
             app:civ_circle_background_color="@color/white" />
 
-        <TextView
+        <com.melnykov.fab.FloatingActionButton
+            android:id="@+id/fab_task"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Anatoly Chernyshev"
-            android:layout_marginTop="8dp"
-            android:textSize="15sp"
-            android:textStyle="bold"
-            android:textColor="@color/secondary_dark"/>
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_photo_camera_blue_24dp"
+            app:fab_colorNormal="@color/white" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/register_top_block"
+        android:padding="16dp">
 
         <TextView
+            android:id="@+id/first_name_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:text="First name"
+            android:textColor="@color/primary_normal"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/first_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="Anatoly"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="20sp"
+            android:layout_below="@id/first_name_label"
+            android:textColor="@color/secondary_normal"/>
+
+        <TextView
+            android:id="@+id/last_name_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/first_name"
+            android:layout_marginTop="4dp"
+            android:text="Last name"
+            android:textColor="@color/primary_normal"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/last_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="Chernyshev"
+            android:textStyle="bold"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="20sp"
+            android:layout_below="@id/last_name_label"
+            android:textColor="@color/secondary_normal"/>
+
+        <TextView
+            android:id="@+id/phone_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/last_name"
+            android:text="Phone"
+            android:textColor="@color/primary_normal"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
             android:text="+79036575817"
             android:textStyle="bold"
-            android:textColor="@color/secondary_dark"/>
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textSize="20sp"
+            android:layout_below="@id/phone_label"
+            android:textColor="@color/secondary_normal"/>
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/email_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_below="@id/phone"
+            android:text="Email"
+            android:textColor="@color/primary_normal"
+            android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/change_password_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Change password:"
-        android:layout_below="@id/register_top_block"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
-        android:textColor="@color/secondary_dark"
-        android:textStyle="bold"
-        android:textSize="15sp"/>
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:text="Not specified"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:layout_below="@id/email_label"
+            android:textColor="@color/secondary_normal"/>
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/new_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_below="@id/change_password_text_view"
-        app:met_floatingLabel="highlight"
-        android:hint="New password"/>
+    </RelativeLayout>
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/new_password_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_below="@id/new_password"
-        app:met_floatingLabel="highlight"
-        android:hint="Confirm password"/>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SAVE"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:layout_marginTop="32dp"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/secondary_dark"
-        android:layout_below="@id/new_password_confirm"
-        android:background="@drawable/save_button"/>
 
 </RelativeLayout>

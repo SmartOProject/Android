@@ -15,7 +15,6 @@ public interface INavigationActivity extends BaseView {
     void showMapFragment();
     void showContactFragment();
     void initNavigationBar(User user);
-    void onItemUndoAction(long id);
 
     void signOut();
 

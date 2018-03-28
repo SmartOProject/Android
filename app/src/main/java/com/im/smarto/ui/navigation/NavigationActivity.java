@@ -114,20 +114,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_normal)));
     }
 
-    @Override
-    public void onItemUndoAction(long id) {
-        final Fragment fragment = getSupportFragmentManager().findFragmentByTag(TaskFragment.class.getSimpleName());
-        final long result = id;
-
-        if (result == RecyclerViewExpandableItemManager.NO_EXPANDABLE_POSITION) {
-            return;
-        }
-
-        final int groupPosition = RecyclerViewExpandableItemManager.getPackedPositionGroup(result);
-        final int childPosition = RecyclerViewExpandableItemManager.getPackedPositionChild(result);
-
-    }
-
     private void requestExternalReadPermissions() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -250,32 +236,6 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     @Override
     public void openProfileActivity() {
         startActivity(new Intent(this, ProfileActivity.class));
-    }
-
-    public void onGroupItemRemoved(int groupPosition) {
-        Snackbar snackbar = Snackbar.make(
-                findViewById(R.id.container),
-                R.string.snack_bar_text_group_item_removed,
-                Snackbar.LENGTH_LONG);
-
-        //snackbar.setAction(R.string.snack_bar_action_undo, v -> onItemUndoActionClicked());
-        //snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.snackbar_action_color_done));
-        snackbar.show();
-    }
-
-    public void onChildItemRemoved(int groupPosition, int childPosition) {
-        Snackbar snackbar = Snackbar.make(
-                findViewById(R.id.container),
-                R.string.snack_bar_text_child_item_removed,
-                Snackbar.LENGTH_LONG);
-
-        //snackbar.setAction(R.string.snack_bar_action_undo, v -> onItemUndoActionClicked());
-        //snackbar.setActionTextColor(ContextCompat.getColor(this, R.color.snackbar_action_color_done));
-        snackbar.show();
-    }
-
-    private void onItemUndoActionClicked() {
-        mNavigationPresenter.onItemUndoActionClicked();
     }
 
     @Override

@@ -47,7 +47,10 @@
         <activity
             android:name=".ui.profile.ProfileActivity"
             android:label="Profile" />
-        <activity android:name=".ui.group.GroupActivity"
+        <activity
+            android:name=".ui.group.GroupActivity"
+            android:label="" />
+        <activity android:name=".ui.edit_profile.EditProfileActivity"
             android:label=""/>
     </application>
 

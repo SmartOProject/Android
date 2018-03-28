@@ -1,17 +1,33 @@
 package com.im.smarto.ui.profile;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseActivity;
+import com.im.smarto.ui.edit_profile.EditProfileActivity;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ProfileActivity extends BaseActivity implements IProfileActivity {
+
+    private static final String TAG = ProfileActivity.class.getSimpleName();
+
+    @BindView(R.id.profile_image) ImageView mProfileImage;
+    @BindView(R.id.first_name) TextView mProfileFirstName;
+    @BindView(R.id.last_name) TextView mProfileLastName;
+    @BindView(R.id.phone) TextView mProfilePhone;
 
     @Inject
     ProfilePresenter<IProfileActivity> mProfilePresenter;
@@ -20,22 +36,61 @@ public class ProfileActivity extends BaseActivity implements IProfileActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mProfilePresenter.onAttach(this);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         mProfilePresenter.onCreate();
     }
 
-    @Override
-    public void showProfileImage() {
+    @OnClick({R.id.first_name, R.id.last_name, R.id.phone, R.id.email})
+    void onClick(View v){
+        Intent intent = new Intent(this, EditProfileActivity.class);
+        switch (v.getId()){
+            case R.id.first_name:
+                intent.putExtra(Constants.EDIT_PROFILE_TYPE, Constants.FIRST_NAME);
+                startActivity(intent);
+                break;
+            case R.id.last_name:
+                intent.putExtra(Constants.EDIT_PROFILE_TYPE, Constants.LAST_NAME);
+                startActivity(intent);
+                break;
+            case R.id.phone:
+                intent.putExtra(Constants.EDIT_PROFILE_TYPE, Constants.PHONE);
+                startActivity(intent);
+                break;
+            case R.id.email:
+                break;
+        }
 
     }
 
     @Override
-    public void showUsername(String username) {
-
+    public void setProfileImage(String imgUrl) {
+        Picasso.with(this)
+                .load(imgUrl)
+                .placeholder(R.drawable.profile_image)
+                .resize(300, 300)
+                .centerCrop()
+                .into(mProfileImage);
     }
 
     @Override
-    public void showMobile(String phone) {
+    public void setFirstName(String firstName) {
+        mProfileFirstName.setText(firstName);
+    }
 
+    @Override
+    public void setLastName(String lastName) {
+        mProfileLastName.setText(lastName);
+    }
+
+    @Override
+    public void setMobile(String phone) {
+        mProfilePhone.setText(phone);
     }
 }

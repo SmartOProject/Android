@@ -22,8 +22,10 @@ public class ProfilePresenter<V extends IProfileActivity> extends BasePresenter<
     public void onCreate() {
         User currentUser = mDataManager.userManager().getCurrentUser();
 
-        if (currentUser.getImgUrl() != null) mView.showProfileImage();
-        mView.showUsername(currentUser.getFirstName() + " " + currentUser.getLastName());
-        mView.showMobile(currentUser.getPhone());
+        if (currentUser.getImgUrl() != null) mView.setProfileImage(currentUser.getImgUrl());
+
+        mView.setFirstName(currentUser.getFirstName());
+        mView.setLastName(currentUser.getLastName());
+        mView.setMobile(currentUser.getPhone());
     }
 }

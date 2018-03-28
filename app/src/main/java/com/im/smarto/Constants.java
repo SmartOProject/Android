@@ -16,6 +16,11 @@ public class Constants {
     public static final int MY_PERMISSIONS_REQUEST_READ_CONTACTS = 2;
     public static final String TIME_PICKER_DIALOG_TAG = "Timepickerdialog";
     public static final String DATE_PICKER_DIALOG_TAG = "Datepickerdialog";
+    public static final String EDIT_PROFILE_TYPE = "Edit_profile_type";
+
+    public static final String FIRST_NAME = "first_name";
+    public static final String LAST_NAME = "last_name";
+    public static final String PHONE = "phone";
 
     public static final int DESCRIPTION = 1;
     public static final int DATE = 2;
