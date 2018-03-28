@@ -18,10 +18,6 @@ public interface IGroupActivity extends BaseView {
 
     void showSnackBar();
 
-    void restoreItem(SingleTask removedItem, int removedIndex);
-
-    void removeItem(int deletedIndex);
-
     void setupToolbar();
 
     void showAddTaskActivity(int position);

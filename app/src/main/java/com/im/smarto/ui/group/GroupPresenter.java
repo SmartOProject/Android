@@ -9,6 +9,9 @@ import com.im.smarto.ui.task.model.TaskGroup;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.schedulers.Schedulers;
+
 /**
  * Created by Anatoly Chernyshev on 22.03.2018.
  */
@@ -38,17 +41,21 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
 
     }
 
-    public void onItemRestored(SingleTask item, int position) {
-        mDataManager.taskManager().mData.get(mCurrentGroupPosition).getSingleTaskList().add(mRemovedIndex, mRemovedItem);
-        mView.scrollToPosition(position);
-    }
-
     public void onSwiped(int deletedIndex) {
         mRemovedIndex = deletedIndex;
-        mView.removeItem(deletedIndex);
         mRemovedItem = mDataManager.taskManager()
                 .mData.get(mCurrentGroupPosition).getSingleTaskList().remove(deletedIndex);
+        update();
         mView.showSnackBar();
+
+        mDataManager
+                .networkHelper()
+                .deleteTask((int)mRemovedItem.getId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(rows -> Log.i(TAG, rows.getRowsAffected() + "rows affected"),
+                        error -> Log.i(TAG, error.getMessage()));
+
     }
 
     public void update(){
@@ -56,7 +63,44 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
     }
 
     public void onRestoreClicked() {
-        mView.restoreItem(mRemovedItem, mRemovedIndex);
+        final TaskGroup group = mDataManager.taskManager().mData.get(mCurrentGroupPosition);
+
+        if (mRemovedItem.getDate() == null) {
+            mDataManager
+                    .networkHelper()
+                    .insertTask((int)group.getId(), mRemovedItem.getTaskType(), mRemovedItem.getTaskText())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success -> {
+                        mDataManager
+                                .taskManager()
+                                .mData
+                                .get(mCurrentGroupPosition)
+                                .getSingleTaskList()
+                                .add(new SingleTask(success.getId(), mRemovedItem.getTaskType(),
+                                        mRemovedItem.getTaskText()));
+                        update();
+                    });
+        } else {
+            mDataManager
+                    .networkHelper()
+                    .insertTask((int)group.getId(), mRemovedItem.getTaskType(),
+                            mRemovedItem.getTaskText(), mRemovedItem.getDate())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(success -> {
+                        mDataManager
+                                .taskManager()
+                                .mData
+                                .get(mCurrentGroupPosition)
+                                .getSingleTaskList()
+                                .add(new SingleTask(success.getId(), mRemovedItem.getTaskType(),
+                                        mRemovedItem.getTaskText(), mRemovedItem.getDate()));
+                        update();
+                    });
+        }
+
+
     }
 
     public void onAddTaskClicked() {

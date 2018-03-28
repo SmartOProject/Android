@@ -102,16 +102,6 @@ public class GroupActivity extends BaseActivity implements IGroupActivity, Recyc
     }
 
     @Override
-    public void restoreItem(SingleTask removedItem, int removedIndex) {
-        mTaskListAdapter.restoreItem(removedItem, removedIndex);
-    }
-
-    @Override
-    public void removeItem(int deletedIndex) {
-        mTaskListAdapter.removeItem(deletedIndex);
-    }
-
-    @Override
     public void setupToolbar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

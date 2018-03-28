@@ -1,5 +1,7 @@
 package com.im.smarto.ui.group.adapter;
 
+import android.os.Bundle;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,11 +17,7 @@ import com.im.smarto.ui.group.GroupPresenter;
 import com.im.smarto.ui.task.model.SingleTask;
 import com.im.smarto.utils.DateUtils;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -79,14 +77,37 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
     }
 
     @Override
+    public void onBindViewHolder(TaskListViewHolder holder, int position, List<Object> payloads) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position);
+            return;
+        }
+
+        Bundle bundle = (Bundle) payloads.get(0);
+
+        String newDescription = bundle.getString("TASK_DESCRIPTION_CHANGE");
+        if (newDescription != null) {
+            holder.mTaskDescription.setText(newDescription);
+        }
+
+        String newDate = bundle.getString("TASK_DATE_CHANGE");
+        if (newDate != null) {
+            holder.mTaskTargetDate.setText(newDate);
+        }
+    }
+
+    @Override
     public int getItemCount() {
         return mData.size();
     }
 
     public void update(List<SingleTask> singleTaskList) {
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new TaskDiffCallback(mData, singleTaskList));
+        diffResult.dispatchUpdatesTo(this);
+
         mData.clear();
         mData.addAll(singleTaskList);
-        this.notifyDataSetChanged();
     }
 
     public class TaskListViewHolder extends RecyclerView.ViewHolder {
@@ -104,19 +125,6 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
             mTaskForeground = itemView.findViewById(R.id.task_view_foreground);
             ButterKnife.bind(this, itemView);
         }
-    }
-
-    public void restoreItem(SingleTask item, int position) {
-        mData.add(position, item);
-        notifyItemInserted(position);
-        notifyItemRangeChanged(position, getItemCount());
-        mGroupPresenter.onItemRestored(item, position);
-    }
-
-    public void removeItem(int deletedIndex) {
-        mData.remove(deletedIndex);
-        notifyItemRemoved(deletedIndex);
-        notifyItemRangeChanged(deletedIndex, getItemCount());
     }
 
 }
