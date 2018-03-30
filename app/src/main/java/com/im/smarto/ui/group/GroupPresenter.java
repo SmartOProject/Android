@@ -26,6 +26,10 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
     private int mRemovedIndex;
     private int mCurrentGroupPosition;
 
+    private int mTargetContactId;
+
+    private SingleTask mChoosenTask;
+
     @Inject
     public GroupPresenter(IDataManager dataManager) {
         mDataManager = dataManager;
@@ -99,8 +103,6 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
                         update();
                     });
         }
-
-
     }
 
     public void onAddTaskClicked() {
@@ -113,10 +115,29 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
 
     public void onTaskOptionsClicked(SingleTask item) {
         Log.i(TAG, item.getTaskText() + " clicked!");
+        mChoosenTask = item;
         mView.showOptionsDialog();
     }
 
     public void onSendTaskToFriendClicked() {
         Log.i(TAG, "onSendTaskToFriendClicked()");
+        mView.dismissOptionsDialog();
+        mView.showContactListDialog(mDataManager.userManager().getContactNames());
+    }
+
+    public void onSingleContactChoiceClicked(String contactName) {
+        mTargetContactId = mDataManager.userManager().getId(contactName);
+    }
+
+    public void onPositiveButtonClicked() {
+        mDataManager
+                .networkHelper()
+                .changeTask((int) mChoosenTask.getId(), mTargetContactId)
+                .subscribeOn(Schedulers.io())
+                .subscribe(rowsAffectedResponse -> Log.i(TAG, rowsAffectedResponse.toString()),
+                        error -> {
+                            Log.i(TAG, error.getMessage());
+                            mView.showErrorToast(error.getMessage());
+                        });
     }
 }

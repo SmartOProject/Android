@@ -158,9 +158,9 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
     }
 
     @Override
-    public void showProfileDialog(String imagePath, String username, String mobileNumber) {
+    public void showProfileDialog(String imagePath, String username, String mobileNumber, int trustId) {
         mProfileDialog = new ProfileDialog(mContext, imagePath, username, mobileNumber,
-                this, Constants.DIALOG_DELETE_ICON);
+                this, Constants.DIALOG_DELETE_ICON, mContactsPresenter, trustId);
         mProfileDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mProfileDialog.setCancelable(true);
         mProfileDialog.show();

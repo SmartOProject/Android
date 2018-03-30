@@ -7,16 +7,13 @@ import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,7 +31,6 @@ import com.im.smarto.ui.map.MapFragment;
 import com.im.smarto.ui.profile.ProfileActivity;
 import com.im.smarto.ui.task.TaskFragment;
 import com.im.smarto.db.entities.User;
-import com.h6ah4i.android.widget.advrecyclerview.expandable.RecyclerViewExpandableItemManager;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -98,9 +94,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     }
 
     @Override
-    public void initNavigationBar(User user) {
-        mCurrentUser = user;
-
+    public void initNavigationBar() {
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
                 R.string.drawer_close);
         mDrawerLayout.addDrawerListener(mToggle);
@@ -121,13 +115,16 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
                     Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else {
-            takeHeader();
         }
-
     }
 
-    private void takeHeader() {
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mNavigationPresenter.onResume();
+    }
+
+    private void setHeader() {
         View headerLayout = mNavigationView.getHeaderView(0);
         CircleImageView navImage = headerLayout.findViewById(R.id.nav_image_view);
         TextView navUserName = headerLayout.findViewById(R.id.nav_user_name);
@@ -147,7 +144,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         switch (requestCode) {
             case Constants.MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    takeHeader();
+                    setHeader();
                 } else {
                     // Permission Denied
                     Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
@@ -171,9 +168,7 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         ButterKnife.bind(this);
         mNavigationPresenter.onAttach(this);
 
-        String token = getIntent().getStringExtra(Constants.USER_TOKEN);
-
-        mNavigationPresenter.onCreate(token);
+        mNavigationPresenter.onCreate();
 
     }
 
@@ -236,6 +231,12 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     @Override
     public void openProfileActivity() {
         startActivity(new Intent(this, ProfileActivity.class));
+    }
+
+    @Override
+    public void setupNavHeader(User currentUser) {
+        mCurrentUser = currentUser;
+        setHeader();
     }
 
     @Override

@@ -3,10 +3,12 @@ package com.im.smarto.ui.profile;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
@@ -64,6 +66,7 @@ public class ProfileActivity extends BaseActivity implements IProfileActivity {
                 startActivity(intent);
                 break;
             case R.id.email:
+                Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
                 break;
         }
 
@@ -77,6 +80,12 @@ public class ProfileActivity extends BaseActivity implements IProfileActivity {
                 .resize(300, 300)
                 .centerCrop()
                 .into(mProfileImage);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) this.finish();
+        return true;
     }
 
     @Override

@@ -51,6 +51,7 @@ public interface TaskService {
 
     @PUT("task/{id}")
     Single<RowsAffectedResponse> changeTask(@Header("Authorization") String auth,
+                                            @Path("id") int id,
                                             @Body PutTaskRequest request);
 
     @PUT("task_group/{id}")

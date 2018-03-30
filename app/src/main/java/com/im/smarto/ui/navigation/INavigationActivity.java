@@ -14,9 +14,11 @@ public interface INavigationActivity extends BaseView {
     void showTaskFragment();
     void showMapFragment();
     void showContactFragment();
-    void initNavigationBar(User user);
+    void initNavigationBar();
 
     void signOut();
 
     void openProfileActivity();
+
+    void setupNavHeader(User currentUser);
 }

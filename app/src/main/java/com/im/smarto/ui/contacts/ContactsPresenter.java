@@ -45,7 +45,7 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
         mCurrentUserProfileDialog = user;
         mView.showProfileDialog(user.getImgUrl(),
                 user.getName(),
-                user.getPhone());
+                user.getPhone(), user.getTrustId());
     }
 
     public void onProfileAddRemoveClick(String icon, String mobileNumber) {
@@ -103,4 +103,24 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
     public void onCreate() {
         mView.setupRecyclerView();
     }
+
+    public void onCheckBoxClicked(boolean checked) {
+        Log.i(TAG, checked + "");
+
+        int trustId;
+        if (checked) trustId = 1;
+        else trustId = 0;
+
+        mDataManager
+                .networkHelper()
+                .updateContact(mCurrentUserProfileDialog.getId(), trustId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(rows -> {
+                            Log.i(TAG, rows.toString());
+                            updateList();
+                        },
+                        error -> error.getMessage());
+    }
+
 }

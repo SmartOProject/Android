@@ -142,7 +142,7 @@ public class AddContactActivity extends BaseActivity implements IAddContactActiv
                                   String mobileNumber,
                                   String icon) {
         mProfileDialog = new ProfileDialog(this, imagePath, username, mobileNumber,
-                this, icon);
+                this, icon, null, 0);
         mProfileDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         mProfileDialog.setCancelable(true);
         mProfileDialog.show();

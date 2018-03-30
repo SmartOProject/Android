@@ -30,6 +30,8 @@ public class User {
     private String phone;
     @SerializedName("pwd")
     private String password;
+    @SerializedName("trusted")
+    private int trustId;
 
     @ColumnInfo(name = "img_url")
     @SerializedName("img_link")
@@ -168,5 +170,13 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getTrustId() {
+        return trustId;
+    }
+
+    public void setTrustId(int trustId) {
+        this.trustId = trustId;
     }
 }

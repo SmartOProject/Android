@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseActivity;
+import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import javax.inject.Inject;
 
@@ -23,6 +24,8 @@ public class EditProfileActivity extends BaseActivity implements IEditProfileAct
     @BindView(R.id.field_helper) TextView mFieldHelper;
 
     private String mType;
+
+    private MaskedTextChangedListener listener;
 
     @Inject
     EditProfilePresenter<IEditProfileActivity> mEditProfilePresenter;
@@ -67,6 +70,18 @@ public class EditProfileActivity extends BaseActivity implements IEditProfileAct
 
     @Override
     public void setupLayoutForEditPhone() {
+
+        listener = new MaskedTextChangedListener(
+                "+7 ([000]) [000] [00] [00]",
+                true,
+                mChangedField,
+                null,
+                (maskFilled, extractedValue) -> {}
+        );
+        mChangedField.addTextChangedListener(listener);
+        mChangedField.setOnFocusChangeListener(listener);
+        mChangedField.setHint(listener.placeholder());
+
         mTopLabel.setText("Edit phone");
         mChangedField.setHint("Phone");
         mChangedField.setInputType(InputType.TYPE_CLASS_PHONE);

@@ -18,6 +18,10 @@ public class Constants {
     public static final String DATE_PICKER_DIALOG_TAG = "Datepickerdialog";
     public static final String EDIT_PROFILE_TYPE = "Edit_profile_type";
 
+    public static final int FIRST_NAME_TYPE = 1;
+    public static final int LAST_NAME_TYPE = 2;
+    public static final int PHONE_TYPE = 3;
+
     public static final String FIRST_NAME = "first_name";
     public static final String LAST_NAME = "last_name";
     public static final String PHONE = "phone";

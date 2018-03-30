@@ -52,6 +52,10 @@ public class MapPresenter<V extends IMapFragment> extends BasePresenter<V> {
 //                            }
                         }
                     }, error -> Log.i(TAG, "Download positions failed!"));
+
+            if (mDataManager.prefHelper().getLocation() != null)
+                mView.showCurrentUserPosition(mDataManager.prefHelper().getLocation());
+
         }
     }
 

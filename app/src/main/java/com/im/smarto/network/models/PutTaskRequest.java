@@ -20,6 +20,8 @@ public class PutTaskRequest {
     private String targetDate;
     @SerializedName("order_num")
     private int orderNum;
+    @SerializedName("owner_user_id")
+    private int ownerUserId;
 
     public int getId() {
         return id;
@@ -67,5 +69,13 @@ public class PutTaskRequest {
 
     public void setOrderNum(int orderNum) {
         this.orderNum = orderNum;
+    }
+
+    public int getOwnerUserId() {
+        return ownerUserId;
+    }
+
+    public void setOwnerUserId(int ownerUserId) {
+        this.ownerUserId = ownerUserId;
     }
 }

@@ -2,6 +2,7 @@ package com.im.smarto.network.services;
 
 import com.im.smarto.db.entities.User;
 import com.im.smarto.network.models.ContactPosition;
+import com.im.smarto.network.models.ContactRequest;
 import com.im.smarto.network.models.ContactResponse;
 import com.im.smarto.network.models.InsertContactRequest;
 import com.im.smarto.network.models.InsertContactResponse;
@@ -44,8 +45,9 @@ public interface ContactsService {
                                                 @Body InsertContactRequest insertContactRequest);
 
     @PUT("contact/{id}")
-    Single<ContactResponse> updateContact(@Path("id") int id,
-                                          @Body ContactResponse contactResponse);
+    Single<ContactResponse> updateContact(@Header("Authorization") String basic,
+                                          @Path("id") int id,
+                                          @Body ContactRequest request);
 
     @DELETE("contact/{id}")
     Single<RowsAffectedResponse> deleteContact(@Header("Authorization") String basic,

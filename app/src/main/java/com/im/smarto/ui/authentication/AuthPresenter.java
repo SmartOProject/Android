@@ -41,8 +41,13 @@ public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
         mView.showProgressBar();
         String creditionals = convertPhone(phone) + ":" + password;
         String basic = "Basic " + Base64.encodeToString(creditionals.getBytes(), Base64.NO_WRAP);
+
+        mDataManager
+                .networkHelper()
+                .setHeader(basic);
+
         Log.i(TAG, "Basic: " + basic);
-        mDataManager.networkHelper().authenticateUser(basic)
+        mDataManager.networkHelper().authenticateUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

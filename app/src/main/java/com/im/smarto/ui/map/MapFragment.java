@@ -18,6 +18,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.Marker;
 import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.network.models.ContactPosition;
@@ -46,6 +48,7 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, IMa
     MapPresenter<IMapFragment> mMapPresenter;
 
     GoogleMap mGoogleMap;
+    Marker mCurrentUserMarker;
 
     @OnClick(R.id.fab_my_location)
     void onClick(){
@@ -92,9 +95,10 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, IMa
     public void setupMap(List<ContactPosition> positions) {
         for (ContactPosition position: positions) {
             mGoogleMap.addMarker(new MarkerOptions()
-            .position(new LatLng(position.getLatitude(), position.getLongitude()))
-            .anchor(0.5f, 0.5f)
-            .title(position.getName()));
+                    .position(new LatLng(position.getLatitude(), position.getLongitude()))
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                    .anchor(0.5f, 0.5f)
+                    .title(position.getName()));
         }
 
         mGoogleMap.moveCamera(CameraUpdateFactory
@@ -126,9 +130,12 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, IMa
 
     @Override
     public void showCurrentPosition(Location location) {
-        mGoogleMap.addMarker(new MarkerOptions()
+
+        if (mCurrentUserMarker != null) mCurrentUserMarker.remove();
+
+        mCurrentUserMarker = mGoogleMap.addMarker(new MarkerOptions()
         .position(new LatLng(location.getLatitude(), location.getLongitude()))
-        .anchor(0.5f, 0.5f)
+        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
         .title("I`m"));
         mGoogleMap.moveCamera(CameraUpdateFactory
                 .newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 14.0f));
@@ -156,6 +163,11 @@ public class MapFragment extends BaseFragment implements OnMapReadyCallback, IMa
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+    }
+
+    @Override
+    public void showCurrentUserPosition(Location location) {
+
     }
 
     @Override

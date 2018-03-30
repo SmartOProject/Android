@@ -1,6 +1,7 @@
 package com.im.smarto.ui.group;
 
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
@@ -13,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.Toolbar;
 
 import com.im.smarto.Constants;
@@ -44,6 +46,8 @@ public class GroupActivity extends BaseActivity implements IGroupActivity, Recyc
 
     private TaskListAdapter mTaskListAdapter;
     private List<SingleTask> mData;
+
+    private AlertDialog mOptionsDialog;
 
     @OnClick(R.id.fab_task)
     void onClick(){
@@ -128,8 +132,37 @@ public class GroupActivity extends BaseActivity implements IGroupActivity, Recyc
         TextView textView = v.findViewById(R.id.task_options_send_option);
         textView.setOnClickListener(v1 -> mGroupPresenter.onSendTaskToFriendClicked());
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        mOptionsDialog = builder.create();
+        mOptionsDialog.show();
+    }
+
+    @Override
+    public void dismissOptionsDialog() {
+        mOptionsDialog.dismiss();
+    }
+
+    @Override
+    public void showContactListDialog(String[] contactNames) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this,
+                android.R.style.Theme_Material_Light_Dialog_Alert);
+        builder.setTitle("Choose contact");
+        builder.setIcon(R.drawable.ic_playlist_add_check_black_24dp);
+        builder.setSingleChoiceItems(contactNames, -1, (dialog, which) -> {
+            mGroupPresenter.onSingleContactChoiceClicked(contactNames[which]);
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+        });
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            mGroupPresenter.onPositiveButtonClicked();
+            dialog.dismiss();
+        });
+        AlertDialog mDialog = builder.create();
+        mDialog.show();
+    }
+
+    @Override
+    public void showErrorToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     @Override

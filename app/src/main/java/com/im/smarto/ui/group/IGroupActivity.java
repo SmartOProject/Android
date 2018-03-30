@@ -25,4 +25,10 @@ public interface IGroupActivity extends BaseView {
     void scrollToPosition(int position);
 
     void showOptionsDialog();
+
+    void dismissOptionsDialog();
+
+    void showContactListDialog(String[] contactNames);
+
+    void showErrorToast(String message);
 }

@@ -4,11 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.View;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
+import com.im.smarto.ui.contacts.ContactsPresenter;
 import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
@@ -25,19 +28,24 @@ public class ProfileDialog extends Dialog {
     @BindView(R.id.dialog_profile_username) TextView mProfileUsername;
     @BindView(R.id.dialog_profile_mobile) TextView mProfileMobile;
     @BindView(R.id.add_delete_btn) ImageView mAddDeleteBtn;
+    @BindView(R.id.trust_checkbox) CheckBox mTrustCheckBox;
 
     private ProfileBtnAddRemoveClick mProfileBtnAddRemoveClick;
+
+    private ContactsPresenter mContactsPresenter;
 
     private Context mContext;
     private String mImagePath;
     private String mUsername;
     private String mMobileNumber;
     private String mIconIndicator;
+    private int trustId;
 
     public ProfileDialog(@NonNull Context context, String imagePath,
                          String username, String mobileNumber,
                          ProfileBtnAddRemoveClick profileBtnAddRemoveClick,
-                         String iconIndicator) {
+                         String iconIndicator, ContactsPresenter presenter,
+                         int trustId) {
         super(context);
         this.mContext = context;
         this.mImagePath = imagePath;
@@ -45,11 +53,21 @@ public class ProfileDialog extends Dialog {
         this.mMobileNumber = mobileNumber;
         this.mProfileBtnAddRemoveClick = profileBtnAddRemoveClick;
         this.mIconIndicator = iconIndicator;
+        this.mContactsPresenter = presenter;
+        this.trustId = trustId;
     }
 
-    @OnClick(R.id.add_delete_btn)
-    void onClick(){
-        mProfileBtnAddRemoveClick.onProfileAddRemoveClick(mIconIndicator, mMobileNumber);
+    @OnClick({R.id.add_delete_btn, R.id.trust_checkbox})
+    void onClick(View v){
+        switch (v.getId()){
+            case R.id.trust_checkbox:
+                mContactsPresenter.onCheckBoxClicked(mTrustCheckBox.isChecked());
+                break;
+            case R.id.add_delete_btn:
+                mProfileBtnAddRemoveClick.onProfileAddRemoveClick(mIconIndicator, mMobileNumber);
+                break;
+        }
+
     }
 
     @Override
@@ -59,10 +77,15 @@ public class ProfileDialog extends Dialog {
 
         ButterKnife.bind(this);
 
+        if (trustId == 1) mTrustCheckBox.setChecked(true);
+        else mTrustCheckBox.setChecked(false);
+
         Picasso.with(mContext).load(mImagePath)
                 .resize(300, 300)
                 .placeholder(R.drawable.profile_image)
                 .centerCrop().into(mProfileImage);
+
+        if (mContactsPresenter == null) mTrustCheckBox.setVisibility(View.INVISIBLE);
 
         mProfileUsername.setText(mUsername);
         mProfileMobile.setText(mMobileNumber);

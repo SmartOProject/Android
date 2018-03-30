@@ -59,7 +59,7 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
         }
 
         User user = new User(phone, firstName, lastName, password);
-        mDataManager.networkHelper().registerUser(basic, user)
+        mDataManager.networkHelper().registerUser(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {

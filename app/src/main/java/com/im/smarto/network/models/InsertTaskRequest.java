@@ -10,7 +10,7 @@ public class InsertTaskRequest {
 
     @SerializedName("group_id")
     private int groupId;
-    @SerializedName("meeting_user_id")
+    @SerializedName("owner_user_id")
     private int meetingUserId;
     @SerializedName("task_type_id")
     private int taskTypeId;

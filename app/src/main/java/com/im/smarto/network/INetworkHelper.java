@@ -3,6 +3,8 @@ package com.im.smarto.network;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.network.models.AuthResponse;
 import com.im.smarto.network.models.ContactPosition;
+import com.im.smarto.network.models.ContactRequest;
+import com.im.smarto.network.models.ContactResponse;
 import com.im.smarto.network.models.GetGroupResponse;
 import com.im.smarto.network.models.GetTaskResponse;
 import com.im.smarto.network.models.InsertContactResponse;
@@ -10,18 +12,29 @@ import com.im.smarto.network.models.InsertGroupResponse;
 import com.im.smarto.network.models.InsertTaskResponse;
 import com.im.smarto.network.models.RegisterResponse;
 import com.im.smarto.network.models.RowsAffectedResponse;
+import com.im.smarto.network.models.UpdateUserRequest;
 import com.im.smarto.network.models.UserPositionResponse;
 import com.im.smarto.network.models.UserResponse;
 
 import java.util.List;
 
 import io.reactivex.Single;
+import retrofit2.http.Body;
+import retrofit2.http.Header;
+import retrofit2.http.Path;
 
 /**
  * Created by Anatoly Chernyshev on 09.02.2018.
  */
 
 public interface INetworkHelper {
+
+    String getHeader();
+    void setHeader(String authHeader);
+
+    Single<ContactResponse> updateContact(int id, int trustId);
+
+    Single<RowsAffectedResponse> updateUser(String query, int changeType);
 
     Single<RowsAffectedResponse> changeGroup(int id, int order_num);
 
@@ -81,10 +94,10 @@ public interface INetworkHelper {
     Single<List<User>> searchContactsByName(String name);
     Single<List<User>> searchContactsByPhone(String phone);
 
-    Single<AuthResponse> authenticateUser(String basic);
-    Single<RegisterResponse> registerUser(String basic, User user);
+    Single<AuthResponse> authenticateUser();
+    Single<RegisterResponse> registerUser(User user);
 
-    Single<UserResponse> getCurrentUser(String token);
+    Single<UserResponse> getCurrentUser();
 
     Single<InsertContactResponse> insertContact(int contactId, String contactName);
     Single<RowsAffectedResponse> deleteContact(int contactId);

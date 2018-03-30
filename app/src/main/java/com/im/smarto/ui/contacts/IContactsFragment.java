@@ -17,7 +17,7 @@ public interface IContactsFragment extends BaseView, ILoading, ContactItemClickL
     void updateList();
     void updateData(List<User> friendList);
 
-    void showProfileDialog(String imagePath, String username, String mobileNumber);
+    void showProfileDialog(String imagePath, String username, String mobileNumber, int trustId);
     void changeDialogIcon();
     void deleteContact(String mobileNumber);
     void addContact(String name, String mobileNumber);

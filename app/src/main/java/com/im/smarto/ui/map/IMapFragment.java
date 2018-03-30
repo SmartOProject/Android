@@ -24,4 +24,6 @@ public interface IMapFragment extends BaseView {
     void showCurrentPosition(Location location);
 
     void showLocationSettingsDialog();
+
+    void showCurrentUserPosition(Location location);
 }
