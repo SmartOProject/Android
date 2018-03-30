@@ -21,4 +21,8 @@ public interface INavigationActivity extends BaseView {
     void openProfileActivity();
 
     void setupNavHeader(User currentUser);
+
+    void showLogoutDialog();
+
+    void showNetworkError();
 }

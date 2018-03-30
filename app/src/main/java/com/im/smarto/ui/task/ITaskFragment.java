@@ -32,4 +32,6 @@ public interface ITaskFragment extends BaseView, ILoading {
     void showAddGroupDialog();
 
     void addItem(int id, String groupName);
+
+    void showNetworkError();
 }

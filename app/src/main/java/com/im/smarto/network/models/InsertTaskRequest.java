@@ -11,7 +11,7 @@ public class InsertTaskRequest {
     @SerializedName("group_id")
     private int groupId;
     @SerializedName("owner_user_id")
-    private int meetingUserId;
+    private int ownerUserId;
     @SerializedName("task_type_id")
     private int taskTypeId;
     @SerializedName("task_descr")
@@ -61,11 +61,11 @@ public class InsertTaskRequest {
         this.orderNum = orderNum;
     }
 
-    public int getMeetingUserId() {
-        return meetingUserId;
+    public int getOwnerUserId() {
+        return ownerUserId;
     }
 
-    public void setMeetingUserId(int meetingUserId) {
-        this.meetingUserId = meetingUserId;
+    public void setOwnerUserId(int ownerUserId) {
+        this.ownerUserId = ownerUserId;
     }
 }

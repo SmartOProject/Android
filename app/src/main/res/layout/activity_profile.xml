@@ -27,7 +27,7 @@
             app:civ_circle_background_color="@color/white" />
 
         <com.melnykov.fab.FloatingActionButton
-            android:id="@+id/fab_task"
+            android:id="@+id/fab_load_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"

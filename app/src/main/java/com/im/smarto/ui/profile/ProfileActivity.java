@@ -49,7 +49,7 @@ public class ProfileActivity extends BaseActivity implements IProfileActivity {
         mProfilePresenter.onCreate();
     }
 
-    @OnClick({R.id.first_name, R.id.last_name, R.id.phone, R.id.email})
+    @OnClick({R.id.first_name, R.id.last_name, R.id.phone, R.id.email, R.id.fab_load_photo})
     void onClick(View v){
         Intent intent = new Intent(this, EditProfileActivity.class);
         switch (v.getId()){
@@ -68,6 +68,8 @@ public class ProfileActivity extends BaseActivity implements IProfileActivity {
             case R.id.email:
                 Toast.makeText(this, "Coming soon", Toast.LENGTH_LONG).show();
                 break;
+            case R.id.fab_load_photo:
+                Toast.makeText(this, "There is no web server yet", Toast.LENGTH_LONG).show();
         }
 
     }

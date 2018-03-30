@@ -61,10 +61,16 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
                         groupAndTaskResponse.setTaskListResponse(getTaskResponses);
                         return groupAndTaskResponse;
                     }).subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(groupAndTaskResponse -> {
                         Log.i(TAG, groupAndTaskResponse.getGroupListResponse().toString() + "\n"
                                 + groupAndTaskResponse.getTaskListResponse().toString());
                         mDataManager.taskManager().onResponse(groupAndTaskResponse, this);
+                    }, error -> {
+                        Log.i(TAG, error.getMessage());
+                        if (error.getMessage().equals(Constants.NETWORK_ERROR))
+                            mView.showNetworkError();
+                        mView.hideProgressBar();
                     });
         } else {
             Log.i(TAG, "onCreateView() else - " + mDataManager.taskManager().getData().toString());

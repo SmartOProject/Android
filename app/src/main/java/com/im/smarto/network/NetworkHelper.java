@@ -160,7 +160,7 @@ public class NetworkHelper implements INetworkHelper {
                                                  String description) {
         InsertTaskRequest request = new InsertTaskRequest();
         request.setGroupId(groupId);
-        request.setMeetingUserId(meetingUserId);
+        request.setOwnerUserId(meetingUserId);
         request.setTaskTypeId(taskType);
         request.setDescription(description);
         return mRetrofitClient.create(TaskService.class).insertTask(mAuthHeader, request);
@@ -171,7 +171,7 @@ public class NetworkHelper implements INetworkHelper {
                                                  String description, int orderNum) {
         InsertTaskRequest request = new InsertTaskRequest();
         request.setGroupId(groupId);
-        request.setMeetingUserId(meetingUserId);
+        request.setOwnerUserId(meetingUserId);
         request.setTaskTypeId(taskType);
         request.setDescription(description);
         request.setOrderNum(orderNum);
@@ -183,7 +183,7 @@ public class NetworkHelper implements INetworkHelper {
                                                  String description, String date) {
         InsertTaskRequest request = new InsertTaskRequest();
         request.setGroupId(groupId);
-        request.setMeetingUserId(meetingUserId);
+        request.setOwnerUserId(meetingUserId);
         request.setTaskTypeId(taskType);
         request.setDescription(description);
         request.setDate(date);
@@ -195,7 +195,7 @@ public class NetworkHelper implements INetworkHelper {
                                                  String description, String date, int orderNum) {
         InsertTaskRequest request = new InsertTaskRequest();
         request.setGroupId(groupId);
-        request.setMeetingUserId(meetingUserId);
+        request.setOwnerUserId(meetingUserId);
         request.setTaskTypeId(taskType);
         request.setDescription(description);
         request.setDate(date);

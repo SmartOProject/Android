@@ -18,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
@@ -103,7 +104,7 @@ public class TaskFragment extends BaseFragment implements ITaskFragment, Recycle
     @Override
     public void initRecyclerView() {
         mData = new ArrayList<>();
-        mAdapter = new TaskRecyclerViewAdapter(mData, mTaskPresenter);
+        mAdapter = new TaskRecyclerViewAdapter(getActivity(), mData, mTaskPresenter);
         mTaskRecyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2,
                 LinearLayoutManager.VERTICAL, false));
         mTaskRecyclerView.setAdapter(mAdapter);
@@ -168,6 +169,7 @@ public class TaskFragment extends BaseFragment implements ITaskFragment, Recycle
         View view = getLayoutInflater().inflate(R.layout.alert_dialog_add_group_layout, null);
         MaterialEditText mAlertDialogEditText =
                 view.findViewById(R.id.alert_dialog_add_group_edit_text);
+        mAlertDialogEditText.setSingleLine();
 
         builder.setView(view);
         builder.setPositiveButton("Add", (dialog, which) -> {
@@ -184,6 +186,11 @@ public class TaskFragment extends BaseFragment implements ITaskFragment, Recycle
     @Override
     public void addItem(int id, String groupName) {
 
+    }
+
+    @Override
+    public void showNetworkError() {
+        Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
     }
 
     @Override

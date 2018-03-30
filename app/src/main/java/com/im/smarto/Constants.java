@@ -6,6 +6,15 @@ package com.im.smarto;
 
 public class Constants {
 
+    public static final String NETWORK_ERROR = "Unable to resolve host "
+            + "\"ec2-52-14-6-55.us-east-2.compute.amazonaws.com\": No address associated with hostname";
+
+    public static final String CURRENT_USER_FIRST_NAME = "current_user_first_name";
+    public static final String CURRENT_USER_LAST_NAME = "current_user_last_name";
+    public static final String CURRENT_USER_PHONE = "current_user_phone";
+    public static final String CURRENT_USER_ID = "current_user_id";
+    public static final String CURRENT_USER_IMG_LINK = "current_user_img_link";
+
     public static final String USER_TOKEN = "user_token";
     public static final String REMEMBER_USER = "is_remember_user";
     public static final String TEST_USERNAME = "smarto";

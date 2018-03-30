@@ -1,9 +1,11 @@
 package com.im.smarto.ui.navigation;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.ColorDrawable;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
@@ -237,6 +239,28 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
     public void setupNavHeader(User currentUser) {
         mCurrentUser = currentUser;
         setHeader();
+    }
+
+    @Override
+    public void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Do you really want to log out?");
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            mNavigationPresenter.onPositiveButtonClicked();
+            dialog.dismiss();
+        });
+        builder.setNegativeButton("Cancel", (dialog, which) -> {
+            mNavigationPresenter.onNegativeButtonClicked();
+            dialog.dismiss();
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    @Override
+    public void showNetworkError() {
+        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
     }
 
     @Override

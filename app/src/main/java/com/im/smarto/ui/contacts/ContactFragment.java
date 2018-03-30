@@ -187,6 +187,11 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
     }
 
     @Override
+    public void showNetworkError() {
+        Toast.makeText(getActivity(), "No internet connection", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     public void onProfileAddRemoveClick(String icon, String mobileNumber) {
         mContactsPresenter.onProfileAddRemoveClick(icon, mobileNumber);
     }

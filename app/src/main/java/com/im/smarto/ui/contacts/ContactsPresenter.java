@@ -2,6 +2,7 @@ package com.im.smarto.ui.contacts;
 
 import android.util.Log;
 
+import com.im.smarto.Constants;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.ui.base.BasePresenter;
 import com.im.smarto.data.IDataManager;
@@ -83,14 +84,18 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                 .flatMap(users -> {
                     logUsers(users);
                     mView.updateData(users);
-                    Observable.fromCallable(() -> {
+                    return Single.fromCallable(() -> {
                         mDataManager.userManager().updateContactsMap(users);
                         return true;
-                    }).subscribeOn(Schedulers.io())
-                            .subscribe();
-                    return Single.just("Success");
+                    });
                 })
-                .subscribe(s -> mView.hideProgressBar());
+                .subscribe(s -> mView.hideProgressBar(),
+                        error -> {
+                            Log.i(TAG, error.getMessage());
+                            if (error.getMessage().equals(Constants.NETWORK_ERROR))
+                                mView.showNetworkError();
+                            mView.hideProgressBar();
+                        });
     }
 
     private void logUsers(List<User> users) {
@@ -120,7 +125,10 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                             Log.i(TAG, rows.toString());
                             updateList();
                         },
-                        error -> error.getMessage());
+                        error -> {
+                            if (error.getMessage().equals(Constants.NETWORK_ERROR))
+                                mView.showNetworkError();
+                        });
     }
 
 }

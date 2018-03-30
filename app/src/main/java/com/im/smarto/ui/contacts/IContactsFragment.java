@@ -24,4 +24,5 @@ public interface IContactsFragment extends BaseView, ILoading, ContactItemClickL
 
     void dismissDialog();
 
+    void showNetworkError();
 }

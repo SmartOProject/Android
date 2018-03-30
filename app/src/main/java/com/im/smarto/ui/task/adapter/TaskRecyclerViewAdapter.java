@@ -1,7 +1,10 @@
 package com.im.smarto.ui.task.adapter;
 
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.util.DiffUtil;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -29,9 +32,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     private static final String TAG = TaskRecyclerViewAdapter.class.getSimpleName();
 
     private List<TaskGroup> mData;
+    private Context mContext;
     private TaskPresenter mTaskPresenter;
 
-    public TaskRecyclerViewAdapter(List<TaskGroup> data, TaskPresenter presenter) {
+    public TaskRecyclerViewAdapter(Context context, List<TaskGroup> data, TaskPresenter presenter) {
+        mContext = context;
         mData = data;
         mTaskPresenter = presenter;
     }
@@ -46,6 +51,10 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(TaskViewHolder holder, int position) {
 
         final TaskGroup item = mData.get(holder.getAdapterPosition());
+
+        if (item.getGroupName().equals("Shared")) {
+            holder.mCardView.setCardBackgroundColor(mContext.getResources().getColor(R.color.secondary_light));
+        }
 
         holder.mGroupName.setText(item.getGroupName());
         String taskAmount = "Amount of tasks: " + item.getSingleTaskList().size();
@@ -102,6 +111,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         @BindView(R.id.first_preview) TextView mFirstPreview;
         @BindView(R.id.second_preview) TextView mSecondPreview;
         @BindView(R.id.third_preview) TextView mThirdPreview;
+        @BindView(R.id.group_card_view) CardView mCardView;
 
         public RelativeLayout mGroupBackground;
         public RelativeLayout mGroupForeground;

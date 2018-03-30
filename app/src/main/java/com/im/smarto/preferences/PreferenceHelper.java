@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.im.smarto.Constants;
 import com.google.gson.Gson;
+import com.im.smarto.db.entities.User;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -59,6 +60,25 @@ public class PreferenceHelper implements IPreferenceHelper {
     @Override
     public void rememberMe(boolean isNeedToRemember) {
         mPrefs.edit().putBoolean(Constants.REMEMBER_USER, isNeedToRemember).apply();
+    }
+
+    @Override
+    public void cacheCurrentUser(User user) {
+        mPrefs.edit().putString(Constants.CURRENT_USER_FIRST_NAME, user.getFirstName()).apply();
+        mPrefs.edit().putString(Constants.CURRENT_USER_LAST_NAME, user.getLastName()).apply();
+        mPrefs.edit().putString(Constants.CURRENT_USER_PHONE, user.getPhone()).apply();
+        mPrefs.edit().putInt(Constants.CURRENT_USER_ID, user.getId()).apply();
+        mPrefs.edit().putString(Constants.CURRENT_USER_IMG_LINK, user.getImgUrl()).apply();
+    }
+
+    @Override
+    public User getCachedUser() {
+        int id = mPrefs.getInt(Constants.CURRENT_USER_ID, 0);
+        String firstName = mPrefs.getString(Constants.CURRENT_USER_FIRST_NAME, "");
+        String lastName = mPrefs.getString(Constants.CURRENT_USER_LAST_NAME, "");
+        String phone = mPrefs.getString(Constants.CURRENT_USER_PHONE, "");
+        String imgLink = mPrefs.getString(Constants.CURRENT_USER_IMG_LINK, "");
+        return new User(id, firstName, lastName, phone, imgLink);
     }
 
 
