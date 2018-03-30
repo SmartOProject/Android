@@ -160,7 +160,7 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
                                     .mData.get(groupPosition)
                                     .getSingleTaskList()
                                     .add(new SingleTask(success.getId(),
-                                            mDataManager.userManager().getId(mTargetContact),
+                                            userId,
                                             type, description, date));
                             Log.i(TAG, "insertTask success!");
                             mView.finishActivity();
