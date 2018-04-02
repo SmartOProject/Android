@@ -8,11 +8,12 @@ import com.im.smarto.ui.base.BaseView;
 
 public interface IRegisterActivity extends BaseView {
 
-        void showConfirmPasswordHelper(boolean show);
-        void openNavigationActivity();
-        void showFieldEmptyError();
-        void showMobileInputError();
-        void showIncorrectConfirmPasswordError();
-        void showUserExistError();
+    void showConfirmPasswordHelper(boolean show);
+    void openNavigationActivity();
+    void showFieldEmptyError();
+    void showMobileInputError();
+    void showIncorrectConfirmPasswordError();
+    void showUserExistError();
 
+    void showPhoneExistDialog();
 }

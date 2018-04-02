@@ -7,6 +7,7 @@ import android.util.Log;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.ui.base.BasePresenter;
 import com.im.smarto.data.IDataManager;
+import com.im.smarto.utils.HttpErrorUtils;
 
 import java.util.concurrent.TimeUnit;
 
@@ -15,6 +16,8 @@ import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.Response;
+import retrofit2.HttpException;
 
 /**
  * Created by Anatoly Chernyshev on 31.01.2018.
@@ -65,8 +68,14 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                 .subscribe(response -> {
                     Log.i(TAG, "User register success!");
                     mDataManager.userManager().setCurrentUser(user);
+                    mDataManager.networkHelper().setHeader(basic);
                     mView.openNavigationActivity();
-                        }, error -> Log.i(TAG, error.getMessage()));
+                        }, error -> {
+                    String[] splittedError = HttpErrorUtils.getHttpErrorBody(error).split(" ");
+                    if (splittedError[3].equals("(SMARTO.APP_USERS_PHONE_UNQ)"))
+                        mView.showPhoneExistDialog();
+                    Log.i(TAG, HttpErrorUtils.getHttpErrorBody(error));
+                });
 
     }
 

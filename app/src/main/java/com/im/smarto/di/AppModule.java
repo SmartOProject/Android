@@ -3,6 +3,7 @@ package com.im.smarto.di;
 import android.arch.persistence.room.Room;
 import android.content.Context;
 
+import com.im.smarto.BuildConfig;
 import com.im.smarto.Constants;
 import com.im.smarto.db.DbHelper;
 import com.im.smarto.db.IDbHelper;
@@ -42,6 +43,8 @@ import dagger.Module;
 import dagger.Provides;
 import dagger.android.ContributesAndroidInjector;
 import dagger.android.support.AndroidSupportInjectionModule;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -91,12 +94,29 @@ public abstract class AppModule {
 
     @Singleton
     @Provides
-    public static Retrofit getRetrofitClient(){
+    public static Retrofit getRetrofitClient(OkHttpClient.Builder httpClient){
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_API_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(httpClient.build())
                 .build();
+    }
+
+    @Singleton
+    @Provides
+    public static HttpLoggingInterceptor getHttpLoggingInterceptor(){
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return logging;
+    }
+
+    @Singleton
+    @Provides
+    public static OkHttpClient.Builder getOkHttpClient(HttpLoggingInterceptor logging){
+        OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
+        httpClient.addNetworkInterceptor(logging);
+        return httpClient;
     }
 
     @Singleton

@@ -127,6 +127,11 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
     }
 
     @Override
+    public void showPhoneExistDialog() {
+        Toast.makeText(this, "Phone already exist, choose another", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mRegisterPresenter.onDetach();

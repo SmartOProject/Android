@@ -242,7 +242,6 @@ public class NetworkHelper implements INetworkHelper {
 
     @Override
     public Single<List<User>> getContact() {
-        Log.i(TAG, mAuthHeader);
         return mRetrofitClient.create(ContactsService.class).getContacts(mAuthHeader);
     }
 

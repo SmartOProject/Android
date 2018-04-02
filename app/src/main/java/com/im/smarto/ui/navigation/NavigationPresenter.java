@@ -84,6 +84,8 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
                                 .setCurrentUser(mDataManager.prefHelper().getCachedUser());
                         mView.setupNavHeader(mDataManager.userManager().getCurrentUser());
                     });
+        } else {
+
         }
 
         mDataManager.networkHelper().getContact()
