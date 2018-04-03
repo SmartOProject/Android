@@ -16,4 +16,6 @@ public interface IRegisterActivity extends BaseView {
     void showUserExistError();
 
     void showPhoneExistDialog();
+
+    void showNetworkError();
 }

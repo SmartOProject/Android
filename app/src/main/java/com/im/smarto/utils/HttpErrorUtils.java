@@ -1,6 +1,7 @@
 package com.im.smarto.utils;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import retrofit2.HttpException;
 
@@ -19,5 +20,4 @@ public class HttpErrorUtils {
             return "IOException";
         }
     }
-
 }

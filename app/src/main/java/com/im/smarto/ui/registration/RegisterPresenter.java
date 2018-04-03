@@ -4,6 +4,7 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
+import com.im.smarto.Constants;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.ui.base.BasePresenter;
 import com.im.smarto.data.IDataManager;
@@ -71,10 +72,17 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                     mDataManager.networkHelper().setHeader(basic);
                     mView.openNavigationActivity();
                         }, error -> {
-                    String[] splittedError = HttpErrorUtils.getHttpErrorBody(error).split(" ");
-                    if (splittedError[3].equals("(SMARTO.APP_USERS_PHONE_UNQ)"))
-                        mView.showPhoneExistDialog();
-                    Log.i(TAG, HttpErrorUtils.getHttpErrorBody(error));
+
+                    if (error.getMessage().equals(Constants.NETWORK_ERROR))
+                        mView.showNetworkError();
+                    else {
+
+                        String[] splittedError = HttpErrorUtils.getHttpErrorBody(error).split(" ");
+                        if (splittedError[3].equals("(SMARTO.APP_USERS_PHONE_UNQ)"))
+                            mView.showPhoneExistDialog();
+                        Log.i(TAG, HttpErrorUtils.getHttpErrorBody(error));
+                    }
+
                 });
 
     }
@@ -83,7 +91,7 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
         Observable.combineLatest(passwordObs, confirmPasswordObs,
                 (password, confirmPassword) -> !password.toString()
                         .equals(confirmPassword.toString()))
-                .debounce(100, TimeUnit.MILLISECONDS)
+                .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(b -> {
                     mIsShowConfirmPasswordHelper = (Boolean) b;

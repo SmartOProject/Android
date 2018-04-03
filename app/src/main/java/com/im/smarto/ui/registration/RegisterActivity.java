@@ -132,6 +132,11 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
     }
 
     @Override
+    public void showNetworkError() {
+        Toast.makeText(this, "No internet connection", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         mRegisterPresenter.onDetach();
