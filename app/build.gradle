@@ -7,8 +7,8 @@ android {
         applicationId "com.im.smarto"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 7
-        versionName "0.1.131"
+        versionCode 10
+        versionName "0.1.5"
         testInstrumentationRunner "android.support.ContactsService.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
