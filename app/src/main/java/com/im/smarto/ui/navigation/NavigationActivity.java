@@ -33,6 +33,7 @@ import com.im.smarto.ui.map.MapFragment;
 import com.im.smarto.ui.profile.ProfileActivity;
 import com.im.smarto.ui.task.TaskFragment;
 import com.im.smarto.db.entities.User;
+import com.im.smarto.utils.BottomNavigationViewHelper;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
@@ -169,8 +170,8 @@ public class NavigationActivity extends BaseActivity implements INavigationActiv
         Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mNavigationPresenter.onAttach(this);
-
         mNavigationPresenter.onCreate();
+        BottomNavigationViewHelper.removeShiftMode(mBottomNavigationView);
 
     }
 

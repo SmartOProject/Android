@@ -2,13 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '26.0.3'
+    buildToolsVersion '27.0.3'
     defaultConfig {
         applicationId "com.im.smarto"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 10
-        versionName "0.1.5"
+        versionCode 11
+        versionName "0.1.6 Pre-Alpha"
         testInstrumentationRunner "android.support.ContactsService.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }

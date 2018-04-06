@@ -52,7 +52,7 @@
             android:layout_below="@id/choose_group_helper"
             android:layout_centerHorizontal="true"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/ic_query_builder_white_24dp"
+            android:src="@drawable/ic_query_builder"
             app:fab_colorNormal="@color/secondary_normal"
             app:fab_colorPressed="@color/secondary_light"
             app:fab_colorRipple="@color/primary_normal"

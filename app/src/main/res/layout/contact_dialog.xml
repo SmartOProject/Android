@@ -67,7 +67,7 @@
             android:layout_margin="4dp"
             app:fab_colorNormal="@color/primary_normal"
             app:fab_shadow="false"
-            android:src="@drawable/ic_delete_white_24dp"
+            android:src="@drawable/ic_delete"
             app:fab_type="mini"/>
 
         <com.melnykov.fab.FloatingActionButton
@@ -77,7 +77,7 @@
             android:layout_margin="4dp"
             app:fab_shadow="false"
             app:fab_colorRipple="@color/secondary_light"
-            android:src="@drawable/ic_check_blue_24dp"
+            android:src="@drawable/ic_check"
             app:fab_colorNormal="@color/white"
             app:fab_type="mini"/>
 
@@ -95,7 +95,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
             app:fab_shadow="false"
-            android:src="@drawable/ic_message_blue_24dp"
+            android:src="@drawable/ic_message"
             app:fab_colorNormal="@color/white"
             app:fab_type="mini"/>
 

@@ -3,6 +3,8 @@ package com.im.smarto.ui.authentication;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.res.ResourcesCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,10 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AuthActivity extends BaseActivity implements IAuthActivity{
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private static final String TAG = AuthActivity.class.getSimpleName();
 

@@ -33,7 +33,7 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
             android:layout_margin="16dp"
-            android:src="@drawable/ic_photo_camera_blue_24dp"
+            android:src="@drawable/ic_photo_camera"
             app:fab_colorNormal="@color/white" />
 
     </RelativeLayout>
