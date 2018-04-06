@@ -3,6 +3,7 @@ package com.im.smarto.ui.contacts;
 import android.util.Log;
 
 import com.im.smarto.Constants;
+import com.im.smarto.data.ContactDataChangesListener;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.ui.base.BasePresenter;
 import com.im.smarto.data.IDataManager;
@@ -20,7 +21,8 @@ import io.reactivex.schedulers.Schedulers;
  * Created by Anatoly Chernyshev on 21.02.2018.
  */
 
-public class ContactsPresenter<V extends IContactsFragment> extends BasePresenter<V> {
+public class ContactsPresenter<V extends IContactsFragment> extends BasePresenter<V>
+        implements ContactDataChangesListener {
 
     public static final String TAG = ContactsPresenter.class.getSimpleName();
 
@@ -32,6 +34,8 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
     public ContactsPresenter(IDataManager dataManager){
         this.mDataManager = dataManager;
         this.mCurrentUserProfileDialog = null;
+
+        mDataManager.userManager().setContactDataChangedListener(this);
     }
 
     public void onPermissionsGranted(){
@@ -44,7 +48,7 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
 
     public void onItemClicked(User user){
         mCurrentUserProfileDialog = user;
-        mView.showProfileDialog(user.getImgUrl(),
+        mView.showProfileDialog(user.getId(), user.getImgUrl(),
                 user.getName(),
                 user.getPhone(), user.getTrustId());
     }
@@ -116,7 +120,7 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
         if (checked) trustId = 1;
         else trustId = 0;
 
-        mDataManager
+        mCompositeDisposable.add(mDataManager
                 .networkHelper()
                 .updateContact(mCurrentUserProfileDialog.getId(), trustId)
                 .subscribeOn(Schedulers.io())
@@ -128,7 +132,13 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                         error -> {
                             if (error.getMessage().equals(Constants.NETWORK_ERROR))
                                 mView.showNetworkError();
-                        });
+                        }));
+
     }
 
+    @Override
+    public void onContactDataChanged() {
+        Log.i(TAG, "Contact data changed! Please update recycler view list.");
+        mView.updateData(mDataManager.userManager().getContacts());
+    }
 }

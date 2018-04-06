@@ -10,7 +10,6 @@ import com.im.smarto.preferences.IPreferenceHelper;
 
 public interface IDataManager {
 
-    IDbHelper dbHelper();
     IPreferenceHelper prefHelper();
     INetworkHelper networkHelper();
     UsersManager userManager();

@@ -55,6 +55,8 @@ public class Constants {
 
     public static final String CHILD_ITEM_ID = "child_id";
     public static final String GROUP_ITEM_ID = "group_id";
+    public static final String CONTACT_ID = "contact_id";
+    public static final String DIALOG_FROM_CONTACTS = "dialog_from_contacts";
 
     public class Database {
 

@@ -67,7 +67,6 @@ public class ProfileDialog extends Dialog {
                 mProfileBtnAddRemoveClick.onProfileAddRemoveClick(mIconIndicator, mMobileNumber);
                 break;
         }
-
     }
 
     @Override
@@ -98,7 +97,6 @@ public class ProfileDialog extends Dialog {
             mAddDeleteBtn.setImageResource(R.drawable.ic_person_add_black_24dp);
             mAddDeleteBtn.setBackground(mContext.getResources().getDrawable(R.drawable.circle_image_profile_dialog));
         }
-
     }
 
     public void changeIcon(){

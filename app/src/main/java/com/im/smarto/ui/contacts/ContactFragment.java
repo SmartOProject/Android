@@ -3,10 +3,9 @@ package com.im.smarto.ui.contacts;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -17,6 +16,7 @@ import android.widget.Toast;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
+import com.im.smarto.dialog.contact.ContactDialog;
 import com.im.smarto.ui.base.BaseFragment;
 import com.im.smarto.ui.contacts.addcontact.AddContactActivity;
 import com.im.smarto.ui.contacts.dialog.ProfileBtnAddRemoveClick;
@@ -158,12 +158,22 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
     }
 
     @Override
-    public void showProfileDialog(String imagePath, String username, String mobileNumber, int trustId) {
-        mProfileDialog = new ProfileDialog(mContext, imagePath, username, mobileNumber,
-                this, Constants.DIALOG_DELETE_ICON, mContactsPresenter, trustId);
-        mProfileDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-        mProfileDialog.setCancelable(true);
-        mProfileDialog.show();
+    public void showProfileDialog(int id, String imagePath, String username, String mobileNumber, int trustId) {
+//        mProfileDialog = new ProfileDialog(mContext, imagePath, username, mobileNumber,
+//                this, Constants.DIALOG_DELETE_ICON, mContactsPresenter, trustId);
+//        mProfileDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//        mProfileDialog.setCancelable(true);
+//        mProfileDialog.show();
+
+        DialogFragment contactDialog = new ContactDialog();
+
+        Bundle args = new Bundle();
+        args.putInt(Constants.CONTACT_ID, id);
+        args.putBoolean(Constants.DIALOG_FROM_CONTACTS, true);
+        contactDialog.setArguments(args);
+
+        contactDialog.show(getFragmentManager(), "ContactDialog");
+
     }
 
     @Override

@@ -7,6 +7,7 @@ import com.im.smarto.BuildConfig;
 import com.im.smarto.Constants;
 import com.im.smarto.db.DbHelper;
 import com.im.smarto.db.IDbHelper;
+import com.im.smarto.dialog.contact.ContactDialog;
 import com.im.smarto.ui.add_task.AddTaskActivity;
 import com.im.smarto.ui.add_task.types.common.CommonTaskFragment;
 import com.im.smarto.ui.add_task.types.goods.GoodsTaskFragment;
@@ -146,6 +147,10 @@ public abstract class AppModule {
     @ActivityScope
     @ContributesAndroidInjector
     abstract RegisterActivity registerActivityInjector();
+
+    @ActivityScope
+    @ContributesAndroidInjector
+    abstract ContactDialog contactDialogInjector();
 
     @ActivityScope
     @ContributesAndroidInjector

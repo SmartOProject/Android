@@ -26,10 +26,17 @@ public class UsersManager {
     private User mCurrentUser;
     private Context mContext;
     private SparseArray<String> mContactsMap;
+    private List<User> mContacts;
+    private List<User> mSearchUserList;
+    private ContactDataChangesListener mListener;
 
     @Inject
     public UsersManager(Context context){
         this.mContext = context;
+    }
+
+    public void setContactDataChangedListener(ContactDataChangesListener listener){
+        this.mListener = listener;
     }
 
     public User getCurrentUser() {
@@ -74,6 +81,7 @@ public class UsersManager {
     }
 
     public void updateContactsMap(List<User> users){
+        mContacts = users;
         Log.i(TAG, "updateContactsMap() " + users.toString());
         mContactsMap = new SparseArray<>(users.size());
 
@@ -93,5 +101,50 @@ public class UsersManager {
         Log.i(TAG, "insertIntoContactMap() " + String.valueOf(id) + " " + String.valueOf(name));
 
         mContactsMap.append(id, name);
+    }
+
+    public List<User> getContacts() {
+        return mContacts;
+    }
+
+    public void setContacts(List<User> contacts) {
+        mContacts = contacts;
+    }
+
+    public User getContactById(int id) {
+
+        User contact = null;
+
+        for (User user: mContacts)
+            if (user.getId() == id) contact = user;
+
+        return contact;
+    }
+
+    public void deleteContact(User contact){
+        mContacts.remove(contact);
+        mListener.onContactDataChanged();
+    }
+
+    public void insertContact(User contact){
+        mContacts.add(contact);
+        mListener.onContactDataChanged();
+    }
+
+    public List<User> getSearchUserList() {
+        return mSearchUserList;
+    }
+
+    public void setSearchUserList(List<User> searchUserList) {
+        mSearchUserList = searchUserList;
+    }
+
+    public User getUserById(int currentContactId) {
+        User contact = null;
+
+        for (User user: mSearchUserList)
+            if (user.getId() == currentContactId) contact = user;
+
+        return contact;
     }
 }

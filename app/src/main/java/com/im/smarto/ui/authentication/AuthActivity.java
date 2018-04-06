@@ -34,6 +34,7 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
     @BindView(R.id.auth_helper_text)        TextView mHelperText;
     @BindView(R.id.button_google)           Button mGoogleLoginBtn;
     @BindView(R.id.button_facebook)         Button mFacebookLoginBtn;
+    @BindView(R.id.sign_up_button)         Button mSignUpBtn;
     @BindView(R.id.auth_password)           EditText mPassword;
     @BindView(R.id.auth_remember_check_box) CheckBox mIsRememberUser;
 
@@ -142,11 +143,31 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
 
     @Override
     public void showProgressBar() {
+        hideLoginFields();
         mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideLoginFields() {
+        mLoginBtn.setVisibility(View.INVISIBLE);
+        mIsRememberUser.setVisibility(View.INVISIBLE);
+        mFacebookLoginBtn.setVisibility(View.INVISIBLE);
+        mGoogleLoginBtn.setVisibility(View.INVISIBLE);
+        mSignUpBtn.setVisibility(View.INVISIBLE);
+        mHelperText.setVisibility(View.INVISIBLE);
     }
 
     @Override
     public void hideProgressBar() {
         mProgressBar.setVisibility(View.INVISIBLE);
+        showLoginFields();
+    }
+
+    private void showLoginFields() {
+        mLoginBtn.setVisibility(View.VISIBLE);
+        mIsRememberUser.setVisibility(View.VISIBLE);
+        mFacebookLoginBtn.setVisibility(View.VISIBLE);
+        mGoogleLoginBtn.setVisibility(View.VISIBLE);
+        mSignUpBtn.setVisibility(View.VISIBLE);
+        mHelperText.setVisibility(View.VISIBLE);
     }
 }

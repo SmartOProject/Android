@@ -14,7 +14,7 @@ import java.util.List;
 public interface IAddContactActivity extends BaseView, ILoading, ContactItemClickListener {
 
     void setupRecyclerView();
-    void showProfileDialog(String imagePath, String username, String mobileNumber, String icon);
+    void showProfileDialog(int id, String imagePath, String username, String mobileNumber, String icon);
     void changeDialogIcon();
     void hideContactHelper();
     void updateData(List<User> data);

@@ -9,14 +9,14 @@
     android:layout_margin="8dp"
     app:cardCornerRadius="3dp"
     app:cardElevation="5dp"
-    app:contentPadding="8dp"
+    app:contentPadding="3dp"
     android:focusable="true">
 
     <RelativeLayout
         android:id="@+id/group_view_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/secondary_dark">
+        android:background="@drawable/card_background_delete">
 
         <ImageView
             android:id="@+id/delete_icon"
@@ -44,7 +44,8 @@
         android:id="@+id/group_view_foreground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white">
+        android:padding="4dp"
+        android:background="@drawable/card_background">
 
         <TextView
             android:id="@+id/group_text_view"

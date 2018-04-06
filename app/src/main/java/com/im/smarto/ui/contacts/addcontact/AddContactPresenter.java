@@ -46,6 +46,7 @@ public class AddContactPresenter<V extends IAddContactActivity> extends BasePres
                     .subscribe(users -> {
                         if (mView != null) {
                             Log.i(TAG, users.toString());
+                            mDataManager.userManager().setSearchUserList(users);
                             mView.updateData(users);
                             mView.hideProgressBar();
                         }
@@ -62,6 +63,7 @@ public class AddContactPresenter<V extends IAddContactActivity> extends BasePres
                     .subscribe(users -> {
                         if (mView != null) {
                             Log.i(TAG, users.toString());
+                            mDataManager.userManager().setSearchUserList(users);
                             mView.updateData(users);
                             mView.hideProgressBar();
                         }
@@ -76,13 +78,12 @@ public class AddContactPresenter<V extends IAddContactActivity> extends BasePres
     public void onItemClicked(User user){
         mView.hideKeyboard();
         mCurrentUserProfileDialog = user;
-        mDataManager.networkHelper().getContact(user.getId())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(u -> mView.showProfileDialog(user.getImgUrl(),
-                            user.getName(), user.getPhone(), Constants.DIALOG_DELETE_ICON),
-                        error -> mView.showProfileDialog(user.getImgUrl(),
-                            user.getName(), user.getPhone(), Constants.DIALOG_ADD_ICON));
+        Log.i(TAG, user.getId() + " " + user.getName());
+        mView.showProfileDialog(user.getId(),
+                user.getImgUrl(),
+                user.getName(),
+                user.getPhone(),
+                Constants.DIALOG_DELETE_ICON);
     }
 
     public void onProfileAddRemoveClick(String icon, String mobileNumber) {

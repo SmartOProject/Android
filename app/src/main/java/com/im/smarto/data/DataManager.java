@@ -16,7 +16,6 @@ public class DataManager implements IDataManager {
 
     public static final String TAG = DataManager.class.getSimpleName();
 
-    private final IDbHelper mDbHelper;
     private final INetworkHelper mNetworkHelper;
     private final IPreferenceHelper mPreferenceHelper;
     private final UsersManager mUsersManager;
@@ -24,20 +23,14 @@ public class DataManager implements IDataManager {
     private final LocationManager mLocationManager;
 
     @Inject
-    public DataManager(IDbHelper dbHelper, INetworkHelper networkHelper,
+    public DataManager(INetworkHelper networkHelper,
                        LocationManager locationManager, IPreferenceHelper preferenceHelper,
                        UsersManager usersManager, TaskManager taskManager) {
-        this.mDbHelper = dbHelper;
         this.mNetworkHelper = networkHelper;
         this.mPreferenceHelper = preferenceHelper;
         this.mUsersManager = usersManager;
         this.mTaskManager = taskManager;
         this.mLocationManager = locationManager;
-    }
-
-    @Override
-    public IDbHelper dbHelper() {
-        return mDbHelper;
     }
 
     @Override

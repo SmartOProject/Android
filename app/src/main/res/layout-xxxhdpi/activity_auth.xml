@@ -7,14 +7,14 @@
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:padding="16dp"
-    tools:context="com.im.smarto.ui.authentication.AuthActivity"
-    tools:layout_editor_absoluteY="89dp">
+    tools:context="com.im.smarto.ui.authentication.AuthActivity">
 
     <CheckBox
         android:id="@+id/auth_remember_check_box"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remember me"
+        android:layout_marginTop="32dp"
         android:textColor="@color/secondary_normal"
         android:textSize="12sp"
         android:theme="@style/data_check_box"
@@ -25,14 +25,13 @@
         android:id="@+id/auth_progress_bar"
         android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/auth_password"
+        app:matProg_barColor="@color/primary_normal"
+        app:matProg_progressIndeterminate="true" />
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/auth_phone_number"
@@ -127,13 +126,13 @@
     <Button
         android:id="@+id/button_login"
         style="?android:attr/borderlessButtonStyle"
-        android:foreground="?android:attr/selectableItemBackground"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:layout_above="@id/auth_helper_text"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="90dp"
         android:background="@drawable/login_button"
+        android:foreground="?android:attr/selectableItemBackground"
         android:text="LOGIN"
         android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -147,15 +146,15 @@
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/signup_button"
-        android:gravity="center"
         android:layout_marginBottom="14dp"
         android:layout_marginEnd="8dp"
+        android:background="@drawable/signup_button"
+        android:gravity="center"
         android:text="sign up"
         android:textColor="@color/secondary_normal"
         android:textSize="10sp"
-        app:layout_constraintEnd_toStartOf="@id/button_login"
-        app:layout_constraintBottom_toBottomOf="@id/button_login"/>
+        app:layout_constraintBottom_toBottomOf="@id/button_login"
+        app:layout_constraintEnd_toStartOf="@id/button_login" />
 
     <TextView
         android:id="@+id/authentication_text"
