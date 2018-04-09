@@ -1,6 +1,5 @@
 package com.im.smarto.ui.authentication;
 
-import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
@@ -29,17 +28,8 @@ public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
 
     void onLoginClicked(String phone, String password, boolean isNeedToRemember) {
 
-        if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
-            mView.showEmptyFieldsError();
-            return;
-        }
-        if (phone.length() < 12) {
-            mView.showIncorrectPhoneNumberError();
-            return;
-        }
-
         mView.showProgressBar();
-        String creditionals = convertPhone(phone) + ":" + password;
+        String creditionals = phone + ":" + password;
         String basic = "Basic " + Base64.encodeToString(creditionals.getBytes(), Base64.NO_WRAP);
 
         mDataManager
@@ -47,7 +37,7 @@ public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
                 .setHeader(basic);
 
         Log.i(TAG, "Basic: " + basic);
-        mDataManager.networkHelper().authenticateUser()
+        mCompositeDisposable.add(mDataManager.networkHelper().authenticateUser()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
@@ -59,17 +49,7 @@ public class AuthPresenter<V extends IAuthActivity> extends BasePresenter<V>{
                     Log.i(TAG, "Error!" + "\n" + error.getMessage());
                     mView.showAuthenticationFailedError();
                     mView.hideProgressBar();
-                });
-    }
-
-    String convertPhone(String phone){
-        String phoneNumber = phone;
-        phoneNumber = phoneNumber.replace(" ","");
-        phoneNumber = phoneNumber.replace(")","");
-        phoneNumber = phoneNumber.replace("(","");
-        phoneNumber = phoneNumber.replace("-","");
-        Log.i(TAG, phoneNumber);
-        return phoneNumber;
+                }));
     }
 
     public void onSignUpButtonClicked() {

@@ -40,20 +40,13 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
     public void onRegisterClicked(String mobileNumber, String password, String confirmPassword,
                                   String firstName, String lastName){
 
-        String phone = convertPhone(mobileNumber);
-        String creditionals = phone + ":" + password;
+        String creditionals = mobileNumber + ":" + password;
         String basic = "Basic " + Base64.encodeToString(creditionals.getBytes(), Base64.NO_WRAP);
         Log.i(TAG, "Basic: " + basic);
 
-        if (TextUtils.isEmpty(mobileNumber) || TextUtils.isEmpty(password)
-                || TextUtils.isEmpty(confirmPassword) || TextUtils.isEmpty(firstName)
-                    || TextUtils.isEmpty(lastName)) {
+        if (TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)
+                || TextUtils.isEmpty(firstName) || TextUtils.isEmpty(lastName)) {
             mView.showFieldEmptyError();
-            return;
-        }
-
-        if (mobileNumber.length() < 12) {
-            mView.showMobileInputError();
             return;
         }
 
@@ -62,8 +55,8 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
             return;
         }
 
-        User user = new User(phone, firstName, lastName, password);
-        mDataManager.networkHelper().registerUser(user)
+        User user = new User(mobileNumber, firstName, lastName, password);
+        mCompositeDisposable.add(mDataManager.networkHelper().registerUser(user)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
@@ -83,12 +76,12 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                         Log.i(TAG, HttpErrorUtils.getHttpErrorBody(error));
                     }
 
-                });
+                }));
 
     }
 
     public void setObservables(Observable passwordObs, Observable confirmPasswordObs){
-        Observable.combineLatest(passwordObs, confirmPasswordObs,
+        mCompositeDisposable.add(Observable.combineLatest(passwordObs, confirmPasswordObs,
                 (password, confirmPassword) -> !password.toString()
                         .equals(confirmPassword.toString()))
                 .debounce(500, TimeUnit.MILLISECONDS)
@@ -96,17 +89,7 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                 .subscribe(b -> {
                     mIsShowConfirmPasswordHelper = (Boolean) b;
                     mView.showConfirmPasswordHelper((Boolean) b);
-                });
-    }
-
-    String convertPhone(String phone){
-        String phoneNumber = phone;
-        phoneNumber = phoneNumber.replace(" ","");
-        phoneNumber = phoneNumber.replace(")","");
-        phoneNumber = phoneNumber.replace("(","");
-        phoneNumber = phoneNumber.replace("-","");
-        Log.i(TAG, phoneNumber);
-        return phoneNumber;
+                }));
     }
 
 }

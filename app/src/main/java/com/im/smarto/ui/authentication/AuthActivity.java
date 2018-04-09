@@ -11,12 +11,15 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseActivity;
 import com.im.smarto.ui.navigation.NavigationActivity;
 import com.im.smarto.ui.registration.RegisterActivity;
+import com.lamudi.phonefield.PhoneEditText;
+import com.lamudi.phonefield.PhoneInputLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
@@ -28,26 +31,21 @@ import butterknife.OnClick;
 
 public class AuthActivity extends BaseActivity implements IAuthActivity{
 
-    static {
-        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-    }
-
     private static final String TAG = AuthActivity.class.getSimpleName();
 
     @BindView(R.id.auth_progress_bar)       ProgressWheel mProgressBar;
-    @BindView(R.id.auth_phone_number)       EditText mPhoneNumber;
+    @BindView(R.id.auth_phone_number)       PhoneInputLayout mPhoneNumber;
     @BindView(R.id.button_login)            Button mLoginBtn;
     @BindView(R.id.auth_helper_text)        TextView mHelperText;
     @BindView(R.id.button_google)           Button mGoogleLoginBtn;
     @BindView(R.id.button_facebook)         Button mFacebookLoginBtn;
-    @BindView(R.id.sign_up_button)         Button mSignUpBtn;
+    @BindView(R.id.sign_up_button)          Button mSignUpBtn;
     @BindView(R.id.auth_password)           EditText mPassword;
     @BindView(R.id.auth_remember_check_box) CheckBox mIsRememberUser;
 
     @Inject
     AuthPresenter<IAuthActivity> mAuthPresenter;
 
-    private MaskedTextChangedListener listener;
     private Snackbar mSnackbar;
 
     @Override
@@ -56,37 +54,41 @@ public class AuthActivity extends BaseActivity implements IAuthActivity{
         setContentView(R.layout.activity_auth);
 
         init();
-        initMaskedListener();
 
-    }
-
-    private void initMaskedListener() {
-        listener = new MaskedTextChangedListener(
-                "+7 ([000]) [000] [00] [00]",
-                true,
-                mPhoneNumber,
-                null,
-                (maskFilled, extractedValue) -> {}
-        );
-        mPhoneNumber.addTextChangedListener(listener);
-        mPhoneNumber.setOnFocusChangeListener(listener);
-        mPhoneNumber.setHint(listener.placeholder());
     }
 
     public void init(){
         Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mAuthPresenter.onAttach(this);
+        mPhoneNumber.setHint(R.string.phone_number);
+        mPhoneNumber.setDefaultCountry("US");
     }
 
     @OnClick({R.id.button_login, R.id.button_google, R.id.button_facebook, R.id.sign_up_button})
     void onClickButton(View view){
         switch (view.getId()){
             case R.id.button_login:
-                String phone = mPhoneNumber.getText().toString();
-                String password = mPassword.getText().toString();
-                boolean isNeedToRemember = mIsRememberUser.isChecked();
-                mAuthPresenter.onLoginClicked(phone, password, isNeedToRemember);
+
+                boolean valid = true;
+
+                // checks if the field is valid
+                if (mPhoneNumber.isValid()) {
+                    mPhoneNumber.setError(null);
+                } else {
+                    valid = false;
+                }
+
+                if (valid) {
+                    Toast.makeText(AuthActivity.this, R.string.correct_phone, Toast.LENGTH_LONG).show();
+
+                    String phoneNumber = mPhoneNumber.getPhoneNumber();
+                    String password = mPassword.getText().toString();
+                    boolean isNeedToRemember = mIsRememberUser.isChecked();
+                    mAuthPresenter.onLoginClicked(phoneNumber, password, isNeedToRemember);
+                } else {
+                    Toast.makeText(AuthActivity.this, R.string.incorrect_phone, Toast.LENGTH_LONG).show();
+                }
                 break;
             case R.id.sign_up_button:
                 mAuthPresenter.onSignUpButtonClicked();

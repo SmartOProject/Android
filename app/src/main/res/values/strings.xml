@@ -10,6 +10,8 @@
     <string name="error_exist_user">User already exist</string>
     <string name="error_incorrect_passwords">Passwords are not same</string>
     <string name="incorrect_login_error">Login or password is incorrect</string>
+    <string name="incorrect_phone">Incorrect phone number</string>
+    <string name="correct_phone">Correct phone number</string>
 
     <string name="incorrect_password">Incorrect password</string>
     <string name="register_first_name">First name</string>

@@ -14,7 +14,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Remember me"
-        android:layout_marginTop="32dp"
         android:textColor="@color/secondary_normal"
         android:textSize="12sp"
         android:theme="@style/data_check_box"
@@ -33,22 +32,33 @@
         app:matProg_barColor="@color/primary_normal"
         app:matProg_progressIndeterminate="true" />
 
-    <com.rengwuxian.materialedittext.MaterialEditText
+    <!--<com.rengwuxian.materialedittext.MaterialEditText-->
+        <!--android:id="@+id/auth_phone_number"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_above="@id/button_login"-->
+        <!--android:drawableStart="@drawable/ic_phone"-->
+        <!--android:hint="@string/phone_number"-->
+        <!--android:inputType="phone"-->
+        <!--android:textColor="@color/black"-->
+        <!--android:textColorHint="@color/grey"-->
+        <!--android:visibility="visible"-->
+        <!--app:layout_constraintBottom_toTopOf="@id/auth_password"-->
+        <!--app:layout_constraintEnd_toEndOf="parent"-->
+        <!--app:layout_constraintHorizontal_bias="0.5"-->
+        <!--app:layout_constraintStart_toStartOf="parent"-->
+        <!--app:met_floatingLabel="highlight" />-->
+
+    <com.lamudi.phonefield.PhoneInputLayout
         android:id="@+id/auth_phone_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/button_login"
-        android:drawableStart="@drawable/ic_phone"
-        android:hint="@string/phone_number"
-        android:inputType="phone"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        android:visibility="visible"
+        android:theme="@style/ThemeOverlay.AppCompat.Light"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@id/auth_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:met_floatingLabel="highlight" />
+        app:layout_constraintStart_toStartOf="parent"/>
 
     <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/auth_password"
@@ -162,6 +172,7 @@
         android:layout_above="@id/auth_phone_number"
         android:layout_centerHorizontal="true"
         android:text="@string/authentication_text"
+        android:layout_marginBottom="32dp"
         android:textColor="@color/secondary_normal"
         android:textSize="25sp"
         android:textStyle="bold"

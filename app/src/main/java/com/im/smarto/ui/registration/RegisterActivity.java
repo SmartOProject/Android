@@ -10,9 +10,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.im.smarto.R;
+import com.im.smarto.ui.authentication.AuthActivity;
 import com.im.smarto.ui.base.BaseActivity;
 import com.im.smarto.ui.navigation.NavigationActivity;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.lamudi.phonefield.PhoneInputLayout;
 import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import javax.inject.Inject;
@@ -26,13 +28,13 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
 
     private static final String TAG = RegisterActivity.class.getSimpleName();
 
-    @BindView(R.id.button_register)                 Button mRegisterButton;
-    @BindView(R.id.register_mobile)                 EditText    mRegisterMobile;
-    @BindView(R.id.register_password)               EditText    mRegisterPassword;
-    @BindView(R.id.register_first_name)             EditText    mRegisterFirstName;
-    @BindView(R.id.register_last_name)              EditText    mRegisterLastName;
-    @BindView(R.id.register_confirm_password)       EditText    mRegisterConfirmPassword;
-    @BindView(R.id.register_password_helper)        TextView    mRegisterPasswordHelper;
+    @BindView(R.id.button_register)                 Button              mRegisterButton;
+    @BindView(R.id.register_mobile)                 PhoneInputLayout    mRegisterMobile;
+    @BindView(R.id.register_password)               EditText            mRegisterPassword;
+    @BindView(R.id.register_first_name)             EditText            mRegisterFirstName;
+    @BindView(R.id.register_last_name)              EditText            mRegisterLastName;
+    @BindView(R.id.register_confirm_password)       EditText            mRegisterConfirmPassword;
+    @BindView(R.id.register_password_helper)        TextView            mRegisterPasswordHelper;
 
     @Inject
     RegisterPresenter<IRegisterActivity> mRegisterPresenter;
@@ -46,20 +48,7 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
 
         init();
         initializeObservables();
-        initMaskedListener();
 
-    }
-
-    private void initMaskedListener() {
-        listener = new MaskedTextChangedListener(
-                "+7 ([000]) [000] [00] [00]",
-                true,
-                mRegisterMobile,
-                null,
-                (maskFilled, extractedValue) -> {}
-        );
-        mRegisterMobile.addTextChangedListener(listener);
-        mRegisterMobile.setOnFocusChangeListener(listener);
     }
 
     private void init(){
@@ -67,6 +56,8 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
         Log.i(TAG, "onCreateView()");
         ButterKnife.bind(this);
         mRegisterPresenter.onAttach(this);
+        mRegisterMobile.setHint(R.string.phone_number);
+        mRegisterMobile.setDefaultCountry("US");
 
     }
 
@@ -80,13 +71,29 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
     void OnClick(View view){
         switch (view.getId()){
             case R.id.button_register:
-                String phoneNumber = mRegisterMobile.getText().toString();
-                String password = mRegisterPassword.getText().toString();
-                String confirmPassword = mRegisterConfirmPassword.getText().toString();
-                String firstName = mRegisterFirstName.getText().toString();
-                String lastName = mRegisterLastName.getText().toString();
-                mRegisterPresenter.onRegisterClicked(phoneNumber, password, confirmPassword,
-                        firstName, lastName);
+
+                boolean valid = true;
+
+                // checks if the field is valid
+                if (mRegisterMobile.isValid()) {
+                    mRegisterMobile.setError(null);
+                } else {
+                    valid = false;
+                }
+
+                if (valid) {
+                    Toast.makeText(RegisterActivity.this, R.string.correct_phone, Toast.LENGTH_LONG).show();
+
+                    String phoneNumber = mRegisterMobile.getPhoneNumber();
+                    String password = mRegisterPassword.getText().toString();
+                    String confirmPassword = mRegisterConfirmPassword.getText().toString();
+                    String firstName = mRegisterFirstName.getText().toString();
+                    String lastName = mRegisterLastName.getText().toString();
+                    mRegisterPresenter.onRegisterClicked(phoneNumber, password, confirmPassword,
+                            firstName, lastName);
+                } else {
+                    Toast.makeText(RegisterActivity.this, R.string.incorrect_phone, Toast.LENGTH_LONG).show();
+                }
                 break;
         }
     }
