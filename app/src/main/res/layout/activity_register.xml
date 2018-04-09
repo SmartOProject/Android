@@ -13,6 +13,7 @@
         android:layout_height="wrap_content"
         android:text="Registration"
         android:textColor="@color/secondary_normal"
+        android:layout_marginBottom="20dp"
         android:textSize="25sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"

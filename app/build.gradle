@@ -7,8 +7,8 @@ android {
         applicationId "com.im.smarto"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 11
-        versionName "0.1.6 Pre-Alpha"
+        versionCode 12
+        versionName "0.1.7 Pre-Alpha"
         testInstrumentationRunner "android.support.ContactsService.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -98,9 +98,6 @@ dependencies {
 
     // Material Date-Time Picker
     compile 'co.infinum:materialdatetimepicker-support:3.5.1'
-
-    // InputMask
-    compile 'com.redmadrobot:inputmask:2.3.0'
 
     // Material SearchView
     compile 'com.miguelcatalan:materialsearchview:1.4.0'

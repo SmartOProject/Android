@@ -15,7 +15,6 @@ import com.im.smarto.ui.base.BaseActivity;
 import com.im.smarto.ui.navigation.NavigationActivity;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.lamudi.phonefield.PhoneInputLayout;
-import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import javax.inject.Inject;
 
@@ -38,8 +37,6 @@ public class RegisterActivity extends BaseActivity implements IRegisterActivity{
 
     @Inject
     RegisterPresenter<IRegisterActivity> mRegisterPresenter;
-
-    private MaskedTextChangedListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){

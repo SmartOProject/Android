@@ -72,11 +72,7 @@ public class EditProfilePresenter<V extends IEditProfileActivity> extends BasePr
                 mView.finish();
                 break;
             case Constants.PHONE:
-                String phone = s;
-                phone = phone.replace(" ", "");
-                phone = phone.replace("(", "");
-                phone = phone.replace(")", "");
-                mDataManager.userManager().getCurrentUser().setPhone(phone);
+                mDataManager.userManager().getCurrentUser().setPhone(s);
 
                 String newBasic = "";
                 try {
@@ -93,13 +89,13 @@ public class EditProfilePresenter<V extends IEditProfileActivity> extends BasePr
 
                 Log.i(TAG, newBasic);
 
-                String creditionals = phone + ":" + newBasic.split(":")[1];
+                String creditionals = s + ":" + newBasic.split(":")[1];
 
                 String basic = "Basic " + Base64.encodeToString(creditionals.getBytes(), Base64.NO_WRAP);
 
                 mDataManager
                         .networkHelper()
-                        .updateUser(phone, Constants.PHONE_TYPE)
+                        .updateUser(s, Constants.PHONE_TYPE)
                         .subscribeOn(Schedulers.io())
                         .subscribe(rows -> {
                                     Log.i(TAG, "Rows affected: " + rows.getRowsAffected());

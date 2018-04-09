@@ -2,14 +2,17 @@ package com.im.smarto.ui.edit_profile;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.im.smarto.Constants;
 import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseActivity;
-import com.redmadrobot.inputmask.MaskedTextChangedListener;
+import com.im.smarto.ui.registration.RegisterActivity;
+import com.lamudi.phonefield.PhoneInputLayout;
 
 import javax.inject.Inject;
 
@@ -17,15 +20,17 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static com.im.smarto.Constants.PHONE;
+import static com.im.smarto.Constants.PHONE_TYPE;
+
 public class EditProfileActivity extends BaseActivity implements IEditProfileActivity {
 
     @BindView(R.id.edit_profile_header) TextView mTopLabel;
     @BindView(R.id.changed_field) EditText mChangedField;
+    @BindView(R.id.edit_profile_phone) PhoneInputLayout mPhoneField;
     @BindView(R.id.field_helper) TextView mFieldHelper;
 
     private String mType;
-
-    private MaskedTextChangedListener listener;
 
     @Inject
     EditProfilePresenter<IEditProfileActivity> mEditProfilePresenter;
@@ -45,7 +50,28 @@ public class EditProfileActivity extends BaseActivity implements IEditProfileAct
 
     @OnClick(R.id.edit_profile_save_button)
     void onClick(){
-        mEditProfilePresenter.onSaveClicked(mChangedField.getText().toString());
+
+        if (mType.equals(PHONE)){
+
+            boolean valid = true;
+
+            // checks if the field is valid
+            if (mPhoneField.isValid()) {
+                mPhoneField.setError(null);
+            } else {
+                valid = false;
+            }
+
+            if (valid) {
+                String phoneNumber = mPhoneField.getPhoneNumber();
+                mEditProfilePresenter.onSaveClicked(phoneNumber);
+            } else {
+                Toast.makeText(EditProfileActivity.this, R.string.incorrect_phone,
+                        Toast.LENGTH_LONG).show();
+            }
+
+        } else
+            mEditProfilePresenter.onSaveClicked(mChangedField.getText().toString());
     }
 
     @Override
@@ -71,20 +97,12 @@ public class EditProfileActivity extends BaseActivity implements IEditProfileAct
     @Override
     public void setupLayoutForEditPhone() {
 
-        listener = new MaskedTextChangedListener(
-                "+7 ([000]) [000] [00] [00]",
-                true,
-                mChangedField,
-                null,
-                (maskFilled, extractedValue) -> {}
-        );
-        mChangedField.addTextChangedListener(listener);
-        mChangedField.setOnFocusChangeListener(listener);
-        mChangedField.setHint(listener.placeholder());
+        mChangedField.setVisibility(View.INVISIBLE);
+        mPhoneField.setVisibility(View.VISIBLE);
 
         mTopLabel.setText("Edit phone");
-        mChangedField.setHint("Phone");
-        mChangedField.setInputType(InputType.TYPE_CLASS_PHONE);
+        mPhoneField.setHint(R.string.phone_number);
+        mPhoneField.setDefaultCountry("US");
         mFieldHelper.setText("Enter new phone. If you dont need than click back.");
     }
 }

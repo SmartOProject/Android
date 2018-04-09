@@ -18,10 +18,8 @@ import com.im.smarto.R;
 import com.im.smarto.ui.base.BaseActivity;
 import com.im.smarto.ui.navigation.NavigationActivity;
 import com.im.smarto.ui.registration.RegisterActivity;
-import com.lamudi.phonefield.PhoneEditText;
 import com.lamudi.phonefield.PhoneInputLayout;
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.redmadrobot.inputmask.MaskedTextChangedListener;
 
 import javax.inject.Inject;
 
