@@ -28,8 +28,6 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
 
     private IDataManager mDataManager;
 
-    private String mTargetDate;
-    private String mTargetTime;
     private String mTargetContact;
     private String mTargetGroup;
     private int mCurrentGroupPosition;
@@ -44,7 +42,6 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
     private int day;
     private int hours;
     private int minutes;
-    private int seconds;
 
     @Inject
     public MeetingTaskPresenter(DataManager dataManager) {
@@ -105,13 +102,14 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
 
         int orderNum = mDataManager.taskManager().mData.size();
 
-        mDataManager.networkHelper().insertGroup(groupName, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertGroup(groupName, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             Log.i(TAG, "insertGroup success!");
                             mDataManager.taskManager().mData.add(new TaskGroup(success.getId(), groupName));
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 
     public void onAddMeetingTaskClicked(String description) {
@@ -134,7 +132,8 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
         int orderNum = mCurrentGroup.getSingleTaskList().size();
 
         if (!isDateSet || !isTimeSet) {
-            mDataManager.networkHelper().insertTask(groupId, userId, type, description, orderNum)
+            mCompositeDisposable.add(
+                    mDataManager.networkHelper().insertTask(groupId, userId, type, description, orderNum)
                     .subscribeOn(Schedulers.io())
                     .subscribe(success -> {
                                 mDataManager.taskManager()
@@ -146,14 +145,15 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
                                 Log.i(TAG, "insertTask success!");
                                 mView.finishActivity();
                             },
-                            error -> Log.i(TAG, error.getMessage()));
+                            error -> Log.i(TAG, error.getMessage())));
             return;
         }
 
         String date = DateUtils.convertToISOFormat(year, month, day) + " "
                 + DateUtils.convertToISOFormat(hours, minutes) + ":00";
 
-        mDataManager.networkHelper().insertTask(groupId, userId, type, description, date, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertTask(groupId, userId, type, description, date, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             mDataManager.taskManager()
@@ -165,7 +165,7 @@ public class MeetingTaskPresenter<V extends IMeetingTaskFragment> extends BasePr
                             Log.i(TAG, "insertTask success!");
                             mView.finishActivity();
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 
     public void chooseContactButtonClicked() {

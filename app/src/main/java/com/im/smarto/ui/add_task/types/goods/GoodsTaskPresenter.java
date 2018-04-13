@@ -53,7 +53,8 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
         int type = Constants.GOODS_TASK_TYPE;
         int orderNum = mCurrentGroup.getSingleTaskList().size();
 
-        mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             mDataManager.taskManager()
@@ -63,7 +64,7 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
                             Log.i(TAG, "insertTask success!");
                             mView.finishActivity();
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 
     public void onSingleChoiceClicked(String groupName) {
@@ -75,12 +76,13 @@ public class GoodsTaskPresenter<V extends IGoodsTaskFragment> extends BasePresen
 
         int orderNum = mDataManager.taskManager().mData.size();
 
-        mDataManager.networkHelper().insertGroup(groupName, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertGroup(groupName, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             mDataManager.taskManager().mData.add(new TaskGroup(success.getId(), groupName));
                             Log.i(TAG, "insertGroup success!");
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 }

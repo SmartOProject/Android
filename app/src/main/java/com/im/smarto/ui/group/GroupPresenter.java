@@ -23,12 +23,11 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
     private IDataManager mDataManager;
 
     private SingleTask mRemovedItem;
-    private int mRemovedIndex;
     private int mCurrentGroupPosition;
 
     private int mTargetContactId;
 
-    private SingleTask mChoosenTask;
+    private SingleTask mChosenTask;
 
     @Inject
     public GroupPresenter(IDataManager dataManager) {
@@ -46,19 +45,19 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
     }
 
     public void onSwiped(int deletedIndex) {
-        mRemovedIndex = deletedIndex;
         mRemovedItem = mDataManager.taskManager()
                 .mData.get(mCurrentGroupPosition).getSingleTaskList().remove(deletedIndex);
         update();
         mView.showSnackBar();
 
-        mDataManager
+        mCompositeDisposable.add(
+                mDataManager
                 .networkHelper()
                 .deleteTask((int)mRemovedItem.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(rows -> Log.i(TAG, rows.getRowsAffected() + "rows affected"),
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
 
     }
 
@@ -70,7 +69,8 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
         final TaskGroup group = mDataManager.taskManager().mData.get(mCurrentGroupPosition);
 
         if (mRemovedItem.getDate() == null) {
-            mDataManager
+            mCompositeDisposable.add(
+                    mDataManager
                     .networkHelper()
                     .insertTask((int)group.getId(), mRemovedItem.getTaskType(), mRemovedItem.getTaskText())
                     .subscribeOn(Schedulers.io())
@@ -84,9 +84,10 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
                                 .add(new SingleTask(success.getId(), mRemovedItem.getTaskType(),
                                         mRemovedItem.getTaskText()));
                         update();
-                    });
+                    }));
         } else {
-            mDataManager
+            mCompositeDisposable.add(
+                    mDataManager
                     .networkHelper()
                     .insertTask((int)group.getId(), mRemovedItem.getTaskType(),
                             mRemovedItem.getTaskText(), mRemovedItem.getDate())
@@ -101,7 +102,7 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
                                 .add(new SingleTask(success.getId(), mRemovedItem.getTaskType(),
                                         mRemovedItem.getTaskText(), mRemovedItem.getDate()));
                         update();
-                    });
+                    }));
         }
     }
 
@@ -115,7 +116,7 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
 
     public void onTaskOptionsClicked(SingleTask item) {
         Log.i(TAG, item.getTaskText() + " clicked!");
-        mChoosenTask = item;
+        mChosenTask = item;
         mView.showOptionsDialog();
     }
 
@@ -130,14 +131,15 @@ public class GroupPresenter<V extends IGroupActivity> extends BasePresenter<V> {
     }
 
     public void onPositiveButtonClicked() {
-        mDataManager
+        mCompositeDisposable.add(
+                mDataManager
                 .networkHelper()
-                .changeTask((int) mChoosenTask.getId(), mTargetContactId)
+                .changeTask((int) mChosenTask.getId(), mTargetContactId)
                 .subscribeOn(Schedulers.io())
                 .subscribe(rowsAffectedResponse -> Log.i(TAG, rowsAffectedResponse.toString()),
                         error -> {
                             Log.i(TAG, error.getMessage());
                             mView.showErrorToast(error.getMessage());
-                        });
+                        }));
     }
 }

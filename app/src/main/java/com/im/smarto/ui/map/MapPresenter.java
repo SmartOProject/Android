@@ -35,27 +35,19 @@ public class MapPresenter<V extends IMapFragment> extends BasePresenter<V> {
 
     public void onMapReady() {
         if (mView != null) {
-            mDataManager.networkHelper().getContactPositions()
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(positions -> {
-                        if (positions.size() != 0) {
-                            mView.setupMap(positions);
-//                            } else {
-//                                ContactPosition myPosition = new ContactPosition();
-//                                myPosition.setFirstName("You");
-//                                myPosition.setLatitude(mDataManager.prefHelper().getLocation().getLatitude());
-//                                myPosition.setLongitude(mDataManager.prefHelper().getLocation().getLongitude());
-//
-//                                positions.add(myPosition);
-//                                mView.setupMap(positions, myPosition);
-//                            }
-                        }
-                    }, error -> Log.i(TAG, "Download positions failed!"));
+            mCompositeDisposable.add(
+                    mDataManager
+                            .networkHelper()
+                            .getContactPositions()
+                            .subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(positions -> {
+                                if (positions.size() != 0)
+                                    mView.setupMap(positions);
+                            }, error -> Log.i(TAG, "Download positions failed!")));
 
             if (mDataManager.prefHelper().getLocation() != null)
                 mView.showCurrentUserPosition(mDataManager.prefHelper().getLocation());
-
         }
     }
 
@@ -79,14 +71,17 @@ public class MapPresenter<V extends IMapFragment> extends BasePresenter<V> {
                         for (Location location: locationResult.getLocations()){
                             Log.i(TAG, location.getLatitude() + " | " + location.getLongitude());
                             mView.showCurrentPosition(location);
-                            mDataManager.locationManager().fusedLocationProviderClient().removeLocationUpdates(this);
+                            mDataManager.locationManager().fusedLocationProviderClient()
+                                    .removeLocationUpdates(this);
                             mDataManager.prefHelper().updateLocation(location);
-                            mDataManager.networkHelper()
-                                    .updateUserPosition(location.getLatitude(),
-                                            location.getLongitude())
-                                    .subscribeOn(Schedulers.io())
-                                    .subscribe(success -> Log.i(TAG, "Coordinates updated!"),
-                                            error -> Log.i(TAG, "Update error!"));
+                            mCompositeDisposable.add(
+                                    mDataManager
+                                            .networkHelper()
+                                            .updateUserPosition(location.getLatitude(),
+                                                    location.getLongitude())
+                                            .subscribeOn(Schedulers.io())
+                                            .subscribe(success -> Log.i(TAG, "Coordinates updated!"),
+                                                    error -> Log.i(TAG, "Update error!")));
                         }
                     }
                 }, Looper.myLooper());

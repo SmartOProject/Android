@@ -36,13 +36,10 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
     public static final String TAG = NavigationPresenter.class.getSimpleName();
 
     private IDataManager mDataManager;
-    private Context mContext;
-    private String token;
 
     @Inject
-    public NavigationPresenter(IDataManager dataManager, Context context) {
+    public NavigationPresenter(IDataManager dataManager) {
         this.mDataManager = dataManager;
-        this.mContext = context;
     }
 
     public void onCreate() {
@@ -59,7 +56,8 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
         }
 
         if (mDataManager.userManager().getCurrentUser() == null) {
-            mDataManager
+            mCompositeDisposable.add(
+                    mDataManager
                     .networkHelper()
                     .getCurrentUser()
                     .subscribeOn(Schedulers.io())
@@ -83,12 +81,11 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
                                 .userManager()
                                 .setCurrentUser(mDataManager.prefHelper().getCachedUser());
                         mView.setupNavHeader(mDataManager.userManager().getCurrentUser());
-                    });
-        } else {
-
+                    }));
         }
 
-        mDataManager.networkHelper().getContact()
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().getContact()
                 .subscribeOn(Schedulers.io())
                 .doOnError(Throwable::printStackTrace)
                 .flatMap(users -> Single.fromCallable(() -> {
@@ -96,7 +93,7 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
                     return true;
                 }))
                 .subscribe(success -> Log.i(TAG, "yes"),
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
 
         mView.showHomeFragment();
         mView.initNavigationBar();
@@ -123,10 +120,7 @@ public class NavigationPresenter<V extends INavigationActivity> extends BasePres
     }
 
     public void onLogoutClicked() {
-
         mView.showLogoutDialog();
-
-
     }
 
     public void onProfileClicked() {

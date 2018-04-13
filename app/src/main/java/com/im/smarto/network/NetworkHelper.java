@@ -1,7 +1,5 @@
 package com.im.smarto.network;
 
-import android.util.Log;
-
 import com.im.smarto.Constants;
 import com.im.smarto.db.entities.User;
 import com.im.smarto.network.models.AuthResponse;

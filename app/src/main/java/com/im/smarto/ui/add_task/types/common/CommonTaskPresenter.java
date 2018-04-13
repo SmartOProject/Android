@@ -27,9 +27,6 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
 
     private IDataManager mDataManager;
 
-    private String mTargetDate;
-    private String mTargetTime;
-    private String mTargetGroup;
     private TaskGroup mCurrentGroup;
     private int mCurrentGroupPosition;
 
@@ -40,7 +37,6 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
     private int day;
     private int hours;
     private int minutes;
-    private int seconds;
 
     private boolean mIsActiveTimeButton = false;
 
@@ -93,23 +89,22 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
     }
 
     public void onSingleChoiceClicked(String groupName) {
-        mTargetGroup = groupName;
         mView.showGroupNamePreview(groupName);
     }
 
     public void onDialogAddGroupClicked(String groupName) {
-        mTargetGroup = groupName;
         mView.showGroupNamePreview(groupName);
 
         int orderNum = mDataManager.taskManager().mData.size();
 
-        mDataManager.networkHelper().insertGroup(groupName, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertGroup(groupName, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             Log.i(TAG, "insertGroup success!");
                             mDataManager.taskManager().mData.add(new TaskGroup(success.getId(), groupName));
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 
     public void onAddCommonTaskClicked(String description) {
@@ -126,7 +121,8 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
         int orderNum = mCurrentGroup.getSingleTaskList().size();
 
         if (!isDateSet || !isTimeSet) {
-            mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
+            mCompositeDisposable.add(
+                    mDataManager.networkHelper().insertTask(groupId, type, description, orderNum)
                     .subscribeOn(Schedulers.io())
                     .subscribe(success -> {
                                 mDataManager.taskManager()
@@ -136,13 +132,14 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
                                 Log.i(TAG, "insertTask success!");
                                 mView.finishActivity();
                             },
-                            error -> Log.i(TAG, error.getMessage()));
+                            error -> Log.i(TAG, error.getMessage())));
             return;
         }
 
         String date = DateUtils.convertToISOFormat(year, month, day) + " "
                 + DateUtils.convertToISOFormat(hours, minutes) + ":00";
-        mDataManager.networkHelper().insertTask(groupId, type, description, date, orderNum)
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().insertTask(groupId, type, description, date, orderNum)
                 .subscribeOn(Schedulers.io())
                 .subscribe(success -> {
                             mDataManager.taskManager()
@@ -152,7 +149,7 @@ public class CommonTaskPresenter<V extends ICommonTaskFragment> extends BasePres
                             Log.i(TAG, "insertTask success!");
                             mView.finishActivity();
                         },
-                        error -> Log.i(TAG, error.getMessage()));
+                        error -> Log.i(TAG, error.getMessage())));
     }
 
 }

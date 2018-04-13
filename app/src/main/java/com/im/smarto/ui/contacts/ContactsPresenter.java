@@ -53,9 +53,10 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                 user.getPhone(), user.getTrustId());
     }
 
-    public void onProfileAddRemoveClick(String icon, String mobileNumber) {
+    public void onProfileAddRemoveClick() {
         mView.changeDialogIcon();
-        mDataManager.networkHelper()
+        mCompositeDisposable.add(
+                mDataManager.networkHelper()
                 .deleteContact(mCurrentUserProfileDialog.getId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,29 +78,34 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
                                 return Single.just("Success");
                             });
                 })
-                .subscribe(s -> mView.hideProgressBar());
+                .subscribe(s -> mView.hideProgressBar()));
     }
 
     public void updateList() {
         mView.showProgressBar();
-        mDataManager.networkHelper().getContact()
+        mCompositeDisposable.add(
+                mDataManager.networkHelper().getContact()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(users -> {
-                    logUsers(users);
-                    mView.updateData(users);
-                    return Single.fromCallable(() -> {
+                    if (mView != null) {
+                        logUsers(users);
+                        mView.updateData(users);
                         mDataManager.userManager().updateContactsMap(users);
-                        return true;
-                    });
+                    }
+                    return Single.just(users);
                 })
-                .subscribe(s -> mView.hideProgressBar(),
-                        error -> {
-                            Log.i(TAG, error.getMessage());
-                            if (error.getMessage().equals(Constants.NETWORK_ERROR))
-                                mView.showNetworkError();
-                            mView.hideProgressBar();
-                        });
+                .subscribe(s -> {
+                            if (mView != null) mView.hideProgressBar();
+                            },
+                            error -> {
+                                if (mView != null) {
+                                    if (error.getMessage().equals(Constants.NETWORK_ERROR))
+                                        mView.showNetworkError();
+                                    mView.hideProgressBar();
+                                }
+                                Log.i(TAG, error.getMessage());
+                            }));
     }
 
     private void logUsers(List<User> users) {
@@ -120,7 +126,8 @@ public class ContactsPresenter<V extends IContactsFragment> extends BasePresente
         if (checked) trustId = 1;
         else trustId = 0;
 
-        mCompositeDisposable.add(mDataManager
+        mCompositeDisposable.add(
+                mDataManager
                 .networkHelper()
                 .updateContact(mCurrentUserProfileDialog.getId(), trustId)
                 .subscribeOn(Schedulers.io())

@@ -50,24 +50,26 @@ public class EditProfilePresenter<V extends IEditProfileActivity> extends BasePr
             case Constants.FIRST_NAME:
                 mDataManager.userManager().getCurrentUser().setFirstName(s);
 
-                mDataManager
+                mCompositeDisposable.add(
+                        mDataManager
                         .networkHelper()
                         .updateUser(s, Constants.FIRST_NAME_TYPE)
                         .subscribeOn(Schedulers.io())
                         .subscribe(rows -> Log.i(TAG, "Rows affected: " + rows.getRowsAffected()),
-                                error -> Log.i(TAG, error.getMessage()));
+                                error -> Log.i(TAG, error.getMessage())));
 
                 mView.finish();
                 break;
             case Constants.LAST_NAME:
                 mDataManager.userManager().getCurrentUser().setLastName(s);
 
-                mDataManager
+                mCompositeDisposable.add(
+                        mDataManager
                         .networkHelper()
                         .updateUser(s, Constants.LAST_NAME_TYPE)
                         .subscribeOn(Schedulers.io())
                         .subscribe(rows -> Log.i(TAG, "Rows affected: " + rows.getRowsAffected()),
-                                error -> Log.i(TAG, error.getMessage()));
+                                error -> Log.i(TAG, error.getMessage())));
 
                 mView.finish();
                 break;
@@ -93,7 +95,8 @@ public class EditProfilePresenter<V extends IEditProfileActivity> extends BasePr
 
                 String basic = "Basic " + Base64.encodeToString(creditionals.getBytes(), Base64.NO_WRAP);
 
-                mDataManager
+                mCompositeDisposable.add(
+                        mDataManager
                         .networkHelper()
                         .updateUser(s, Constants.PHONE_TYPE)
                         .subscribeOn(Schedulers.io())
@@ -101,7 +104,7 @@ public class EditProfilePresenter<V extends IEditProfileActivity> extends BasePr
                                     Log.i(TAG, "Rows affected: " + rows.getRowsAffected());
                                     mDataManager.networkHelper().setHeader(basic);
                                 },
-                                error -> Log.i(TAG, error.getMessage()));
+                                error -> Log.i(TAG, error.getMessage())));
 
                 mView.finish();
                 break;

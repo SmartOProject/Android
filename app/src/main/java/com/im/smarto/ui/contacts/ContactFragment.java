@@ -203,6 +203,6 @@ public class ContactFragment extends BaseFragment implements IContactsFragment,
 
     @Override
     public void onProfileAddRemoveClick(String icon, String mobileNumber) {
-        mContactsPresenter.onProfileAddRemoveClick(icon, mobileNumber);
+        mContactsPresenter.onProfileAddRemoveClick();
     }
 }

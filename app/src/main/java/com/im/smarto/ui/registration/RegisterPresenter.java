@@ -30,8 +30,6 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
 
     private IDataManager mDataManager;
 
-    private boolean mIsShowConfirmPasswordHelper = false;
-
     @Inject
     public RegisterPresenter(IDataManager dataManager){
         this.mDataManager = dataManager;
@@ -77,7 +75,6 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                     }
 
                 }));
-
     }
 
     public void setObservables(Observable passwordObs, Observable confirmPasswordObs){
@@ -86,10 +83,7 @@ public class RegisterPresenter<V extends IRegisterActivity> extends BasePresente
                         .equals(confirmPassword.toString()))
                 .debounce(500, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(b -> {
-                    mIsShowConfirmPasswordHelper = (Boolean) b;
-                    mView.showConfirmPasswordHelper((Boolean) b);
-                }));
+                .subscribe(b -> mView.showConfirmPasswordHelper((Boolean) b)));
     }
 
 }

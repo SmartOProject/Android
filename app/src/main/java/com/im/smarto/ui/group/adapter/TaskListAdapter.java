@@ -49,9 +49,7 @@ public class TaskListAdapter extends RecyclerView.Adapter<TaskListAdapter.TaskLi
 
         final SingleTask item = mData.get(position);
 
-        holder.mTaskOptionsButton.setOnClickListener(v -> {
-            mGroupPresenter.onTaskOptionsClicked(item);
-        });
+        holder.mTaskOptionsButton.setOnClickListener(v -> mGroupPresenter.onTaskOptionsClicked(item));
 
         holder.mTaskDescription.setText(item.getTaskText());
 

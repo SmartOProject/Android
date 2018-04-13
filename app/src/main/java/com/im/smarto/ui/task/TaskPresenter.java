@@ -1,6 +1,5 @@
 package com.im.smarto.ui.task;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.im.smarto.Constants;
@@ -8,7 +7,6 @@ import com.im.smarto.network.models.GetGroupResponse;
 import com.im.smarto.network.models.GetTaskResponse;
 import com.im.smarto.network.models.GroupAndTaskResponse;
 import com.im.smarto.ui.base.BasePresenter;
-import com.im.smarto.ui.task.model.SingleTask;
 import com.im.smarto.data.IDataManager;
 import com.im.smarto.ui.task.model.TaskGroup;
 
@@ -31,7 +29,6 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
 
     private IDataManager mDataManager;
 
-    private int mRemovedIndex;
     private TaskGroup mRemovedItem;
 
     @Inject
@@ -42,7 +39,11 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
     @Override
     public void onSuccess(List<TaskGroup> groupList) {
         Log.i(TAG, "onSuccess - " + mDataManager.taskManager().getData().toString());
-        update();
+
+        if (mView != null) {
+            update();
+        }
+
         mView.updateGroupAmount(mDataManager.taskManager().mData.size());
         mView.hideProgressBar();
     }
@@ -54,7 +55,8 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
             Observable<List<GetGroupResponse>> groupResponse = mDataManager.networkHelper().getGroupList().toObservable();
             Observable<List<GetTaskResponse>> taskResponse = mDataManager.networkHelper().getTaskList().toObservable();
 
-            Observable.zip(groupResponse, taskResponse,
+            mCompositeDisposable.add(
+                    Observable.zip(groupResponse, taskResponse,
                     (getGroupResponses, getTaskResponses) -> {
                         GroupAndTaskResponse groupAndTaskResponse = new GroupAndTaskResponse();
                         groupAndTaskResponse.setGroupListResponse(getGroupResponses);
@@ -71,7 +73,7 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
                         if (error.getMessage().equals(Constants.NETWORK_ERROR))
                             mView.showNetworkError();
                         mView.hideProgressBar();
-                    });
+                    }));
         } else {
             Log.i(TAG, "onCreateView() else - " + mDataManager.taskManager().getData().toString());
             update();
@@ -89,18 +91,18 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
     }
 
     public void onSwiped(int deletedIndex) {
-        mRemovedIndex = deletedIndex;
         mRemovedItem = mDataManager.taskManager().mData.remove(deletedIndex);
         update();
         mView.updateGroupAmount(mDataManager.taskManager().mData.size());
         mView.showSnackBar();
 
-        mDataManager.networkHelper().deleteGroup((int)mRemovedItem.getId())
-                .subscribeOn(Schedulers.io())
-                .subscribe(rows -> Log.i(TAG, rows.getRowsAffected() + "rows affected"),
-                        error -> Log.i(TAG, error.getMessage()));
-
-
+        mCompositeDisposable.add(
+                mDataManager
+                        .networkHelper()
+                        .deleteGroup((int)mRemovedItem.getId())
+                        .subscribeOn(Schedulers.io())
+                        .subscribe(rows -> Log.i(TAG, rows.getRowsAffected() + "rows affected"),
+                                error -> Log.i(TAG, error.getMessage())));
     }
 
     private void update() {
@@ -111,33 +113,37 @@ public class TaskPresenter<V extends ITaskFragment> extends BasePresenter<V>
 
         int orderNum = mDataManager.taskManager().mData.size();
 
-        mDataManager.networkHelper().insertGroup(mRemovedItem.getGroupName(), orderNum)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success -> {
-                            Log.i(TAG, "insertGroup success!");
-                            mDataManager.taskManager().mData.add(new TaskGroup(success.getId(),
-                                    mRemovedItem.getGroupName()));
-                            mView.updateGroupAmount(mDataManager.taskManager().mData.size());
-                            update();
-                        },
-                        error -> Log.i(TAG, error.getMessage()));
-
+        mCompositeDisposable.add(
+                mDataManager
+                        .networkHelper()
+                        .insertGroup(mRemovedItem.getGroupName(), orderNum)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(success -> {
+                                    Log.i(TAG, "insertGroup success!");
+                                    mDataManager.taskManager().mData.add(new TaskGroup(success.getId(),
+                                            mRemovedItem.getGroupName()));
+                                    mView.updateGroupAmount(mDataManager.taskManager().mData.size());
+                                    update();
+                                },
+                                error -> Log.i(TAG, error.getMessage())));
     }
 
     public void onDialogAddGroupClicked(String groupName) {
 
         int orderNum = mDataManager.taskManager().mData.size();
 
-        mDataManager.networkHelper().insertGroup(groupName, orderNum)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success -> {
-                            Log.i(TAG, "insertGroup success!");
-                            mDataManager.taskManager().mData.add(new TaskGroup(success.getId(), groupName));
-                            update();
-                        },
-                        error -> Log.i(TAG, error.getMessage()));
-
+        mCompositeDisposable.add(
+                mDataManager
+                        .networkHelper()
+                        .insertGroup(groupName, orderNum)
+                        .subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(success -> {
+                                    Log.i(TAG, "insertGroup success!");
+                                    mDataManager.taskManager().mData.add(new TaskGroup(success.getId(), groupName));
+                                    update();
+                                },
+                                error -> Log.i(TAG, error.getMessage())));
     }
 }
